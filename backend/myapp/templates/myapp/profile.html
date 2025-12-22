@@ -1,0 +1,188 @@
+{% extends "myapp/base.html" %}
+{% block title %}Profile{% endblock title %}
+{% block body %}
+{% load static %}
+
+<div class="container ps-5 pe-5 pb-5 pt-3" style="min-height: 90vh;">
+  <div class="row p-4 m-5">
+    <div class="display-1 text-center"
+      style="font-family: aq; border-bottom: 1px dotted chartreuse; color: chartreuse;">Profile</div>
+    <div class="col-9">
+      <div class="row p-3">
+        <div class="col">
+          <h5>ID</h5>
+          <div class="display-5" style="font-family: orbitron;"><span>00</span>{{ profile_user.id }}</div>
+        </div>
+        <div class="col">
+          <h5>Name</h5>
+          <div class="display-5" style="font-family: orbitron;">{{ profile_user.username }}</div>
+        </div>
+      </div>
+
+      <div class="row p-3">
+        <div class="col">
+          <h5>Email</h5>
+          <div style="font-family: orbitron;">{{ profile_user.email }}</div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row p-3 mt-1">
+        <div class="col">
+          <h5>Points</h5>
+          <div class="h1" style="font-family: orbitron; color: chartreuse;">
+            {{ profile_user.profile.points }} &nbsp;<span>/1000000</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row p-3">
+        <h5>Rank</h5>
+        <div class="display-5" style="font-family: orbitron;">{{ profile_user.profile.rank }}</div>
+      </div>
+    </div>
+
+    <div class="col-3 text-center">
+      {% if profile_user.profile.profile_pic %}
+      <img class="m-2" src="{{ profile_user.profile.profile_pic.url }}" alt="{{ profile_user.username }}">
+      {% else %}
+      <img src="{% static 'myapp/images/default_avatar.png' %}" alt="Default Avatar" class="pt-4">
+      {% endif %}
+    </div>
+    <div style="border-bottom: 1px dotted chartreuse;"></div>
+
+    <div class="col mt-5">
+      <div class="display-5 text-center mb-3">Achievements</div>
+
+      <table class="table table-striped table-bordered table-hover text-center">
+        <thead class="table-dark">
+          <tr>
+            <th>Lesson</th>
+            <th>Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Lesson 1</td>
+            <td>{{ profile_user.profile.lesson1_points }}</td>
+          </tr>
+          <tr>
+            <td>Lesson 2</td>
+            <td>{{ profile_user.profile.lesson2_points }}</td>
+          </tr>
+          <tr>
+            <td>Lesson 3</td>
+            <td>{{ profile_user.profile.lesson3_points }}</td>
+          </tr>
+          <tr>
+            <td>Lesson 4</td>
+            <td>{{ profile_user.profile.lesson4_points }}</td>
+          </tr>
+          <tr>
+            <td>Lesson 5</td>
+            <td>{{ profile_user.profile.lesson5_points }}</td>
+          </tr>
+          <tr>
+            <td>Lesson 6</td>
+            <td>{{ profile_user.profile.lesson6_points }}</td>
+          </tr>
+          <tr>
+            <td>Lesson 7</td>
+            <td>{{ profile_user.profile.lesson7_points }}</td>
+          </tr>
+          <tr>
+            <td>Lesson 8</td>
+            <td>{{ profile_user.profile.lesson8_points }}</td>
+          </tr>
+          <tr>
+            <td>Lesson 9</td>
+            <td>{{ profile_user.profile.lesson9_points }}</td>
+          </tr>
+          <tr>
+            <td>Lesson 10</td>
+            <td>{{ profile_user.profile.lesson10_points }}</td>
+          </tr>
+
+          <tr>
+            <th>Total</th>
+            <th>{{ profile_user.profile.points }}</th>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+    </div>
+
+    <br>
+    <br>
+
+
+
+
+
+    <div class="col mt-5">
+  <div class="display-5 text-center mb-3">Games</div>
+
+  <table class="table table-striped table-bordered table-hover text-center">
+    <thead class="table-dark">
+      <tr>
+        <th>Game</th>
+        <th>Points</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ profile_user.profile.game1_name }}</td>
+        <td>{{ profile_user.profile.game1_points }}</td>
+      </tr>
+      <tr>
+        <td>{{ profile_user.profile.game2_name }}</td>
+        <td>{{ profile_user.profile.game2_points }}</td>
+      </tr>
+      <tr>
+        <td>{{ profile_user.profile.game3_name }}</td>
+        <td>{{ profile_user.profile.game3_points }}</td>
+      </tr>
+      <tr>
+        <td>{{ profile_user.profile.game4_name }}</td>
+        <td>{{ profile_user.profile.game4_points }}</td>
+      </tr>
+      <tr>
+        <td>{{ profile_user.profile.game5_name }}</td>
+        <td>{{ profile_user.profile.game5_points }}</td>
+      </tr>
+      <tr>
+        <td>{{ profile_user.profile.game6_name }}</td>
+        <td>{{ profile_user.profile.game6_points }}</td>
+      </tr>
+      <tr>
+        <td>{{ profile_user.profile.game7_name }}</td>
+        <td>{{ profile_user.profile.game7_points }}</td>
+      </tr>
+      <tr>
+        <td>{{ profile_user.profile.game8_name }}</td>
+        <td>{{ profile_user.profile.game8_points }}</td>
+      </tr>
+      <tr>
+        <td>{{ profile_user.profile.game9_name }}</td>
+        <td>{{ profile_user.profile.game9_points }}</td>
+      </tr>
+      <tr>
+        <td>{{ profile_user.profile.game10_name }}</td>
+        <td>{{ profile_user.profile.game10_points }}</td>
+      </tr>
+
+      <tr>
+        <th>Total</th>
+        <th>{{ profile_user.profile.points }}</th>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+  </div>
+  
+</div>
+{% endblock body %}

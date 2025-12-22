@@ -1,0 +1,83 @@
+{% extends "myapp/base.html" %}
+{% block body %}
+<div class="container mt-5 text-center" style="min-height: 100vh;">
+    <div class="display-1 pt-5">Download Now!</div>
+    <p>Click the button below to download the file:</p>
+
+    <a href="{% url 'download_create_vuln_bank' %}" class="btn btn-primary">
+        Download {{ filename }}
+    </a>
+
+    <p class="text-muted mt-2">Only logged-in users can download this file.</p>
+
+    <p class="pb-5 mb-5">
+    Inside this ZIP file you’ll find a ready‑to‑use collection of vulnerable web applications crafted for hands‑on security training. Load the labs into your XAMPP environment and start exploring real‑world vulnerabilities in a safe, offline sandbox. Whether you're a student, instructor, or security enthusiast, this resource saves setup time and provides an ideal platform for learning, experimenting, and strengthening your secure‑coding skills. Always practice responsibly and within authorized environments.
+    </p>
+
+
+   
+<div class="text-start">
+    <div class="display-5">How to Use <code>vuln_bank_demo.zip</code> on Linux or Windows with XAMPP</div>
+
+    <h2>Steps for Linux:</h2>
+    <ol>
+        <li><strong>Download the ZIP file</strong> using the button above.</li>
+
+        <li><strong>Open your terminal</strong> and navigate to the download location:<br>
+            <code>cd /path/to/protected_files</code>
+        </li>
+
+        <li><strong>Extract the ZIP file:</strong><br>
+            <code>unzip vuln_bank_demo.zip</code>
+        </li>
+
+        <li><strong>Start XAMPP:</strong><br>
+            <code>sudo /opt/lampp/lampp start</code>
+        </li>
+
+        <li><strong>Copy the extracted folder</strong> into XAMPP's htdocs:<br>
+            <code>cp -r vuln_bank_demo /opt/lampp/htdocs/</code>
+        </li>
+
+        <li><strong>Open the project</strong> in your browser:<br>
+            <code>http://localhost/vuln_bank_demo</code>
+        </li>
+    </ol>
+
+    <h2 class="mt-5">Steps for Windows:</h2>
+    <ol>
+        <li><strong>Download</strong> the ZIP file using the button above.</li>
+
+        <li><strong>Locate the ZIP</strong> in your Downloads folder and extract it (Right‑click → “Extract All…”).</li>
+
+        <li><strong>Open XAMPP Control Panel</strong> and start:
+            <ul>
+                <li>Apache</li>
+                <li>MySQL (if needed by the labs)</li>
+            </ul>
+        </li>
+
+        <li><strong>Move the extracted folder</strong> into your XAMPP htdocs directory:<br>
+            <code>C:\xampp\htdocs\</code></li>
+
+        <li>Your folder should now look like:<br>
+            <code>C:\xampp\htdocs\vuln_bank_demo\</code>
+        </li>
+
+        <li><strong>Open your browser</strong> and go to:<br>
+            <code>http://localhost/vuln_bank_demo</code></li>
+    </ol>
+
+    <p>⚠ <strong>Important:</strong> Only use vulnerable training applications on machines you own or control. Never deploy them on public networks.</p>
+</div>
+
+</div>
+
+<script>
+  document.querySelectorAll('code').forEach(code => {
+    code.style.backgroundColor = 'red';
+    code.style.color = 'white';
+  });
+</script>
+
+{% endblock body %}

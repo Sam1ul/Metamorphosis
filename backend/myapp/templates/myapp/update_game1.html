@@ -1,0 +1,45 @@
+{% extends "myapp/base.html" %}
+{% block title %}Games{% endblock title %}
+{% block body %}
+<div class="container  mt-5" style="min-height: 100vh;">
+
+<!-- content for ethical hacking lab -->
+            <div class="tab-pane" role="tabpanel" id="tab-2">
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-8">
+
+
+                        <h1>Case 01: Black Hydra</h1>
+                        <p>Hello, this is the Police Chief. I, I mean we, want your help to 
+                            find the lieutenant name of the new drug dealers organization 
+                            called 'Black Hydra'. They are suppliying our youth with different
+                            types of drugs. A total number of seven cases filed by the parents as 
+                            their kids died of excessive taken of drugs. We got intel that they run 
+                            their organization online. And here is the url:
+                            <br><br><br>
+                            'http://metamorphosis.infinityfree.me/blackhydra/'
+                            <br><br><br>
+
+                        </p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <label>Type the lieutenant name here agent so that by interrogating him we can find the anonymous ringleader aka Black Hydra :</label><br><br>
+        <input class="form-control" type="text" name="username" placeholder="Enter the name of the lieutenant" required>
+        <br><button type="submit" class="btn btn-primary">Send</button>
+    </form>
+    {% if message %}
+        <p style="color: aqua;">{{ message }}</p>
+    {% endif %}
+
+
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+            </div>    
+
+
+ 
+</div>
+{% endblock body %}

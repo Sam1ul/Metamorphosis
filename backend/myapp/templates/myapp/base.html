@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>{% block title %}{% endblock title %}</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    crossorigin="anonymous" />
+
+  <!-- UIkit CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.23.12/dist/css/uikit.min.css" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+  {% load static %}
+  <style>
+  /* For all inputs in your form */
+  .form-control::placeholder {
+      color: white;       /* or use #00ff00 for green */
+      opacity: 1;         /* ensures full color visibility */
+  }
+
+
+  }
+</style>
+  <style>
+    th{
+      background-color: chartreuse !important;
+      color: #000000 !important;
+    }
+    tr,td{
+      background-color: black !important;
+      color: white !important;
+    }
+
+
+    /* small visual tweaks */
+    .mcq-card {
+      margin-bottom: 1rem;
+    }
+
+    .correct {
+      border-left: .5rem solid #198754;
+    }
+
+    .incorrect {
+      border-left: .5rem solid #dc3545;
+    }
+
+    .feedback {
+      font-weight: 600;
+    }
+
+
+
+    #techniques code {
+      background-color: #101111;
+      color: cyan;
+    }
+
+    pre {
+      overflow: auto;
+      border-radius: 8px;
+      padding: 12px;
+      background: #101111;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      color: #d6f3ff;
+      font-size: 13px;
+      line-height: 1.45
+    }
+
+    code {
+      font-family: "SFMono-Regular", Menlo, Monaco, "Roboto Mono", monospace
+    }
+
+    .kbd {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.02);
+      font-size: 12px
+    }
+
+    .note {
+      background: rgba(255, 255, 255, 0.01);
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px dashed rgba(255, 255, 255, 0.02);
+      color: var(--muted);
+      font-size: 13px
+    }
+
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      color: chartreuse;
+      font-weight: bold;
+      font-family: aq;
+    }
+
+
+
+
+
+    /* === Custom Tab Styling === */
+    .nav-tabs .nav-link {
+      color: white;
+      /* Text color for inactive tabs */
+      background-color: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      font-family: ares;
+      font-size: 1.1rem;
+    }
+
+    .nav-tabs .nav-link:hover {
+      color: chartreuse;
+      border-color: chartreuse;
+    }
+
+    .nav-tabs .nav-link.active {
+      background-color: chartreuse !important;
+      color: black !important;
+      border-color: chartreuse !important;
+      font-weight: bold;
+    }
+
+
+    /* ==== CARD BASE ==== */
+    .cards {
+      width: 260px;
+      height: 280px;
+      perspective: 1000px;
+      margin: 20px;
+      display: inline-block;
+    }
+
+    .cards .content {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.8s ease;
+    }
+
+    .cards:hover .content {
+      transform: rotateY(180deg);
+    }
+
+    /* ==== FRONT & BACK ==== */
+    .cards .front,
+    .cards .back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 16px;
+      backface-visibility: hidden;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: #fff;
+      text-align: center;
+      box-shadow: 0px 0px 25px chartreuse;
+      border: 1px solid rgb(191, 252, 130);
+      padding-top: 2rem;
+    }
+
+    .cards .back {
+      color: #000000;
+    }
+
+    /* ==== FRONT FACE ==== */
+    .cards .front {
+      background-color: black;
+      transition: all 0.3s ease;
+    }
+
+    .cards:hover .front {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(118, 75, 162, 0.6);
+    }
+
+    /* ==== BACK FACE ==== */
+    .cards .back {
+      background: linear-gradient(45deg, #000000, chartreuse, black);
+      transform: rotateY(180deg);
+      color: black;
+    }
+
+    .cards .back h3 {
+      color: black;
+    }
+
+    /* ==== ICON ==== */
+    .cards .icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    /* ==== TEXT ==== */
+    .cards h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: white;
+    }
+
+    .cards p {
+      font-size: 0.9rem;
+      line-height: 1.4;
+      opacity: 0.9;
+    }
+
+
+
+
+    /* Make the navbar draggable */
+    .navbar {
+      -webkit-app-region: drag;
+      /* Entire navbar is draggable */
+    }
+
+    /* Exclude buttons from being draggable */
+    .navbar i,
+    .navbar button,
+    .navbar .nav-link {
+      -webkit-app-region: no-drag;
+    }
+
+    /* Exclude window control buttons from dragging */
+    #minimize-btn,
+    #maximize-btn,
+    #close-btn {
+      -webkit-app-region: no-drag;
+      /* allow clicks */
+      cursor: pointer;
+      /* show pointer cursor */
+    }
+
+    #minimize-btn:hover,
+    #maximize-btn:hover {
+      color: chartreuse;
+    }
+
+    #close-btn:hover {
+      color: red;
+      /* or chartreuse to match your theme */
+    }
+
+
+
+
+
+    .dropdown-menu {
+      z-index: 1055;
+      /* higher than navbar */
+    }
+
+    *:focus {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    a {
+      text-decoration: none !important;
+    }
+
+    body {
+      background-color: black;
+      color: white;
+    }
+
+    /* ::-webkit-scrollbar { display: none; } */
+    /* Scrollbar track */
+    ::-webkit-scrollbar {
+      width: 8px;
+      /* width of the scrollbar */
+    }
+
+    /* Scrollbar track (background) */
+    ::-webkit-scrollbar-track {
+      background: #000000;
+      /* dark background for track */
+      border-radius: 4px;
+    }
+
+    /* Scrollbar thumb (the draggable part) */
+    ::-webkit-scrollbar-thumb {
+      background: rgb(26, 25, 25);
+      /* chartreuse green to match your theme */
+      border-radius: 5px;
+      border: 2px solid #1a1a1a;
+      /* gives padding effect */
+    }
+
+    /* Scrollbar thumb on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: red;
+    }
+
+    /* Optional: scrollbar corner */
+    ::-webkit-scrollbar-corner {
+      background: #000000;
+    }
+
+
+
+
+
+
+
+
+
+    /* Slim Navbar */
+    .navbar {
+      min-height: 46px !important;
+      /* reduce default 56px */
+      padding-top: 0.2rem !important;
+      padding-bottom: 0.2rem !important;
+    }
+
+    .navbar-brand {
+      font-size: 1.1rem;
+      /* make brand a little smaller */
+      padding: 0;
+    }
+
+    .navbar .nav-link {
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      line-height: 1.2 !important;
+    }
+
+    /* Avatar */
+    .avatar-img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      /* crop nicely */
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar .nav-link img {
+      vertical-align: middle;
+    }
+
+    /* Fonts */
+    @font-face {
+      font-family: 'Ares';
+      src: url("{% static 'myapp/fonts/AresBrokenVFRegular.ttf' %}") format('truetype');
+    }
+
+    @font-face {
+      font-family: 'hacked';
+      src: url("{% static 'myapp/fonts/Hacked-KerX.ttf' %}") format('truetype');
+    }
+
+    @font-face {
+      font-family: 'aq';
+      src: url("{% static 'myapp/fonts/AquireLight-YzE0o.otf' %}") format('truetype');
+    }
+
+    @font-face {
+      font-family: 'orbitron';
+      src: url("{% static 'myapp/fonts/Orbitron-VariableFont_wght.ttf' %}") format('truetype');
+    }
+
+    @font-face {
+      font-family: 'ubuntu';
+      src: url("{% static 'myapp/fonts/Ubuntu-Light.ttf' %}") format('truetype');
+    }
+
+    @font-face {
+      font-family: 'techno';
+      src: url("{% static 'myapp/fonts/AstroTechno-1j65Z.ttf' %}") format('truetype');
+    }
+
+    input::file-selector-button {
+      display: none;
+    }
+  </style>
+</head>
+
+<body class="p-1">
+
+
+  <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+    tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-center" style="background-color: rgba(255, 255, 255, 0.9);">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalToggleLabel">
+            <div style="font-family:hacked;">Are you sure you want to quit?</div>
+          </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-dark m-5">
+          Press <span class="fw-bold">CTRL + q</span> for exit.
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <header>
+    <nav class="navbar navbar-expand-lg bg-black fixed-top" data-bs-theme="dark">
+      <div class="container-fluid">
+        <a class="navbar-brand nav-link" href="{% url 'initialPage' %}">
+          <span style="font-family:ares;">Metamorphosis</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+
+    <li class="nav-item">
+        <a class="nav-link d-flex align-items-center py-2" href="{% url 'home' %}">
+            <i class="bi bi-house-door"></i>
+            <span class="d-inline d-lg-none ms-2">Home</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link d-flex align-items-center py-2" href="{% url 'features' %}">
+            <i class="bi bi-stars"></i>
+            <span class="d-inline d-lg-none ms-2">Features</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link d-flex align-items-center py-2" href="{% url 'pricing' %}">
+            <i class="bi bi-cash-coin"></i>
+            <span class="d-inline d-lg-none ms-2">Pricing</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link d-flex align-items-center py-2" href="{% url 'leaderboard' %}">
+            <i class="bi bi-trophy"></i>
+            <span class="d-inline d-lg-none ms-2">Leaderboard</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link d-flex align-items-center py-2" href="{% url 'community_chat' %}">
+            <i class="bi bi-chat"></i>
+            <span class="d-inline d-lg-none ms-2">Community Chat</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link d-flex align-items-center py-2" href="{% url 'downloads_page' %}">
+            <i class="bi bi-download" style="color:red;"></i>
+            <span class="d-inline d-lg-none ms-2">Downloads</span>
+        </a>
+    </li>
+
+</ul>
+
+
+
+
+
+
+          <!-- Avatar dropdown (only if logged in) -->
+          {% if user.is_authenticated %}
+          <div class="" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle d-flex align-items-center p-0" href="#" id="navbarAvatar"
+                  role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ user.username }} &nbsp;
+                  <i class="bi bi-person-circle"></i>
+
+
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end mt-2 text-center"
+                  style="color: chartreuse; background:linear-gradient(45deg, chartreuse,black,black,black,chartreuse); border: 2px solid chartreuse !important; min-width:15rem"
+                  aria-labelledby="navbarAvatar">
+                  <li><a class="dropdown-item" href="{% url 'profile' %}">
+                      <img
+                        src="{% if user.profile.profile_pic %}{{ user.profile.profile_pic.url }}{% else %}{% static 'myapp/images/default_avatar.png' %}{% endif %}"
+                        alt="Avatar" class="rounded-circle border border-light avatar-img me-2">
+
+
+                      </span>
+                    </a></li>
+
+
+
+                  <li><a class="dropdown-item" href="{% url 'profile' %}"><span class="pe-2 fw-bold"
+                        style="color: chartreuse; font-variant: small-caps;">{{ user.username }}</span>
+                    </a></li>
+
+                  <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+                  <li><a class="dropdown-item" href="#">Settings</a></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          {% endif %}
+          <i id="minimize-btn" class="fixed-end nav-item bi bi-dash-lg ps-3" style="font-size: small;"></i>
+          <i id="maximize-btn" class="fixed-end nav-item bi bi-app ps-3" style="font-size: small;"></i>
+          <i id="close-btn" class="fixed-end nav-item bi bi-x-lg ps-3" style="font-size: small;"></i>
+
+        </div>
+
+
+      </div>
+
+
+
+
+
+
+
+    </nav>
+  </header>
+
+  {% block body %}{% endblock body %}
+
+
+  <script>
+    document.getElementById('minimize-btn').addEventListener('click', () => {
+      window.electronAPI.minimize();
+    });
+
+    document.getElementById('maximize-btn').addEventListener('click', () => {
+      window.electronAPI.maximize();
+    });
+
+    document.getElementById('close-btn').addEventListener('click', () => {
+      window.electronAPI.close();
+    });
+  </script>
+
+
+    <script>
+  // Detect if running inside Electron
+  const isElectron = typeof window.electronAPI !== "undefined";
+
+  if (!isElectron) {
+      // Hide window buttons when not in Electron
+      document.getElementById('minimize-btn').style.display = 'none';
+      document.getElementById('maximize-btn').style.display = 'none';
+      document.getElementById('close-btn').style.display = 'none';
+  }
+</script>
+
+
+</body>
+
+<!-- <footer class="text-light bg-black mt-5" data-bs-theme="dark">
+
+  <div class="container py-4 py-lg-5">
+    <hr>
+      <div class="row justify-content-center">
+          <div class="col-sm-4 col-md-3 text-center text-lg-start d-flex flex-column">
+              <h3 class="fs-6 text-body">Services</h3>
+              <ul class="list-unstyled">
+                  <li><a class="link-body-emphasis" href="#">Web design</a></li>
+                  <li><a class="link-body-emphasis" href="#">Development</a></li>
+                  <li><a class="link-body-emphasis" href="#">Hosting</a></li>
+              </ul>
+          </div>
+          <div class="col-sm-4 col-md-3 text-center text-lg-start d-flex flex-column">
+              <h3 class="fs-6 text-body">About</h3>
+              <ul class="list-unstyled">
+                  <li><a class="link-body-emphasis" href="#">Company</a></li>
+                  <li><a class="link-body-emphasis" href="#">Team</a></li>
+                  <li><a class="link-body-emphasis" href="#">Legacy</a></li>
+              </ul>
+          </div>
+          <div class="col-sm-4 col-md-3 text-center text-lg-start d-flex flex-column">
+              <h3 class="fs-6 text-body">Careers</h3>
+              <ul class="list-unstyled">
+                  <li><a class="link-body-emphasis" href="#">Job openings</a></li>
+                  <li><a class="link-body-emphasis" href="#">Employee success</a></li>
+                  <li><a class="link-body-emphasis" href="#">Benefits</a></li>
+              </ul>
+          </div>
+          <div class="col-lg-3 text-center text-lg-start d-flex flex-column align-items-center order-first align-items-lg-start order-lg-last">
+              <div class="fw-bold d-flex align-items-center mb-2">
+                  <span>Metamorphosis Corp.</span>
+              </div>
+              <p>Sem eleifend donec molestie, integer quisque orci aliquam.</p>
+          </div>
+      </div>
+      <hr>
+      <div class="d-flex justify-content-between align-items-center pt-3">
+          <p class="mb-0">Copyright © 2025 Metamorphosis Corporation, Sadhur More, Rajshahi</p>
+          <ul class="list-inline mb-0">
+              <li class="list-inline-item"><a href="#"><i class="bi bi-facebook"></i></a></li>
+              <li class="list-inline-item"><a href="#"><i class="bi bi-twitter-x"></i></a></li>
+              <li class="list-inline-item"><a href="#"><i class="bi bi-instagram"></i></a></li>
+          </ul>
+      </div>
+  </div>
+</footer> -->
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+  crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+<!-- UIkit JS -->
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.23.12/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.23.12/dist/js/uikit-icons.min.js"></script>
+</body>
+
+</html>

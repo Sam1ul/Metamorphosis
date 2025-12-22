@@ -1,0 +1,74 @@
+{% extends "myapp/base.html" %}
+{% block title %}Register{% endblock title %}
+
+{% block body %}
+<div class="container mt-4 p-5" style="min-height: 100vh;">
+  <div class="mt-5 row justify-content-center">
+    <div class="col-md-7">
+      <div class="display-5 p-5" style="font-family: aq;">
+        <p><span id="enter"></span><span style="font-weight:bolder;">_</span></p>
+      </div>
+    </div>
+
+    <div class="col-md-5">
+      <div class="uk-animation-fade card shadow-sm bg-black text-light border border-sm-none pt-5 pd-5 p-3" style="box-shadow: 1px 1px 10px rgb(0, 21, 255) !important;">
+        <div class="card-header text-center fw-bold">
+          <h3 style="font-family: ares; text-shadow: 1px 1px 10px rgb(0, 17, 255); color: white;">Create Account</h3>
+        </div>
+
+        <div class="card-body">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            {% for field in form %}
+              <div class="input-group mb-3 bg-black text-light">
+                <span class="input-group-text bg-black text-primary border border-primary">
+                  {% if field.name == "username" %}<i class="bi bi-person"></i>{% elif "password" in field.name %}<i class="bi bi-key"></i>{% elif "email" in field.name %}<i class="bi bi-envelope-at"></i>{% else %}<i class="bi bi-person-bounding-box"></i>{% endif %}
+                </span>
+                {{ field }}
+              </div>
+              {% if field.errors %}
+                <div class="text-danger small">{{ field.errors }}</div>
+              {% endif %}
+            {% endfor %}
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-outline-primary">Register</button>
+            </div>
+          </form>
+
+          <p class="mt-3 text-center">
+            Already have an account? <a href="{% url 'login' %}">Login</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let my_body=document.querySelector('body');
+  my_body.style.backgroundColor='black';
+</script>
+
+<script>
+    const paragraph = document.getElementById("enter");
+    const messages = ["C","r","e","a","t","e"," ","y","o","u","r"," ","a","c","c","o","u","n","t"," ","a","n","d"," ","j","o","i","n"," ","t","h","e"," ","c","y","b","e","r"," ","j","o","u","r","n","e","y","!"];
+    let index = 0;
+
+    const interval = setInterval(() => {
+      if (index < messages.length) {
+        paragraph.innerHTML += messages[index];
+        index++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 100);
+</script>
+{% endblock body %}

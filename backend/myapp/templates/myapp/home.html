@@ -1,0 +1,166 @@
+{% extends "myapp/base.html" %}
+{% block title %}Home{% endblock title %}
+
+{% block body %}
+<div class="container mt-5" style="min-height: 100vh;">
+
+  <!-- Tab Navigation -->
+  <ul class="nav nav-tabs justify-content-center" id="campaignTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="learn-tab" data-bs-toggle="tab" data-bs-target="#learn" type="button"
+        role="tab" aria-controls="learn" aria-selected="true">
+        <span style="font-family: aq;">Courses</span>
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="red-tab" data-bs-toggle="tab" data-bs-target="#red" type="button" role="tab"
+        aria-controls="red" aria-selected="false">
+        <span style="color: red; font-family: aq; font-weight: bold;">Red Campaign</span>
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="blue-tab" data-bs-toggle="tab" data-bs-target="#blue" type="button" role="tab"
+        aria-controls="blue" aria-selected="false">
+        <span style="color: rgb(0, 60, 255); font-family: aq;">Blue Campaign</span>
+      </button>
+    </li>
+  </ul>
+
+  <!-- Tab Content -->
+  <div class="tab-content" id="campaignTabsContent">
+
+    <!-- LEARN TAB -->
+    <div class="tab-pane fade show active p-5 text-center bg-black" id="learn" role="tabpanel"
+      aria-labelledby="learn-tab">
+      <div class="mb-5">
+        <p class="small">
+Web security is the practice of protecting websites and web applications from cyber threats such as SQL injection, XSS, CSRF, and password attacks. Learning web security helps you understand how attackers exploit vulnerabilities, enabling you to write secure code, protect sensitive data, and ensure user trust. It improves your problem-solving and critical thinking skills, prepares you for careers in cybersecurity and software development, and equips you with knowledge to implement best practices such as input validation, secure authentication, encryption, and regular patching. Understanding web security also fosters awareness of online risks and responsible digital behavior.
+</p>
+
+
+      </div>
+
+      <!-- OWASP CARDS -->
+      <div class="grid">
+
+
+        <a href="{% url 'sqlInjection' %}">
+          <div class="cards a01">
+            <div class="content">
+              <div class="front">
+                <div class="icon">💉</div>
+                <h3>Lesson 1 : SQL Injection</h3>
+                <p>Untrusted input executes unwanted SQL queries.</p>
+              </div>
+              <div class="back">
+                <h3>Example</h3>
+                <p>SQL injection through unsanitized form input.</p>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="{% url 'xss' %}">
+          <div class="cards a02">
+            <div class="content">
+              <div class="front">
+                <div class="icon">💉</div>
+                <h3>Lesson 2 : XXS</h3>
+                <p>Untrusted input executes unwanted JS script.</p>
+                
+              </div>
+              <div class="back">
+                <h3>Example</h3>
+                <p>Javascript injection through unsanitized form input.</p>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="{% url 'passw' %}">
+          <div class="cards a03">
+            <div class="content">
+              <div class="front">
+                <div class="icon">🔑</div>
+                <h3>Lesson 3 : Password</h3>
+                <p>String that access users.</p>
+              </div>
+              <div class="back">
+                <h3>Example</h3>
+                <p>
+                  <strong>Password:</strong> <code>password123</code><br>
+                  <b>Why it's bad:</b> Common, short, predictable, and frequently found in breach lists — easily cracked
+                  by attackers.
+                </p>
+              </div>
+            </div>
+          </div>
+        </a>
+
+
+        <a href="{% url 'csrf' %}">
+          <div class="cards a03">
+            <div class="content">
+              <div class="front">
+                <div class="icon">🔗</div>
+                <h3>CSRF</h3>
+                <p>Cross Site Request Forgery</p>
+              </div>
+              <div class="back">
+                <h3>Example </h3>
+                <p>
+                 Malicious Advertisement
+                </p>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="{% url 'home' %}">
+          <div class="cards a03">
+            <div class="content">
+              <div class="front">
+                <div class="icon">❓</div>
+                <h3>More</h3>
+                <p>Other web vulnerablities</p>
+              </div>
+              <div class="back">
+                <h3>Coming Soon...</h3>
+                <p>
+                 
+                </p>
+              </div>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- RED CAMPAIGN TAB -->
+    <div class="tab-pane fade bg-black" id="red" role="tabpanel" aria-labelledby="red-tab">
+      <div class="text-center mb-4">
+        <p class="lead mt-3">
+          Some times to fight crimes we have to adapt the art of hacking. <br> -Anonymous
+        </p>
+      </div>
+      <!-- Add Red Campaign-specific content here -->
+<a href="{% url 'update_game1' %}"><img src="/static/myapp/images/blackhydra.png" alt="" width="300rem" class="border border-danger"></a>
+      <br>
+      <br><br> More games coming soon...
+    </div>
+
+    <!-- BLUE CAMPAIGN TAB -->
+    <div class="tab-pane fade" id="blue" role="tabpanel" aria-labelledby="blue-tab">
+      <div class="text-center mb-4">
+        <p class="lead">
+          Coming Soon...
+        </p>
+      </div>
+      <!-- Add Blue Campaign-specific content here -->
+    </div>
+
+  </div>
+</div>
+
+{% endblock body %}

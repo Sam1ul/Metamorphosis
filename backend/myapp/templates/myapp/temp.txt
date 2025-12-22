@@ -1,0 +1,62 @@
+{% extends "myapp/base.html" %}
+{% block title %}Pricing{% endblock title %}
+{% block body %}
+<div class="container  mt-5" style="min-height: 100vh;">
+
+
+
+
+
+</div>
+{% endblock body %}
+
+
+href="{% url 'initialPage' %}">
+
+
+----------------------------
+
+<div class="code-wrap" id="GenSQL">
+                            
+                                <div style="font-size:13px;margin-bottom:6px"><strong><h5 style="color: red;">Generic SQL Injection Payloads</h5></strong></div>
+<pre><code class="language-php">
+
+</code></pre>
+                            </div>
+
+
+
+
+
+
+
+<h1>SQL Injection Techniques — Awareness & Defenses</h1>
+    <p class="lead">This page lists common SQLi patterns conceptually so developers can recognize and defend against them. It intentionally avoids exploit payloads and focuses on detection and remediation.</p>
+
+    
+
+
+
+
+
+
+
+{% extends "myapp/sqlInjection.html" %}
+
+{% block path %}
+{% endblock path %}
+
+{% block index %}
+{% endblock index %}
+
+{% block notes %}
+{% endblock notes %}
+
+{% block ethical %}
+{% endblock ethical %}
+
+{% block mcq %}
+{% endblock mcq %}
+
+{% block lessonNo %}
+{% endblock lessonNo %}

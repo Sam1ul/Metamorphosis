@@ -1,0 +1,96 @@
+{% extends "myapp/base.html" %}
+{% load static %}
+{% block title %}Community Chat{% endblock title %}
+
+{% block body %}
+<div class="container mt-5" style="min-height: 100vh;">
+  <div class="card shadow-lg text-light" style="background-color: transparent">
+    <div class="card-header text-center fw-bold" style="color: chartreuse; font-family: aq;">
+      Community Chat
+    </div>
+
+    <div id="chat-body" class="card-body" style="max-height: 75vh; overflow-y: auto;">
+      <p class="text-center text-muted">Loading messages...</p>
+    </div>
+
+    <div class="card-footer fixed-bottom">
+      <form id="chat-form" method="POST" enctype="multipart/form-data" class="d-flex align-items-center">
+        {% csrf_token %}
+        <input type="text" name="message" id="chat-message" class="form-control me-2 bg-dark text-light"
+               placeholder="Type a message..." style="border: 1px solid chartreuse;">
+        <input type="file" name="image" id="chat-image" class="form-control me-2 bg-dark text-light"
+               style="max-width: 250px; border: 1px solid chartreuse;">
+        <button type="submit" class="btn s" style="background-color: chartreuse;color: black;" onmouseover="this.style.backgroundColor='red';"onmouseout="this.style.backgroundColor='chartreuse';">Send</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+const body = document.querySelector('body');
+body.style.backgroundImage = "url('/static/myapp/images/M.png')";
+body.style.backgroundSize = "cover";          // Makes the image cover the whole viewport
+body.style.backgroundPosition = "center";     // Centers the image
+body.style.backgroundRepeat = "no-repeat";    // Prevents tiling
+body.style.backgroundAttachment = "fixed";    // Optional: keeps it fixed when scrolling
+
+const chatBody = document.getElementById('chat-body');
+const chatForm = document.getElementById('chat-form');
+const messageInput = document.getElementById('chat-message');
+const imageInput = document.getElementById('chat-image');
+const csrfToken = '{{ csrf_token }}';
+
+async function fetchMessages() {
+  const res = await fetch("{% url 'get_messages' %}");
+  const data = await res.json();
+  renderMessages(data.messages);
+}
+
+function renderMessages(messages) {
+  chatBody.innerHTML = "";
+  messages.reverse().forEach(msg => {
+    const isOwn = msg.username === "{{ request.user.username }}";
+    const messageHTML = `
+      <div class="d-flex mb-3 ${isOwn ? 'justify-content-end' : 'justify-content-start'}">
+        <div class="d-flex align-items-start ${isOwn ? 'flex-row-reverse' : ''}">
+          <img src="${msg.profile_pic ? msg.profile_pic : '{% static "myapp/images/default_avatar.png" %}'}"
+               class="rounded-circle border border-light me-2 ms-2" style="width: 45px; height: 45px;">
+          <div class="p-2 rounded" style="background-color: #1e1e1e; max-width: 70%;">
+            <strong style="color: chartreuse;">${msg.username}</strong><br>
+            ${msg.message ? `<span>${msg.message}</span><br>` : ''}
+            ${msg.image ? `<img src="${msg.image}" class="img-fluid rounded mt-2" style="max-height: 200px;">` : ''}
+            <div class="text-secondary small mt-1">${msg.timestamp}</div>
+          </div>
+        </div>
+      </div>`;
+    chatBody.insertAdjacentHTML('beforeend', messageHTML);
+  });
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+// Fetch new messages every 5 seconds
+setInterval(fetchMessages, 5000);
+fetchMessages();
+
+// Handle message sending
+chatForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const formData = new FormData();
+  formData.append('message', messageInput.value);
+  if (imageInput.files[0]) formData.append('image', imageInput.files[0]);
+
+  await fetch("{% url 'community_chat' %}", {
+    method: 'POST',
+    headers: { 'X-CSRFToken': csrfToken },
+    body: formData
+  });
+
+  messageInput.value = '';
+  imageInput.value = '';
+  fetchMessages();
+});
+</script>
+
+{% endblock body %}

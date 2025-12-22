@@ -1,0 +1,88 @@
+body{
+    background-color: black;
+    animation: ani2 7s;
+    overflow: hidden;
+    color: white;
+}
+@font-face {
+  font-family: 'Ares';
+  src: url('../fonts/AresBrokenVFRegular.ttf') format('truetype');
+}
+
+@font-face {
+        font-family: 'hacked';
+        src: url('../fonts/Hacked-KerX.ttf') format('truetype');
+      }
+
+.center{
+    display: flex;
+  justify-content: center;  
+  align-items: center;      
+  height: 60vh;            
+}
+
+.headline{
+    font-family: hacked;
+    color: chartreuse;
+    animation: ani1 8s;
+    font-size: 10rem;
+}
+
+#lightning:hover{
+    background-image: url("../images/lightning.gif");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#motto{
+    font-family: monospace;
+    font-size: 1rem;
+    text-align: center;
+}
+
+@keyframes ani1 {
+    0%{
+        font-size: 100rem;
+        color: black;
+    }
+     20%{
+        color:  black;
+    }
+    40%{
+        color:  black;
+    }
+    60%{
+        color:  black;
+    }
+    
+    80%{
+        color:  black;
+    }
+    100%{
+        color: black;
+    }
+    
+}
+@keyframes ani2{
+    0%{
+        background-color: red;
+        ;
+    }
+    20%{
+        background-color: green;
+    }
+    40%{
+        background-color: cyan;
+    }
+    60%{
+        background-color: yellow;
+    }
+    
+    100%{
+        background-color: rgb(0, 255, 225);
+    }
+    80%{
+        background-color: orangered;
+    }
+    
+}

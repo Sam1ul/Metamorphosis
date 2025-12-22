@@ -1,0 +1,616 @@
+{% extends "myapp/sqlInjection.html" %}
+
+{% block path %}
+{% endblock path %}
+
+{% block index %}
+<ul style="padding-left: 15px;">
+    <li><a href="#intro" class="text-light text-decoration-none">Introduction</a></li>
+    <li><a href="#what" class="text-light text-decoration-none">What is CSRF?</a></li>
+    <li><a href="#why" class="text-light text-decoration-none">Why It’s Dangerous</a></li>
+    <li><a href="#how" class="text-light text-decoration-none">How CSRF Works</a></li>
+    <li><a href="#defense" class="text-light text-decoration-none">Defense Mechanisms</a></li>
+    <li><a href="#example" class="text-light text-decoration-none">Examples</a></li>
+    <li><a href="#summary" class="text-light text-decoration-none">Summary</a></li>
+</ul>
+
+{% endblock index %}
+
+{% block notes %}
+<h1 id="intro" class="text-light">Cross-Site Request Forgery (CSRF)</h1>
+<p>
+Cross-Site Request Forgery (CSRF) is a web security vulnerability where an attacker tricks a user into performing unintended actions on a trusted website where they are already authenticated. It targets state-changing requests such as password updates, fund transfers, or account modifications by exploiting the user’s active session.
+</p>
+
+<hr>
+
+<h2 id="what" class="text-light">What is CSRF?</h2>
+<p>
+CSRF occurs when a malicious website, email, or script forces a logged-in user to send a request to another site where they are authenticated. Since the browser automatically sends cookies for every request, the vulnerable site processes it as if it were a legitimate action by the user.
+</p>
+
+<hr>
+
+<h2 id="why" class="text-light">Why CSRF is Dangerous</h2>
+<ul>
+    <li>Allows attackers to perform actions on behalf of users.</li>
+    <li>Can change account information, email, password, or security settings.</li>
+    <li>May result in unwanted transactions (banking, purchases, etc.).</li>
+    <li>Hard to detect since requests appear legitimate.</li>
+</ul>
+
+<hr>
+
+<h2 id="how" class="text-light">How CSRF Works</h2>
+<p>
+The attacker creates a malicious request and lures the victim into submitting it while they are logged in. Browsers automatically attach session cookies—making the target website think the request came from the user.
+</p>
+
+<h3 class="text-warning">Example Scenario</h3>
+<p>
+A banking site allows money transfers via a GET request:
+</p>
+
+<pre class="bg-dark text-light p-3 rounded">
+https://bank.com/transfer?amount=1000&to=attacker
+</pre>
+
+<p>
+An attacker embeds this link in an image tag:
+</p>
+
+<pre class="bg-dark text-light p-3 rounded">
+&lt;img src="https://bank.com/transfer?amount=1000&to=attacker"&gt;
+</pre>
+
+<p>
+If the user is logged in, visiting the attacker’s page triggers the transfer unknowingly.
+</p>
+
+<hr>
+
+<h2 id="defense" class="text-light">Defending Against CSRF</h2>
+
+<h3>1. CSRF Tokens (Most Effective)</h3>
+<p>
+The server generates a unique, unpredictable token for each session or request.  
+Forms include this token, and the server validates it. Attackers cannot guess this token.
+</p>
+
+<h3>2. SameSite Cookies</h3>
+<p>
+Setting cookies with <code>SameSite=Lax</code> or <code>SameSite=Strict</code> prevents cross-site cookie sending.
+</p>
+
+<h3>3. Double Submit Cookie Technique</h3>
+<p>Send the CSRF token in both the cookie and the request body; both must match.</p>
+
+<h3>4. Require Re-authentication for Sensitive Actions</h3>
+<p>Important tasks like password changes should require entering the password again.</p>
+
+<h3>5. Use POST Instead of GET for Critical Operations</h3>
+<p>GET requests should never perform state-changing actions.</p>
+
+<hr>
+
+<h2 id="example" class="text-light">Example</h2>
+<h3>Vulnerable Code</h3>
+<p>A form without CSRF protection:</p>
+
+<pre class="bg-dark text-light p-3 rounded">
+&lt;form action="/update-email" method="POST"&gt;
+    &lt;input type="email" name="email"&gt;
+    &lt;button&gt;Update&lt;/button&gt;
+&lt;/form&gt;
+</pre>
+
+<h3>Secure Code (Django)</h3>
+
+<pre class="bg-dark text-light p-3 rounded">
+&lt;form method="POST"&gt;
+    {% csrf_token %}
+    &lt;input type="email" name="email"&gt;
+    &lt;button&gt;Update&lt;/button&gt;
+&lt;/form&gt;
+</pre>
+
+<hr>
+
+<h2 id="summary" class="text-light">Summary</h2>
+<ul>
+    <li>CSRF forces authenticated users to perform unintended actions.</li>
+    <li>Browsers automatically send cookies → attack becomes possible.</li>
+    <li>CSRF tokens, SameSite cookies, and re-authentication are key defenses.</li>
+    <li>Never allow sensitive actions through GET requests.</li>
+</ul>
+
+{% endblock notes %}
+
+{% block ethical %}
+<p class="mt-5 d-flex">
+                            <img src="/static/myapp/images/sql Open Peeps - Bust.png" alt="">Hello
+                            {{user.username}}, we had recieved a security scan request from
+                            VulnBank and after proper investigation we found Cross Site Request Forgery
+                            vulnerabilities in their website.
+                            <br><br>Try this address "http://127.0.0.1/vuln_bank_demo/transfer.php"
+                            <br>Want to look at it? 
+                            <br><br>Copy paste the address into a browser and click on the malicious website.
+                            <br><br>Oh, and don't hesitate, we got the full permission to test and web pentration from
+                            the owner of VlunBank as well as the users. And the malicious website progrmmers are already in police custody.
+
+                            Do not try hacking attempts, unauthorized access on any website, until you got full
+                            permission. It's illegal and you got yourself in jail
+                            and get a slip of huge fine.
+
+                            <br><br>Enough of lecturing , please carry on!
+
+                            
+
+                        </p>
+                        <br><br>For example try to click the Malicious advertise link.
+                            <br>it will deduct the money from the current logged in account and tranfer it to other account.
+
+                        <br>
+                        <br>
+                        <br>
+                        <p style="color: chartreuse;font-weight: bold;">Morale of the stroy: Always ensure who are you giving access to advertise, if you are an owner of a site. If you are a user
+                            then raise your voice and ask developers for security demand. Your security is your right.
+                        </p>
+{% endblock ethical %}
+
+{% block mcq %}
+
+<div id="mcq-container" class="p-3">
+    <h1 class="h3 mb-3">CSRF — 20 MCQs</h1>
+    <p class="text-light mb-4">Select the best answer for each question and click <strong>Check Answers</strong>.</p>
+
+    <!-- ============================ QUESTION 1 ============================ -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5 class="card-title mb-2">1. What does CSRF stand for?</h5>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q1" value="a">
+                <label class="form-check-label">Cross-Site Rendering Failure</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q1" value="b">
+                <label class="form-check-label">Cross-Site Request Forgery</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q1" value="c">
+                <label class="form-check-label">Client-Side Request Function</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q1" value="d">
+                <label class="form-check-label">Cross-Site Resource Fetch</label>
+            </div>
+            <div class="feedback small mt-2"></div>
+        </div>
+    </div>
+
+    <!-- ============================ QUESTION 2 ============================ -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5 class="card-title mb-2">2. What does a CSRF attack do?</h5>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q2" value="a">
+                <label class="form-check-label">Forces a user to perform actions they did not intend</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q2" value="b">
+                <label class="form-check-label">Injects malicious scripts into the browser</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q2" value="c">
+                <label class="form-check-label">Steals browser history</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q2" value="d">
+                <label class="form-check-label">Executes code on the server</label>
+            </div>
+            <div class="feedback small mt-2"></div>
+        </div>
+    </div>
+
+    <!-- ============================ QUESTION 3 ============================ -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5 class="card-title mb-2">3. CSRF primarily targets:</h5>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q3" value="a">
+                <label class="form-check-label">Database queries</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q3" value="b">
+                <label class="form-check-label">Static web pages</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q3" value="c">
+                <label class="form-check-label">State-changing user requests</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q3" value="d">
+                <label class="form-check-label">File uploads</label>
+            </div>
+            <div class="feedback small mt-2"></div>
+        </div>
+    </div>
+
+    <!-- ============================ QUESTION 4 ============================ -->
+    <div class="card mcq-card" data-correct="d">
+        <div class="card-body">
+            <h5 class="card-title mb-2">4. Which condition enables CSRF attacks?</h5>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q4" value="a">
+                <label class="form-check-label">JavaScript disabled</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q4" value="b">
+                <label class="form-check-label">Expired sessions</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q4" value="c">
+                <label class="form-check-label">High server load</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q4" value="d">
+                <label class="form-check-label">User is logged in to a website</label>
+            </div>
+            <div class="feedback small mt-2"></div>
+        </div>
+    </div>
+
+    <!-- ============================ QUESTION 5 ============================ -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5 class="card-title mb-2">5. CSRF attacks rely on what?</h5>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q5" value="a">
+                <label class="form-check-label">Malicious file uploads</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q5" value="b">
+                <label class="form-check-label">Automatic cookie sending by browsers</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q5" value="c">
+                <label class="form-check-label">DNS spoofing</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q5" value="d">
+                <label class="form-check-label">SQL query manipulation</label>
+            </div>
+            <div class="feedback small mt-2"></div>
+        </div>
+    </div>
+
+    <!-- ============================ QUESTION 6 ============================ -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5 class="card-title mb-2">6. Which method best prevents CSRF?</h5>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q6" value="a">
+                <label class="form-check-label">CSRF Tokens</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q6" value="b">
+                <label class="form-check-label">HTML comments</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q6" value="c">
+                <label class="form-check-label">JavaScript minification</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q6" value="d">
+                <label class="form-check-label">Redirect loops</label>
+            </div>
+            <div class="feedback small mt-2"></div>
+        </div>
+    </div>
+
+    <!-- ============================ QUESTION 7 ============================ -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5 class="card-title mb-2">7. Which HTTP method should NOT be used for state-changing actions?</h5>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q7" value="a">
+                <label class="form-check-label">POST</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q7" value="b">
+                <label class="form-check-label">PATCH</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q7" value="c">
+                <label class="form-check-label">GET</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q7" value="d">
+                <label class="form-check-label">PUT</label>
+            </div>
+            <div class="feedback small mt-2"></div>
+        </div>
+    </div>
+
+    <!-- ============================ QUESTION 8 ============================ -->
+    <div class="card mcq-card" data-correct="d">
+        <div class="card-body">
+            <h5 class="card-title mb-2">8. Which browser feature helps mitigate CSRF?</h5>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q8" value="a">
+                <label class="form-check-label">DOMParser</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q8" value="b">
+                <label class="form-check-label">LocalStorage</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q8" value="c">
+                <label class="form-check-label">XHR</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q8" value="d">
+                <label class="form-check-label">SameSite cookies</label>
+            </div>
+            <div class="feedback small mt-2"></div>
+        </div>
+    </div>
+
+    <!-- ============================ QUESTIONS 9 - 20 ============================ -->
+<div class="card mcq-card" data-correct="c">
+    <div class="card-body">
+        <h5 class="card-title mb-2">9. Which of the following is the best definition of CSRF?</h5>
+        <p class="card-text">Choose the correct answer.</p>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q9" id="q9a" value="a">
+            <label class="form-check-label" for="q9a">
+                An attack where an attacker steals session cookies.
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q9" id="q9b" value="b">
+            <label class="form-check-label" for="q9b">
+                An attack where database queries are manipulated by the user.
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q9" id="q9c" value="c">
+            <label class="form-check-label" for="q9c">
+                An attack that tricks a logged-in victim into performing unwanted actions on a website.
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q9" id="q9d" value="d">
+            <label class="form-check-label" for="q9d">
+                An attack that injects malicious HTML into a page.
+            </label>
+        </div>
+
+        <div class="mt-2 feedback small"></div>
+    </div>
+</div>
+<div class="card mcq-card" data-correct="a">
+    <div class="card-body">
+        <h5 class="card-title mb-2">10. A CSRF attack requires the victim to be:</h5>
+        <p class="card-text">Pick the most accurate condition.</p>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q10" id="q10a" value="a">
+            <label class="form-check-label" for="q10a">
+                Logged in to the target website.
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q10" id="q10b" value="b">
+            <label class="form-check-label" for="q10b">
+                Using a VPN connection.
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q10" id="q10c" value="c">
+            <label class="form-check-label" for="q10c">
+                On the same Wi-Fi network as the attacker.
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q10" id="q10d" value="d">
+            <label class="form-check-label" for="q10d">
+                Running outdated browser software.
+            </label>
+        </div>
+
+        <div class="mt-2 feedback small"></div>
+    </div>
+</div>
+<div class="card mcq-card" data-correct="d">
+    <div class="card-body">
+        <h5 class="card-title mb-2">11. Which action is most likely to be exploited through CSRF?</h5>
+        <p class="card-text">Choose the best example.</p>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q11" id="q11a" value="a">
+            <label class="form-check-label" for="q11a">
+                Viewing a public blog post.
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q11" id="q11b" value="b">
+            <label class="form-check-label" for="q11b">
+                Loading a static image.
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q11" id="q11c" value="c">
+            <label class="form-check-label" for="q11c">
+                Reading a news article.
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q11" id="q11d" value="d">
+            <label class="form-check-label" for="q11d">
+                Changing your account email address.
+            </label>
+        </div>
+
+        <div class="mt-2 feedback small"></div>
+    </div>
+</div>
+<div class="card mcq-card" data-correct="b">
+    <div class="card-body">
+        <h5 class="card-title mb-2">12. What is the main limitation of using CAPTCHA for CSRF protection?</h5>
+        <p class="card-text">Select one.</p>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q12" id="q12a" value="a">
+            <label class="form-check-label" for="q12a">
+                CAPTCHA works only in mobile browsers.
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q12" id="q12b" value="b">
+            <label class="form-check-label" for="q12b">
+                CAPTCHA cannot protect every user action, only specific forms.
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q12" id="q12c" value="c">
+            <label class="form-check-label" for="q12c">
+                CAPTCHA automatically expires session tokens.
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q12" id="q12d" value="d">
+            <label class="form-check-label" for="q12d">
+                CAPTCHA blocks JavaScript execution.
+            </label>
+        </div>
+
+        <div class="mt-2 feedback small"></div>
+    </div>
+</div>
+<div class="card mcq-card" data-correct="a">
+    <div class="card-body">
+        <h5 class="card-title mb-2">13. CSRF attacks primarily take advantage of:</h5>
+        <p class="card-text">Choose the correct mechanism.</p>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q13" id="q13a" value="a">
+            <label class="form-check-label" for="q13a">
+                Automatic browser authentication using cookies.
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q13" id="q13b" value="b">
+            <label class="form-check-label" for="q13b">
+                Weak HTML formatting in forms.
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q13" id="q13c" value="c">
+            <label class="form-check-label" for="q13c">
+                Missing JavaScript files.
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q13" id="q13d" value="d">
+            <label class="form-check-label" for="q13d">
+                Encrypted URLs.
+            </label>
+        </div>
+
+        <div class="mt-2 feedback small"></div>
+    </div>
+</div>
+<div class="card mcq-card" data-correct="d">
+    <div class="card-body">
+        <h5 class="card-title mb-2">14. Which of the following is NOT an effective CSRF protection?</h5>
+        <p class="card-text">Select one incorrect option.</p>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q14" id="q14a" value="a">
+            <label class="form-check-label" for="q14a">
+                CSRF tokens in forms.
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q14" id="q14b" value="b">
+            <label class="form-check-label" for="q14b">
+                SameSite cookie restrictions.
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q14" id="q14c" value="c">
+            <label class="form-check-label" for="q14c">
+                Validating Origin/Referer headers.
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q14" id="q14d" value="d">
+            <label class="form-check-label" for="q14d">
+                Using only GET requests for all actions.
+            </label>
+        </div>
+
+        <div class="mt-2 feedback small"></div>
+    </div>
+</div>
+<div class="card mcq-card" data-correct="b">
+    <div class="card-body">
+        <h5 class="card-title mb-2">15. Which type of application is MOST vulnerable to CSRF?</h5>
+        <p class="card-text">Choose the correct answer.</p>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q15" id="q15a" value="a">
+            <label class="form-check-label" for="q15a">
+                A static HTML-only website with no login.
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q15" id="q15b" value="b">
+            <label class="form-check-label" for="q15b">
+                A site with user accounts that performs state-changing actions.
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q15" id="q15c" value="c">
+            <label class="form-check-label" for="q15c">
+                A website that only displays public posts.
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="q15" id="q15d" value="d">
+            <label class="form-check-label" for="q15d">
+                A read-only documentation portal.
+            </label>
+        </div>
+
+        <div class="mt-2 feedback small"></div>
+    </div>
+</div>
+
+{% endblock mcq %}
+
+{% block lessonNo %}
+{% endblock lessonNo %}

