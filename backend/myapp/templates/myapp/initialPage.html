@@ -1,16 +1,16 @@
 {% extends "myapp/base.html" %}
 {% block title %}Metamorphosis{% endblock title %}
 {% block body %}
-  <section class="py-4 py-xl-5 pb-5 mb-5 mt-2">
+  <section class="py-4 py-xl-5 pb-5 mb-5 mt-2" style="min-height: 100vh;">
         <div class="uk-animation-fade mt-5 container pb-5 mt-2 rounded" style="background-image: url('/static/myapp/images/lightning.gif');background-repeat: no-repeat;background-position: center">
             <div class="row">
                 <div class="col-md-10 col-xl-8 text-center d-flex d-sm-flex d-md-flex justify-content-center align-items-center mx-auto justify-content-md-start align-items-md-center justify-content-xl-center">
                     <div class="mb-3">
                         <p class="pt-5 mt-5">Welcome to cyber analyst's favourite</p>
-                        <div class="display-1 fw-bold mb-5" style="color: white;text-shadow: 2px 2px 10px chartreuse;font-family: ares;">Metamorphosis</div>
-                        <p class="mb-5">Etiam a rutrum, mauris lectus aptent convallis. Fusce vulputate aliquam, sagittis odio metus. Nulla porttitor vivamus viverra laoreet, aliquam netus.</p>
-                        <!--<a href="{% url "login" %}"><button class="btn btn-outline-primary me-3" type="button">Sign in</button></a>
-                        <a href="{% url "register" %}"><button class="btn btn-outline-danger" type="button">Sign up</button></a>-->
+                        <div class="display-1 fw-bold mb-2" style="color: white;text-shadow: 2px 2px 10px chartreuse;font-family: ares;">Metamorphosis</div>
+                        <p class="mb-5">Developing security awareness among web developers and users in this digital world.</p>
+                        <a href="{% url "login" %}"><button class="btn btn-outline-primary me-3" type="button">Sign in</button></a>
+                        <a href="{% url "register" %}"><button class="btn btn-outline-danger" type="button">Sign up</button></a>
                     </div>
                 </div>
             </div>
@@ -19,8 +19,8 @@
     
     
 
-
-
+<!-- 
+{% comment %} 
 <div id="carouselExampleCaptions" class="carousel slide pt-5 mt-5 pb-5">
   <div class="carousel-inner">
     
@@ -210,12 +210,12 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> {% endcomment %}
 
    
     
    
        
-    </div>
+    </div> -->
 
 {% endblock body %}

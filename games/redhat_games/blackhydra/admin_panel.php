@@ -2,9 +2,9 @@
 session_start();
 if(!isset($_SESSION['admin'])) { die("ACCESS DENIED"); }
 
-$host = "185.27.134.219";
-$user = "if0_40458442";
-$pass = "RDiPd0EClzD3H"; $db="undercover_game";
+$host = "host";
+$user = "root";
+$pass = ""; $db="undercover_game";
 $conn = new mysqli($host,$user,$pass,$db);
 
 /* ---------------- ADD / UPDATE DEALER ---------------- */

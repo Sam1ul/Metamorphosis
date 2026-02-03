@@ -3,9 +3,9 @@
  *   DATABASE INITIALIZATION
  * ---------------------------*/
 
-$host = "185.27.134.219";
-$user = "if0_40458442";
-$pass = "RDiPd0EClzD3H";
+$host = "host";
+$user = "root";
+$pass = "";
 
 // Connect to MySQL (no DB yet)
 $conn = new mysqli($host, $user, $pass);

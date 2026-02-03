@@ -290,7 +290,7 @@ using var reader = cmd.ExecuteReader();
 
 
                         <div class="code-wrap" id="GenSQL">
-
+                            source: https://github.com/payloadbox/sql-injection-payload-list
                             <div style="font-size:13px;margin-bottom:6px"><strong>
                                     <h5 style="color: red;">Generic SQL Injection Payloads</h5>
                                 </strong></div>
@@ -1211,11 +1211,13 @@ admin") or "1"="1"/*
 
                         {% block ethical %}
                         <p class="mt-5 d-flex">
-                            <img src="/static/myapp/images/sql Open Peeps - Bust.png" alt="">Hello
+                            <img src="/static/myapp/images/sql Open Peeps - Bust.png" alt="">
+                            <span>
+                            Hello
                             {{user.username}}, we had recieved a security scan request from
                             VulnBank and after proper investigation we found SQL Injection
                             vulnerabilities in their website.
-                            <br><br>Their website's login page address is "https://127.0.0.1/vuln_bank_demo/login.php"
+                            <br><br>Their website's login page address is <a href="https://127.0.0.1/vuln_bank_demo/login.php">https://127.0.0.1/vuln_bank_demo/login.php</a>
                             <br>Want to look at it? 
                             <br><br>Copy paste the address into a browser and try different types of sql injection
                             patterns.
@@ -1228,7 +1230,7 @@ admin") or "1"="1"/*
 
                             <br><br>Enough of lecturing , please carry on!
 
-                            
+                            </span>
 
                         </p>
                         <br><br>For example try to enter alice's account like-

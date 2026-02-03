@@ -99,17 +99,132 @@ Web security is the practice of protecting websites and web applications from cy
 
 
         <a href="{% url 'csrf' %}">
-          <div class="cards a03">
+          <div class="cards a04">
             <div class="content">
               <div class="front">
                 <div class="icon">🔗</div>
-                <h3>CSRF</h3>
+                <h3>Lesson 4 : CSRF</h3>
                 <p>Cross Site Request Forgery</p>
               </div>
               <div class="back">
                 <h3>Example </h3>
                 <p>
                  Malicious Advertisement
+                </p>
+              </div>
+            </div>
+          </div>
+        </a>
+
+
+
+        <a href="{% url 'home' %}">
+          <div class="cards a05">
+            <div class="content">
+              <div class="front">
+                <div class="icon">🔗</div>
+                <h3>Lesson 5 : Broken Access Control</h3>
+                <p>Acessing Non-authorized Data</p>
+              </div>
+              <div class="back">
+                <h3>Example </h3>
+                <p>
+                 User changes /user/123 to /user/124 and views another user’s data (IDOR).
+                </p>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="{% url 'home' %}">
+          <div class="cards a05">
+            <div class="content">
+              <div class="front">
+                <div class="icon">🔗</div>
+                <h3>Lesson 6 : Insecure Design</h3>
+                <p>Security not considered during system design</p>
+              </div>
+              <div class="back">
+                <h3>Example </h3>
+                <p>
+                 No rate limiting → attackers use brute-force passwords.
+                </p>
+              </div>
+            </div>
+          </div>
+        </a>
+
+
+        <a href="{% url 'home' %}">
+          <div class="cards a05">
+            <div class="content">
+              <div class="front">
+                <div class="icon">🔗</div>
+                <h3>Lesson 7 : Auth Failures</h3>
+                <p>Attackers can log in as other users or take over accounts.</p>
+              </div>
+              <div class="back">
+                <h3>Example </h3>
+                <p>
+                 Session not invalidated after logout.
+                </p>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="{% url 'home' %}">
+          <div class="cards a05">
+            <div class="content">
+              <div class="front">
+                <div class="icon">🔗</div>
+                <h3>Lesson 8 : Cryptographic Failures</h3>
+                <p>Poor protection of sensitive data.</p>
+              </div>
+              <div class="back">
+                <h3>Example </h3>
+                <p>
+                - No HTTPS <br>
+                - Weak encryption<br>
+                - Storing passwords in plaintext<br>
+                </p>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="{% url 'home' %}">
+          <div class="cards a05">
+            <div class="content">
+              <div class="front">
+                <div class="icon">🔗</div>
+                <h3>Lesson 9 : Security Logging & Monitoring Failures</h3>
+                <p>
+                  <small>Improper monitoring security events.</small>
+                </p>
+              </div>
+              <div class="back">
+                <h3>Example </h3>
+                <p>
+                  Failed logins are not logged or alerted.
+                </p>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="{% url 'home' %}">
+          <div class="cards a05">
+            <div class="content">
+              <div class="front">
+                <div class="icon">🔗</div>
+                <h3>Lesson 9 : SSRF</h3>
+                <p>Server Side Request Forgery</p>
+              </div>
+              <div class="back">
+                <h3>Example </h3>
+                <p>
+                
                 </p>
               </div>
             </div>
