@@ -1,0 +1,325 @@
+{% extends "myapp/sqlInjection.html" %}
+
+{% block path %}
+{% endblock path %}
+
+{% block index %}
+<ul style="padding-left: 15px;">
+    <li><a href="#intro" class="text-dark text-decoration-none">Introduction</a></li>
+    <li><a href="#what" class="text-dark text-decoration-none">What are Cryptographic Failures?</a></li>
+    <li><a href="#why" class="text-dark text-decoration-none">Why It’s Dangerous</a></li>
+    <li><a href="#causes" class="text-dark text-decoration-none">Common Causes</a></li>
+    <li><a href="#examples" class="text-dark text-decoration-none">Examples</a></li>
+    <li><a href="#attacks" class="text-dark text-decoration-none">Possible Attacks</a></li>
+    <li><a href="#defense" class="text-dark text-decoration-none">Prevention</a></li>
+    <li><a href="#best" class="text-dark text-decoration-none">Best Practices</a></li>
+    <li><a href="#exam" class="text-dark text-decoration-none">For Exam Writing</a></li>
+    <li><a href="#summary" class="text-dark text-decoration-none">Summary</a></li>
+</ul>
+{% endblock index %}
+
+{% block notes %}
+<div>
+
+<h2 id="intro">🔐 Cryptographic Failures</h2>
+<p>
+Cryptographic failures occur when sensitive data is not properly protected using encryption
+or when weak cryptographic methods are used. This can lead to exposure of passwords,
+personal data, and confidential information.
+</p>
+
+<hr>
+
+<h3 id="what">What are Cryptographic Failures?</h3>
+<p>
+Cryptographic failures happen when applications fail to correctly use encryption techniques.
+This includes weak algorithms, improper key management, or transmitting data without encryption.
+</p>
+
+<p><strong>Memory Trick:</strong> Weak crypto = easy data theft.</p>
+
+<hr>
+
+<h3 id="why">Why It’s Dangerous</h3>
+<ul>
+    <li>Exposure of sensitive user data</li>
+    <li>Password leakage</li>
+    <li>Identity theft</li>
+    <li>Financial fraud</li>
+    <li>Loss of user trust</li>
+</ul>
+
+<hr>
+
+<h3 id="causes">Common Causes</h3>
+<ul>
+    <li>Using weak encryption (MD5, SHA1)</li>
+    <li>Storing passwords in plain text</li>
+    <li>No HTTPS (data sent in plain text)</li>
+    <li>Poor key management</li>
+    <li>Hardcoded secrets in code</li>
+</ul>
+
+<hr>
+
+<h3 id="examples">Examples</h3>
+<p>Example 1: Password stored as plain text</p>
+<pre>
+password = "123456"
+</pre>
+
+<p>Example 2: Weak hashing</p>
+<pre>
+hash = md5(password)
+</pre>
+
+<p>Example 3: No HTTPS</p>
+<pre>
+http://example.com/login
+</pre>
+
+<hr>
+
+<h3 id="attacks">Possible Attacks</h3>
+<ul>
+    <li>Man-in-the-Middle (MITM)</li>
+    <li>Password cracking</li>
+    <li>Data interception</li>
+    <li>Session hijacking</li>
+</ul>
+
+<hr>
+
+<h3 id="defense">Prevention</h3>
+<ul>
+    <li>Use strong encryption (AES, RSA)</li>
+    <li>Use HTTPS everywhere</li>
+    <li>Hash passwords with bcrypt or Argon2</li>
+    <li>Secure key storage</li>
+    <li>Use modern security libraries</li>
+</ul>
+
+<hr>
+
+<h3 id="best">Best Practices</h3>
+<ul>
+    <li>Never store sensitive data in plain text</li>
+    <li>Rotate encryption keys regularly</li>
+    <li>Use secure protocols (TLS 1.2+)</li>
+    <li>Apply least privilege to key access</li>
+    <li>Regularly update cryptographic libraries</li>
+</ul>
+
+<hr>
+
+<h3 id="exam">For Exam Writing</h3>
+<p>
+Cryptographic failure is a vulnerability where sensitive data is exposed due to improper
+use of encryption or weak cryptographic practices.
+</p>
+
+<hr>
+
+<h3 id="summary">Summary</h3>
+<p>
+Cryptography is essential for protecting data. Weak or improper implementation can lead
+to serious security breaches. Strong encryption and proper practices are necessary
+to ensure data confidentiality and integrity.
+</p>
+
+</div>
+{% endblock notes %}
+
+{% block ethical %}
+{% endblock ethical %}
+
+{% block mcq %}
+<div id="mcq-container" class="p-3">
+    <h1 class="h3 mb-3">Cryptographic Failures — 15 MCQs</h1>
+    <p class="text-dark mb-4">Select the best answer and click <strong>Check Answers</strong>.</p>
+
+    <!-- QUESTION 1 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>1. What is a cryptographic failure?</h5>
+            <div class="form-check"><input type="radio" name="q1" value="a"> A UI error</div>
+            <div class="form-check"><input type="radio" name="q1" value="b"> Improper protection of sensitive data</div>
+            <div class="form-check"><input type="radio" name="q1" value="c"> Slow database query</div>
+            <div class="form-check"><input type="radio" name="q1" value="d"> Network delay</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 2 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>2. Which is a weak hashing algorithm?</h5>
+            <div class="form-check"><input type="radio" name="q2" value="a"> MD5</div>
+            <div class="form-check"><input type="radio" name="q2" value="b"> bcrypt</div>
+            <div class="form-check"><input type="radio" name="q2" value="c"> Argon2</div>
+            <div class="form-check"><input type="radio" name="q2" value="d"> SHA-256</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 3 -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5>3. Storing passwords in plain text is:</h5>
+            <div class="form-check"><input type="radio" name="q3" value="a"> Safe</div>
+            <div class="form-check"><input type="radio" name="q3" value="b"> Recommended</div>
+            <div class="form-check"><input type="radio" name="q3" value="c"> Dangerous</div>
+            <div class="form-check"><input type="radio" name="q3" value="d"> Required</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 4 -->
+    <div class="card mcq-card" data-correct="d">
+        <div class="card-body">
+            <h5>4. HTTPS protects data using:</h5>
+            <div class="form-check"><input type="radio" name="q4" value="a"> HTML</div>
+            <div class="form-check"><input type="radio" name="q4" value="b"> CSS</div>
+            <div class="form-check"><input type="radio" name="q4" value="c"> SQL</div>
+            <div class="form-check"><input type="radio" name="q4" value="d"> Encryption</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 5 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>5. Which attack exploits weak encryption?</h5>
+            <div class="form-check"><input type="radio" name="q5" value="a"> XSS</div>
+            <div class="form-check"><input type="radio" name="q5" value="b"> Man-in-the-Middle</div>
+            <div class="form-check"><input type="radio" name="q5" value="c"> CSRF</div>
+            <div class="form-check"><input type="radio" name="q5" value="d"> Clickjacking</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 6 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>6. Which is a strong password hashing method?</h5>
+            <div class="form-check"><input type="radio" name="q6" value="a"> bcrypt</div>
+            <div class="form-check"><input type="radio" name="q6" value="b"> MD5</div>
+            <div class="form-check"><input type="radio" name="q6" value="c"> SHA1</div>
+            <div class="form-check"><input type="radio" name="q6" value="d"> Base64</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 7 -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5>7. What does encryption ensure?</h5>
+            <div class="form-check"><input type="radio" name="q7" value="a"> Speed</div>
+            <div class="form-check"><input type="radio" name="q7" value="b"> UI design</div>
+            <div class="form-check"><input type="radio" name="q7" value="c"> Data confidentiality</div>
+            <div class="form-check"><input type="radio" name="q7" value="d"> File size reduction</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 8 -->
+    <div class="card mcq-card" data-correct="d">
+        <div class="card-body">
+            <h5>8. Hardcoding secrets in code is:</h5>
+            <div class="form-check"><input type="radio" name="q8" value="a"> Safe</div>
+            <div class="form-check"><input type="radio" name="q8" value="b"> Efficient</div>
+            <div class="form-check"><input type="radio" name="q8" value="c"> Recommended</div>
+            <div class="form-check"><input type="radio" name="q8" value="d"> Risky</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 9 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>9. Which protocol is secure?</h5>
+            <div class="form-check"><input type="radio" name="q9" value="a"> HTTPS</div>
+            <div class="form-check"><input type="radio" name="q9" value="b"> HTTP</div>
+            <div class="form-check"><input type="radio" name="q9" value="c"> FTP</div>
+            <div class="form-check"><input type="radio" name="q9" value="d"> Telnet</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 10 -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5>10. What is key management?</h5>
+            <div class="form-check"><input type="radio" name="q10" value="a"> Writing keys in code</div>
+            <div class="form-check"><input type="radio" name="q10" value="b"> Deleting keys</div>
+            <div class="form-check"><input type="radio" name="q10" value="c"> Handling encryption keys securely</div>
+            <div class="form-check"><input type="radio" name="q10" value="d"> Sharing keys publicly</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 11 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>11. Which is NOT a cryptographic failure?</h5>
+            <div class="form-check"><input type="radio" name="q11" value="a"> Weak encryption</div>
+            <div class="form-check"><input type="radio" name="q11" value="b"> Strong hashing</div>
+            <div class="form-check"><input type="radio" name="q11" value="c"> Plain text storage</div>
+            <div class="form-check"><input type="radio" name="q11" value="d"> No HTTPS</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 12 -->
+    <div class="card mcq-card" data-correct="d">
+        <div class="card-body">
+            <h5>12. Which attack steals data during transmission?</h5>
+            <div class="form-check"><input type="radio" name="q12" value="a"> SQL Injection</div>
+            <div class="form-check"><input type="radio" name="q12" value="b"> XSS</div>
+            <div class="form-check"><input type="radio" name="q12" value="c"> CSRF</div>
+            <div class="form-check"><input type="radio" name="q12" value="d"> MITM</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 13 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>13. What should be used instead of MD5?</h5>
+            <div class="form-check"><input type="radio" name="q13" value="a"> Argon2</div>
+            <div class="form-check"><input type="radio" name="q13" value="b"> MD5</div>
+            <div class="form-check"><input type="radio" name="q13" value="c"> SHA1</div>
+            <div class="form-check"><input type="radio" name="q13" value="d"> Base64</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 14 -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5>14. Encryption helps protect:</h5>
+            <div class="form-check"><input type="radio" name="q14" value="a"> UI</div>
+            <div class="form-check"><input type="radio" name="q14" value="b"> CSS</div>
+            <div class="form-check"><input type="radio" name="q14" value="c"> Sensitive data</div>
+            <div class="form-check"><input type="radio" name="q14" value="d"> Fonts</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 15 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>15. Cryptographic failures mainly affect:</h5>
+            <div class="form-check"><input type="radio" name="q15" value="a"> Design</div>
+            <div class="form-check"><input type="radio" name="q15" value="b"> Data security</div>
+            <div class="form-check"><input type="radio" name="q15" value="c"> Layout</div>
+            <div class="form-check"><input type="radio" name="q15" value="d"> Animation</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+</div>
+{% endblock mcq %}
+
+{% block lessonNo %}
+{% endblock lessonNo %}

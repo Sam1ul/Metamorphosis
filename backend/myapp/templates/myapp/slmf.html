@@ -1,0 +1,314 @@
+{% extends "myapp/sqlInjection.html" %}
+
+{% block path %}
+{% endblock path %}
+
+{% block index %}
+<ul style="padding-left: 15px;">
+    <li><a href="#intro" class="text-dark text-decoration-none">Introduction</a></li>
+    <li><a href="#what" class="text-dark text-decoration-none">What is Logging & Monitoring?</a></li>
+    <li><a href="#why" class="text-dark text-decoration-none">Why It’s Important</a></li>
+    <li><a href="#logs" class="text-dark text-decoration-none">What to Log</a></li>
+    <li><a href="#fail" class="text-dark text-decoration-none">Common Failures</a></li>
+    <li><a href="#example" class="text-dark text-decoration-none">Example</a></li>
+    <li><a href="#defense" class="text-dark text-decoration-none">Best Practices</a></li>
+    <li><a href="#tools" class="text-dark text-decoration-none">Tools</a></li>
+    <li><a href="#summary" class="text-dark text-decoration-none">Summary</a></li>
+</ul>
+{% endblock index %}
+
+
+{% block notes %}
+<div>
+
+<h2 id="intro">📊 Security Logging and Monitoring</h2>
+<p>
+Security logging and monitoring is the process of recording system activities
+and continuously observing them to detect suspicious behavior, attacks, or system failures.
+It helps organizations identify, respond to, and prevent security incidents.
+</p>
+
+<hr>
+
+<h3 id="what">What is Logging & Monitoring?</h3>
+<p>
+<strong>Logging</strong> is the process of recording events such as login attempts,
+errors, and user actions.<br>
+<strong>Monitoring</strong> is analyzing these logs in real-time or periodically
+to detect unusual or malicious activity.
+</p>
+
+<hr>
+
+<h3 id="why">Why It’s Important</h3>
+<ul>
+    <li>Detect attacks early (XSS, SQL Injection, SSRF)</li>
+    <li>Identify unauthorized access attempts</li>
+    <li>Help in forensic analysis after incidents</li>
+    <li>Ensure compliance with security standards</li>
+    <li>Improve system reliability and debugging</li>
+</ul>
+
+<hr>
+
+<h3 id="logs">What to Log</h3>
+<ul>
+    <li>User login and logout attempts</li>
+    <li>Failed authentication attempts</li>
+    <li>Password changes</li>
+    <li>Admin actions</li>
+    <li>API requests and responses</li>
+    <li>Error messages and exceptions</li>
+</ul>
+
+<hr>
+
+<h3 id="fail">Common Failures</h3>
+<ul>
+    <li>No logging at all</li>
+    <li>Logs not monitored</li>
+    <li>Storing sensitive data (passwords) in logs</li>
+    <li>Logs not protected from attackers</li>
+    <li>No alert system for suspicious activity</li>
+</ul>
+
+<hr>
+
+<h3 id="example">Example</h3>
+<p>Login attempt logging:</p>
+
+<pre>
+User: admin
+IP: 192.168.1.10
+Status: Failed
+Time: 10:32 PM
+</pre>
+
+<p>
+Multiple failed login attempts can indicate a brute-force attack.
+</p>
+
+<hr>
+
+<h3 id="defense">Best Practices</h3>
+<ul>
+    <li>Log all important security events</li>
+    <li>Do not store sensitive information in logs</li>
+    <li>Use centralized logging systems</li>
+    <li>Set up real-time alerts</li>
+    <li>Regularly review logs</li>
+</ul>
+
+<hr>
+
+<h3 id="tools">Tools</h3>
+<ul>
+    <li>ELK Stack (Elasticsearch, Logstash, Kibana)</li>
+    <li>Splunk</li>
+    <li>Graylog</li>
+</ul>
+
+<hr>
+
+<h3 id="summary">Summary</h3>
+<p>
+Security logging and monitoring is essential for detecting attacks and maintaining system security.
+Without proper logging, security incidents may go unnoticed, leading to serious damage.
+</p>
+
+</div>
+{% endblock notes %}
+
+{% block ethical %}
+{% endblock ethical %}
+
+{% block mcq %}
+<div id="mcq-container" class="p-3">
+    <h1 class="h3 mb-3">Security Logging & Monitoring — 15 MCQs</h1>
+    <p class="text-light mb-4">Select the best answer and click <strong>Check Answers</strong>.</p>
+
+    <!-- QUESTION 1 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>1. What is security logging?</h5>
+            <div class="form-check"><input type="radio" name="q1" value="a"> Blocking attacks automatically</div>
+            <div class="form-check"><input type="radio" name="q1" value="b"> Recording system and user activities</div>
+            <div class="form-check"><input type="radio" name="q1" value="c"> Encrypting user data</div>
+            <div class="form-check"><input type="radio" name="q1" value="d"> Deleting old files</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 2 -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5>2. What is monitoring?</h5>
+            <div class="form-check"><input type="radio" name="q2" value="a"> Writing logs</div>
+            <div class="form-check"><input type="radio" name="q2" value="b"> Deleting logs</div>
+            <div class="form-check"><input type="radio" name="q2" value="c"> Analyzing logs for suspicious activity</div>
+            <div class="form-check"><input type="radio" name="q2" value="d"> Encrypting logs</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 3 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>3. Which event should be logged?</h5>
+            <div class="form-check"><input type="radio" name="q3" value="a"> Login attempts</div>
+            <div class="form-check"><input type="radio" name="q3" value="b"> Screen resolution</div>
+            <div class="form-check"><input type="radio" name="q3" value="c"> Browser color</div>
+            <div class="form-check"><input type="radio" name="q3" value="d"> Font size</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 4 -->
+    <div class="card mcq-card" data-correct="d">
+        <div class="card-body">
+            <h5>4. What is a major benefit of logging?</h5>
+            <div class="form-check"><input type="radio" name="q4" value="a"> Faster internet</div>
+            <div class="form-check"><input type="radio" name="q4" value="b"> Better UI</div>
+            <div class="form-check"><input type="radio" name="q4" value="c"> Lower CPU usage</div>
+            <div class="form-check"><input type="radio" name="q4" value="d"> Detecting security incidents</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 5 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>5. Which should NOT be stored in logs?</h5>
+            <div class="form-check"><input type="radio" name="q5" value="a"> Login attempts</div>
+            <div class="form-check"><input type="radio" name="q5" value="b"> Passwords</div>
+            <div class="form-check"><input type="radio" name="q5" value="c"> Errors</div>
+            <div class="form-check"><input type="radio" name="q5" value="d"> API calls</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 6 -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5>6. What does a failed login attempt indicate?</h5>
+            <div class="form-check"><input type="radio" name="q6" value="a"> System crash</div>
+            <div class="form-check"><input type="radio" name="q6" value="b"> Database error</div>
+            <div class="form-check"><input type="radio" name="q6" value="c"> Possible attack attempt</div>
+            <div class="form-check"><input type="radio" name="q6" value="d"> UI bug</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 7 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>7. What is centralized logging?</h5>
+            <div class="form-check"><input type="radio" name="q7" value="a"> Storing logs in one central system</div>
+            <div class="form-check"><input type="radio" name="q7" value="b"> Deleting logs daily</div>
+            <div class="form-check"><input type="radio" name="q7" value="c"> Printing logs</div>
+            <div class="form-check"><input type="radio" name="q7" value="d"> Sending logs via email</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 8 -->
+    <div class="card mcq-card" data-correct="d">
+        <div class="card-body">
+            <h5>8. Which is a monitoring tool?</h5>
+            <div class="form-check"><input type="radio" name="q8" value="a"> Photoshop</div>
+            <div class="form-check"><input type="radio" name="q8" value="b"> Chrome</div>
+            <div class="form-check"><input type="radio" name="q8" value="c"> VS Code</div>
+            <div class="form-check"><input type="radio" name="q8" value="d"> Splunk</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 9 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>9. What is the purpose of alerts?</h5>
+            <div class="form-check"><input type="radio" name="q9" value="a"> Delete logs</div>
+            <div class="form-check"><input type="radio" name="q9" value="b"> Notify about suspicious activity</div>
+            <div class="form-check"><input type="radio" name="q9" value="c"> Speed up system</div>
+            <div class="form-check"><input type="radio" name="q9" value="d"> Store passwords</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 10 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>10. What should logs include?</h5>
+            <div class="form-check"><input type="radio" name="q10" value="a"> Timestamp</div>
+            <div class="form-check"><input type="radio" name="q10" value="b"> Screen brightness</div>
+            <div class="form-check"><input type="radio" name="q10" value="c"> Font style</div>
+            <div class="form-check"><input type="radio" name="q10" value="d"> Theme color</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 11 -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5>11. Which is a common logging failure?</h5>
+            <div class="form-check"><input type="radio" name="q11" value="a"> Too many logs</div>
+            <div class="form-check"><input type="radio" name="q11" value="b"> Fast logging</div>
+            <div class="form-check"><input type="radio" name="q11" value="c"> No monitoring</div>
+            <div class="form-check"><input type="radio" name="q11" value="d"> Using timestamps</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 12 -->
+    <div class="card mcq-card" data-correct="d">
+        <div class="card-body">
+            <h5>12. Which attack can be detected using logs?</h5>
+            <div class="form-check"><input type="radio" name="q12" value="a"> CSS styling</div>
+            <div class="form-check"><input type="radio" name="q12" value="b"> HTML rendering</div>
+            <div class="form-check"><input type="radio" name="q12" value="c"> UI bug</div>
+            <div class="form-check"><input type="radio" name="q12" value="d"> Brute force attack</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 13 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>13. Logs help in:</h5>
+            <div class="form-check"><input type="radio" name="q13" value="a"> Forensic analysis</div>
+            <div class="form-check"><input type="radio" name="q13" value="b"> UI design</div>
+            <div class="form-check"><input type="radio" name="q13" value="c"> CSS animation</div>
+            <div class="form-check"><input type="radio" name="q13" value="d"> Color themes</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 14 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>14. What is real-time monitoring?</h5>
+            <div class="form-check"><input type="radio" name="q14" value="a"> Monitoring once a year</div>
+            <div class="form-check"><input type="radio" name="q14" value="b"> Monitoring as events happen</div>
+            <div class="form-check"><input type="radio" name="q14" value="c"> Monitoring after shutdown</div>
+            <div class="form-check"><input type="radio" name="q14" value="d"> Manual logging only</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 15 -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5>15. Logging is part of which security principle?</h5>
+            <div class="form-check"><input type="radio" name="q15" value="a"> UI Design</div>
+            <div class="form-check"><input type="radio" name="q15" value="b"> Networking</div>
+            <div class="form-check"><input type="radio" name="q15" value="c"> Security monitoring</div>
+            <div class="form-check"><input type="radio" name="q15" value="d"> CSS styling</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+</div>
+{% endblock mcq %}
+
+{% block lessonNo %}
+{% endblock lessonNo %}

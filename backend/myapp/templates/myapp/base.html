@@ -19,7 +19,7 @@
   <style>
   /* For all inputs in your form */
   .form-control::placeholder {
-      color: white;       /* or use #00ff00 for green */
+      color: rgb(0, 0, 0);       /* or use #00ff00 for green */
       opacity: 1;         /* ensures full color visibility */
   }
 
@@ -27,14 +27,7 @@
   
 </style>
   <style>
-    th{
-      background-color: chartreuse !important;
-      color: #000000 !important;
-    }
-    tr,td{
-      background-color: black !important;
-      color: white !important;
-    }
+    
 
 
     /* small visual tweaks */
@@ -100,37 +93,16 @@
     h3,
     h4,
     h5 {
-      color: chartreuse;
       font-weight: bold;
       font-family: aq;
+      color: black;
     }
 
 
 
 
 
-    /* === Custom Tab Styling === */
-    .nav-tabs .nav-link {
-      color: white;
-      /* Text color for inactive tabs */
-      background-color: transparent;
-      border: none;
-      border-bottom: 3px solid transparent;
-      font-family: ares;
-      font-size: 1.1rem;
-    }
-
-    .nav-tabs .nav-link:hover {
-      color: chartreuse;
-      border-color: chartreuse;
-    }
-
-    .nav-tabs .nav-link.active {
-      background-color: chartreuse !important;
-      color: black !important;
-      border-color: chartreuse !important;
-      font-weight: bold;
-    }
+   
 
 
     /* ==== CARD BASE ==== */
@@ -140,6 +112,7 @@
       perspective: 1000px;
       margin: 20px;
       display: inline-block;
+      color: #000000;
     }
 
     .cards .content {
@@ -148,10 +121,12 @@
       height: 100%;
       transform-style: preserve-3d;
       transition: transform 0.8s ease;
+      color: #000000;
     }
 
     .cards:hover .content {
       transform: rotateY(180deg);
+      color: #000000;
     }
 
     /* ==== FRONT & BACK ==== */
@@ -168,10 +143,10 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
-      color: #fff;
+      color: #000000;
       text-align: center;
-      box-shadow: 0px 0px 25px chartreuse;
-      border: 1px solid rgb(191, 252, 130);
+      box-shadow: 0px 0px 25px rgb(0, 0, 0);
+      border: 1px solid rgb(0, 0, 0);
       padding-top: 2rem;
     }
 
@@ -181,18 +156,19 @@
 
     /* ==== FRONT FACE ==== */
     .cards .front {
-      background-color: black;
+      color: #000000;
       transition: all 0.3s ease;
     }
 
     .cards:hover .front {
+      color: #000000;
       transform: scale(1.05);
       box-shadow: 0 0 25px rgba(118, 75, 162, 0.6);
     }
 
     /* ==== BACK FACE ==== */
     .cards .back {
-      background: linear-gradient(45deg, #000000, chartreuse, black);
+      
       transform: rotateY(180deg);
       color: black;
     }
@@ -223,9 +199,9 @@
     /* ==== TEXT ==== */
     .cards h3 {
       font-size: 1.1rem;
-      font-weight: 700;
+      font-weight: bold;
       margin-bottom: 8px;
-      color: white;
+      color:#000000;
     }
 
     .cards p {
@@ -262,7 +238,7 @@
 
     #minimize-btn:hover,
     #maximize-btn:hover {
-      color: chartreuse;
+      color: black;
     }
 
     #close-btn:hover {
@@ -288,10 +264,7 @@
       text-decoration: none !important;
     }
 
-    body {
-      background-color: black;
-      color: white;
-    }
+    
 
     /* ::-webkit-scrollbar { display: none; } */
     /* Scrollbar track */
@@ -387,7 +360,7 @@
   </style>
 </head>
 
-<body class="p-1">
+<body class="p-1 bg-light">
 
 
   <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
@@ -410,7 +383,7 @@
 
 
   <header>
-    <nav class="navbar navbar-expand-lg bg-black fixed-top" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg bg-light fixed-top text-dark" >
       <div class="container-fluid">
         <a class="navbar-brand nav-link">
           <span style="font-family:ares;">Metamorphosis</span>
@@ -426,43 +399,40 @@
 
     <li class="nav-item">
         <a class="nav-link d-flex align-items-center py-2" href="{% url 'home' %}">
-            <i class="bi bi-house-door"></i>
-            <span class="d-inline d-lg-none ms-2">Home</span>
+            <span class="d-inline ms-2">Home</span>
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link d-flex align-items-center py-2" href="{% url 'features' %}">
-            <i class="bi bi-stars"></i>
-            <span class="d-inline d-lg-none ms-2">Features</span>
+            <span class="d-inline ms-2">Features</span>
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link d-flex align-items-center py-2" href="{% url 'pricing' %}">
-            <i class="bi bi-cash-coin"></i>
-            <span class="d-inline d-lg-none ms-2">Pricing</span>
+            <span class="d-inline  ms-2">Pricing</span>
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link d-flex align-items-center py-2" href="{% url 'leaderboard' %}">
-            <i class="bi bi-trophy"></i>
-            <span class="d-inline d-lg-none ms-2">Leaderboard</span>
+            
+            <span class="d-inline ms-2">Leaderboard</span>
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link d-flex align-items-center py-2" href="{% url 'community_chat' %}">
-            <i class="bi bi-chat"></i>
-            <span class="d-inline d-lg-none ms-2">Community Chat</span>
+            
+            <span class="d-inline ms-2">Community</span>
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link d-flex align-items-center py-2" href="{% url 'downloads_page' %}">
-            <i class="bi bi-download" style="color:red;"></i>
-            <span class="d-inline d-lg-none ms-2">Downloads</span>
+            
+            <span class="d-inline ms-2">Downloads</span>
         </a>
     </li>
 
@@ -485,7 +455,7 @@
 
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end mt-2 text-center"
-                  style="color: chartreuse; background:linear-gradient(45deg, chartreuse,black,black,black,chartreuse); border: 2px solid chartreuse !important; min-width:15rem"
+                  style="color: rgb(0, 0, 0); background:white; border: 2px solid rgb(0, 0, 0) !important; min-width:15rem"
                   aria-labelledby="navbarAvatar">
                   <li><a class="dropdown-item" href="{% url 'profile' %}">
                       <img
@@ -499,11 +469,13 @@
 
 
                   <li><a class="dropdown-item" href="{% url 'profile' %}"><span class="pe-2 fw-bold"
-                        style="color: chartreuse; font-variant: small-caps;">{{ user.username }}</span>
+                        style="color: rgb(0, 0, 0); font-variant: small-caps;">{{ user.username }}</span>
                     </a></li>
-
-                  <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
-                  <li><a class="dropdown-item" href="#">Settings</a></li>
+                  <li><a class="dropdown-item" href="{% url 'profile' %}">{{user.email}}</a></li>
+                  <br>
+                  <br>
+                  <li><a class="dropdown-item" href="{% url 'profile' %}"> See Profile</a></li>
+                  
                   <li>
                     <hr class="dropdown-divider">
                   </li>
@@ -564,7 +536,8 @@
 
 </body>
 
-<!-- <footer class="text-light bg-black mt-5" data-bs-theme="dark">
+<div class="m-5 p-5"></div>
+<footer class="text-light bg-black mt-5" data-bs-theme="dark">
 
   <div class="container py-4 py-lg-5">
     <hr>
@@ -597,12 +570,12 @@
               <div class="fw-bold d-flex align-items-center mb-2">
                   <span>Metamorphosis Corp.</span>
               </div>
-              <p>Sem eleifend donec molestie, integer quisque orci aliquam.</p>
+              <p>Developing Security Awareness Among Web Developers and Users in The Digital Age</p>
           </div>
       </div>
       <hr>
       <div class="d-flex justify-content-between align-items-center pt-3">
-          <p class="mb-0">Copyright © 2025 Metamorphosis Corporation, Sadhur More, Rajshahi</p>
+          <p class="mb-0">Copyright © 2026 Metamorphosis Corporation, Sadhur More, Rajshahi</p>
           <ul class="list-inline mb-0">
               <li class="list-inline-item"><a href="#"><i class="bi bi-facebook"></i></a></li>
               <li class="list-inline-item"><a href="#"><i class="bi bi-twitter-x"></i></a></li>
@@ -610,7 +583,7 @@
           </ul>
       </div>
   </div>
-</footer> -->
+</footer>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"

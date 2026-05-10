@@ -1,0 +1,309 @@
+{% extends "myapp/sqlInjection.html" %}
+
+{% block path %}
+/ssrf
+{% endblock path %}
+
+{% block index %}
+<ul style="padding-left: 15px;">
+    <li><a href="#intro" class="text-dark text-decoration-none">Introduction</a></li>
+    <li><a href="#what" class="text-dark text-decoration-none">What is SSRF?</a></li>
+    <li><a href="#how" class="text-dark text-decoration-none">How SSRF Works</a></li>
+    <li><a href="#example" class="text-dark text-decoration-none">Example</a></li>
+    <li><a href="#danger" class="text-dark text-decoration-none">Why It’s Dangerous</a></li>
+    <li><a href="#targets" class="text-dark text-decoration-none">Common Targets</a></li>
+    <li><a href="#types" class="text-dark text-decoration-none">Types of SSRF</a></li>
+    <li><a href="#where" class="text-dark text-decoration-none">Where SSRF Appears</a></li>
+    <li><a href="#defense" class="text-dark text-decoration-none">Prevention</a></li>
+    <li><a href="#exam" class="text-dark text-decoration-none">For Exam Writing</a></li>
+</ul>
+{% endblock index %}
+
+{% block notes %}
+<div>
+<h2>Server-Side Request Forgery (SSRF)</h2>
+
+<h3>What is SSRF?</h3>
+<p>
+Server-Side Request Forgery happens when an application allows a user to supply a URL
+and the <strong>server</strong> fetches that resource without proper validation.
+An attacker can abuse this to force the server to send requests to internal systems
+or services that are normally not accessible from outside.
+</p>
+
+<p><strong>Memory Trick:</strong> SSRF = attacker makes the server act like their browser.</p>
+
+<hr>
+
+<h3>How a Typical SSRF Attack Works</h3>
+<ol>
+    <li>The application accepts a URL from the user.</li>
+    <li>The server makes a request to that URL.</li>
+    <li>Validation is weak or missing.</li>
+    <li>The attacker provides an internal address.</li>
+    <li>Sensitive information is returned.</li>
+</ol>
+
+<hr>
+
+<h3>Example</h3>
+<p>
+A website allows users to import a profile picture using an image URL.
+The attacker submits:
+</p>
+<pre>http://127.0.0.1/admin</pre>
+<p>
+The server accesses the internal admin panel and may leak private data.
+</p>
+
+<hr>
+
+<h3>Why SSRF is Dangerous</h3>
+<ul>
+    <li>Access to internal APIs</li>
+    <li>Exposure of cloud credentials</li>
+    <li>Internal network scanning</li>
+    <li>Firewall bypass</li>
+    <li>Possible remote code execution</li>
+</ul>
+
+<hr>
+
+<h3>Common Targets</h3>
+<ul>
+    <li>localhost</li>
+    <li>127.0.0.1</li>
+    <li>10.x.x.x / 192.168.x.x</li>
+    <li>169.254.169.254 (cloud metadata)</li>
+</ul>
+
+<hr>
+
+<h3>Types of SSRF</h3>
+<p><strong>Basic SSRF:</strong> Attacker receives the response.</p>
+<p><strong>Blind SSRF:</strong> Attacker cannot see the response but observes effects (DNS, delays).</p>
+
+<hr>
+
+<h3>Where SSRF Usually Appears</h3>
+<ul>
+    <li>Image import from URL</li>
+    <li>Webhook systems</li>
+    <li>URL previews</li>
+    <li>PDF or screenshot generators</li>
+</ul>
+
+<hr>
+
+<h3>Prevention</h3>
+<ul>
+    <li>Allowlist trusted domains</li>
+    <li>Block internal IP ranges</li>
+    <li>Disable dangerous protocols</li>
+    <li>Validate and normalize URLs</li>
+    <li>Protect internal services with authentication</li>
+</ul>
+
+<hr>
+
+<h3>For Exam Writing</h3>
+<p>
+SSRF is a vulnerability where an attacker tricks a server into making unauthorized
+requests to internal or external resources.
+</p>
+</div>
+{% endblock notes %}
+
+{% block ethical %}
+{% endblock ethical %}
+
+{% block mcq %}
+<div id="mcq-container" class="p-3">
+    <h1 class="h3 mb-3">SSRF — 15 MCQs</h1>
+    <p class="text-dark mb-4">Select the best answer and click <strong>Check Answers</strong>.</p>
+
+    <!-- QUESTION 1 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>1. What does SSRF stand for?</h5>
+            <div class="form-check"><input type="radio" name="q1" value="a"> Client Side Request Forgery</div>
+            <div class="form-check"><input type="radio" name="q1" value="b"> Server-Side Request Forgery</div>
+            <div class="form-check"><input type="radio" name="q1" value="c"> Secure Server Response Format</div>
+            <div class="form-check"><input type="radio" name="q1" value="d"> System Server Remote Function</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 2 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>2. SSRF allows an attacker to:</h5>
+            <div class="form-check"><input type="radio" name="q2" value="a"> Make the server send requests</div>
+            <div class="form-check"><input type="radio" name="q2" value="b"> Inject SQL queries</div>
+            <div class="form-check"><input type="radio" name="q2" value="c"> Execute JavaScript in browser</div>
+            <div class="form-check"><input type="radio" name="q2" value="d"> Modify CSS styles</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 3 -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5>3. Which IP is commonly targeted in SSRF?</h5>
+            <div class="form-check"><input type="radio" name="q3" value="a"> 8.8.8.8</div>
+            <div class="form-check"><input type="radio" name="q3" value="b"> 1.1.1.1</div>
+            <div class="form-check"><input type="radio" name="q3" value="c"> 127.0.0.1</div>
+            <div class="form-check"><input type="radio" name="q3" value="d"> 255.255.255.255</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 4 -->
+    <div class="card mcq-card" data-correct="d">
+        <div class="card-body">
+            <h5>4. What is a common SSRF target in cloud environments?</h5>
+            <div class="form-check"><input type="radio" name="q4" value="a"> google.com</div>
+            <div class="form-check"><input type="radio" name="q4" value="b"> localhost:3000</div>
+            <div class="form-check"><input type="radio" name="q4" value="c"> example.com</div>
+            <div class="form-check"><input type="radio" name="q4" value="d"> 169.254.169.254</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 5 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>5. SSRF mainly exploits:</h5>
+            <div class="form-check"><input type="radio" name="q5" value="a"> Server trust in user input</div>
+            <div class="form-check"><input type="radio" name="q5" value="b"> Browser cookies</div>
+            <div class="form-check"><input type="radio" name="q5" value="c"> Database queries</div>
+            <div class="form-check"><input type="radio" name="q5" value="d"> CSS rendering</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 6 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>6. Which feature may be vulnerable to SSRF?</h5>
+            <div class="form-check"><input type="radio" name="q6" value="a"> Static HTML page</div>
+            <div class="form-check"><input type="radio" name="q6" value="b"> Fetching URL content</div>
+            <div class="form-check"><input type="radio" name="q6" value="c"> Local CSS file</div>
+            <div class="form-check"><input type="radio" name="q6" value="d"> Browser cache</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 7 -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5>7. What type of SSRF hides response from attacker?</h5>
+            <div class="form-check"><input type="radio" name="q7" value="a"> Direct SSRF</div>
+            <div class="form-check"><input type="radio" name="q7" value="b"> Visible SSRF</div>
+            <div class="form-check"><input type="radio" name="q7" value="c"> Blind SSRF</div>
+            <div class="form-check"><input type="radio" name="q7" value="d"> Open SSRF</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 8 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>8. Which protocol should be restricted to prevent SSRF?</h5>
+            <div class="form-check"><input type="radio" name="q8" value="a"> file://</div>
+            <div class="form-check"><input type="radio" name="q8" value="b"> https://</div>
+            <div class="form-check"><input type="radio" name="q8" value="c"> http://</div>
+            <div class="form-check"><input type="radio" name="q8" value="d"> ftp://</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 9 -->
+    <div class="card mcq-card" data-correct="d">
+        <div class="card-body">
+            <h5>9. SSRF can be used to:</h5>
+            <div class="form-check"><input type="radio" name="q9" value="a"> Change UI</div>
+            <div class="form-check"><input type="radio" name="q9" value="b"> Modify CSS</div>
+            <div class="form-check"><input type="radio" name="q9" value="c"> Load fonts</div>
+            <div class="form-check"><input type="radio" name="q9" value="d"> Scan internal network</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 10 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>10. Best defense against SSRF?</h5>
+            <div class="form-check"><input type="radio" name="q10" value="a"> Use JavaScript</div>
+            <div class="form-check"><input type="radio" name="q10" value="b"> Allowlist URLs</div>
+            <div class="form-check"><input type="radio" name="q10" value="c"> Disable CSS</div>
+            <div class="form-check"><input type="radio" name="q10" value="d"> Use GET requests</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 11 -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5>11. SSRF can bypass:</h5>
+            <div class="form-check"><input type="radio" name="q11" value="a"> HTML tags</div>
+            <div class="form-check"><input type="radio" name="q11" value="b"> CSS styles</div>
+            <div class="form-check"><input type="radio" name="q11" value="c"> Firewalls</div>
+            <div class="form-check"><input type="radio" name="q11" value="d"> Fonts</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 12 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>12. Which input is dangerous for SSRF?</h5>
+            <div class="form-check"><input type="radio" name="q12" value="a"> URL input</div>
+            <div class="form-check"><input type="radio" name="q12" value="b"> Checkbox</div>
+            <div class="form-check"><input type="radio" name="q12" value="c"> Dropdown</div>
+            <div class="form-check"><input type="radio" name="q12" value="d"> Label</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 13 -->
+    <div class="card mcq-card" data-correct="d">
+        <div class="card-body">
+            <h5>13. SSRF attacks happen on:</h5>
+            <div class="form-check"><input type="radio" name="q13" value="a"> Client browser</div>
+            <div class="form-check"><input type="radio" name="q13" value="b"> CSS engine</div>
+            <div class="form-check"><input type="radio" name="q13" value="c"> Database</div>
+            <div class="form-check"><input type="radio" name="q13" value="d"> Server</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 14 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>14. Which is NOT a prevention technique?</h5>
+            <div class="form-check"><input type="radio" name="q14" value="a"> Block internal IPs</div>
+            <div class="form-check"><input type="radio" name="q14" value="b"> Allow all URLs</div>
+            <div class="form-check"><input type="radio" name="q14" value="c"> Validate input</div>
+            <div class="form-check"><input type="radio" name="q14" value="d"> Use allowlist</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 15 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>15. SSRF is best described as:</h5>
+            <div class="form-check"><input type="radio" name="q15" value="a"> Server making unwanted requests</div>
+            <div class="form-check"><input type="radio" name="q15" value="b"> Browser executing scripts</div>
+            <div class="form-check"><input type="radio" name="q15" value="c"> SQL query injection</div>
+            <div class="form-check"><input type="radio" name="q15" value="d"> Password cracking</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+</div>
+{% endblock mcq %}
+
+{% block lessonNo %}
+{% endblock lessonNo %}

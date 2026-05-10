@@ -19,6 +19,14 @@ urlpatterns = [
     path('passw/', views.passw, name='passw'),
     path('csrf/', views.csrf, name='csrf'),
 
+
+    path('bac/', views.bac, name='bac'),
+    path('isd/', views.isd, name='isd'),
+    path('af/', views.af, name='af'),
+    path('cf/', views.cf, name='cf'),
+    path('slmf/', views.slmf, name='slmf'),
+    path('ssrf/', views.ssrf, name='ssrf'),
+
     # ✅ New route for lesson score submission (AJAX)
     path('update_lesson_points/', views.update_lesson_points, name='update_lesson_points'),
 

@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .forms import RegistrationForm, LoginForm
 from .models import Profile, ChatMessage
 import json
-
+ 
 # ---------------- Public Pages ----------------
 def index(request):
     return render(request, 'myapp/index.html')
@@ -56,6 +56,47 @@ def csrf(request):
         'lesson_number': 4,
     })
 
+@login_required(login_url='login')
+def bac(request):
+    return render(request, 'myapp/bac.html', {
+        'show_search': True,
+        'lesson_number': 5,
+    })
+
+@login_required(login_url='login')
+def isd(request):
+    return render(request, 'myapp/isd.html', {
+        'show_search': True,
+        'lesson_number': 6,
+    })
+
+@login_required(login_url='login')
+def af(request):
+    return render(request, 'myapp/af.html', {
+        'show_search': True,
+        'lesson_number': 7,
+    })
+
+@login_required(login_url='login')
+def cf(request):
+    return render(request, 'myapp/cf.html', {
+        'show_search': True,
+        'lesson_number': 8,
+    })
+
+@login_required(login_url='login')
+def slmf(request):
+    return render(request, 'myapp/slmf.html', {
+        'show_search': True,
+        'lesson_number': 9,
+    })
+
+@login_required(login_url='login')
+def ssrf(request):
+    return render(request, 'myapp/ssrf.html', {
+        'show_search': True,
+        'lesson_number': 10,
+    })
 
 # ---------------- User Auth ----------------
 def register(request):

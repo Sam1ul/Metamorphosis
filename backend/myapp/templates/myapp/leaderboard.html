@@ -5,11 +5,11 @@
 
 {% block body %}
 <div class="container mt-5" style="min-height: 100vh;">
-    <div class="display-3 text-center mb-4" style="font-family: aq; border-bottom: 1px dotted chartreuse; color: chartreuse;">
+    <div class="display-3 text-center mb-4" style="font-family: aq; border-bottom: 1px dotted rgb(0, 0, 0); color: rgb(5, 5, 5);">
         Leaderboard
     </div>
 
-    <table class="table table-dark table-hover text-center">
+    <table class="table table-light table-hover text-center" style="color: black !important;">
         <thead class="table-dark">
             <tr>
                 <th>Rank</th>
@@ -25,14 +25,14 @@
                 <td>
                     <a href="{% url 'profile_view_other' profile.user_id %}">
                         {% if profile.profile_pic %}
-                            <img src="{{ profile.profile_pic }}" alt="{{ profile.username }}" style="height: 3rem;">
+                            <img src="{{ profile.profile_pic }}" alt="{{ profile.username }}" style="height: 3rem; color: black !important;">
                         {% else %}
-                            <img src="{% static 'myapp/images/default_avatar.png' %}" alt="Default Avatar" style="height: 3rem;">
+                            <img src="{% static 'myapp/images/default_avatar.png' %}" alt="Default Avatar" style="height: 3rem; color: black !important;">
                         {% endif %}
                     </a>
                 </td>
                 <td>
-                    <a href="{% url 'profile_view_other' profile.user_id %}" class="text-light">
+                    <a href="{% url 'profile_view_other' profile.user_id %}" class="text-dark">
                         {{ profile.username }}
                     </a>
                 </td>

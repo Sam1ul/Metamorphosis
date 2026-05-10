@@ -227,36 +227,7 @@ document.getElementById('greet').innerHTML = 'Hello ' + name;</code></pre>
 </div>
 {% endblock notes %}
 
-{% block ethical %}
-<p class="mt-5 d-flex">
-                            <img src="/static/myapp/images/sql Open Peeps - Bust.png" alt="">Hello
-                            {{user.username}}, we had recieved a security scan request from
-                            VulnBank and after proper investigation we found XSS
-                            vulnerabilities in their website.
-                            <br><br>Their website's login page address is "https://127.0.0.1/vuln_bank_demo/login.php"
-                            <br>Want to look at it? 
-                            <br><br>Copy paste the address into a browser and try different types of xss injection
-                            patterns.
-                            <br><br>Oh, and don't hesitate, we got the full permission to test and web pentration from
-                            the owner of VlunBank.
 
-                            Do not try hacking attempts, unauthorized access on any website, until you got full
-                            permission. It's illegal and you got yourself in jail
-                            and get a slip of huge fine.
-
-                            <br><br>Enough of lecturing , please carry on!
-
-                            
-
-                        </p>
-                        <br><br>For example try to submit feedback like-
-                        <code style="color: red; background-color: transparent;">alert('THIS BANK IS BAD');</code>
-                        <br>then see what happens each time the page reloads.
-                        <br>
-                        <br>
-                        <p style="color: chartreuse;font-weight: bold;">Morale of the stroy: Always ensure input filterization if you are a developer.</p>
-
-{% endblock ethical %}
 
 {% block mcq %}
 <div id="mcq-container" class="p-3">

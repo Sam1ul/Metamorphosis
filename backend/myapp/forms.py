@@ -8,7 +8,7 @@ class RegistrationForm(forms.ModelForm):
     password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                'class': 'form-control bg-black text-primary border border-primary',
+                'class': 'form-control  border border-primary',
                 'placeholder': 'Password'
             }
         )
@@ -17,7 +17,7 @@ class RegistrationForm(forms.ModelForm):
         required=False,
         widget=forms.FileInput(
             attrs={
-                'class': 'form-control bg-black text-primary border border-primary'
+                'class': 'form-control  border border-primary'
             }
         )
     )
@@ -28,13 +28,13 @@ class RegistrationForm(forms.ModelForm):
         widgets = {
             'username': forms.TextInput(
                 attrs={
-                    'class': 'form-control bg-black text-primary border border-primary',
+                    'class': 'form-control  border border-primary',
                     'placeholder': 'Username'
                 }
             ),
             'email': forms.EmailInput(
                 attrs={
-                    'class': 'form-control bg-black text-primary border border-primary',
+                    'class': 'form-control  border border-primary',
                     'placeholder': 'Email'
                 }
             ),
@@ -59,7 +59,7 @@ class LoginForm(AuthenticationForm):
         max_length=150,
         widget=forms.TextInput(
             attrs={
-                'class': 'form-control bg-black text-success border border-success',
+                'class': 'form-control ',
                 'placeholder': 'Username'
             }
         )
@@ -67,7 +67,7 @@ class LoginForm(AuthenticationForm):
     password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                'class': 'form-control bg-black text-success border border-success',
+                'class': 'form-control ',
                 'placeholder': 'Password'
             }
         )
@@ -76,7 +76,7 @@ class LoginForm(AuthenticationForm):
         required=False,
         widget=forms.CheckboxInput(
             attrs={
-                'class': 'form-check-input bg-black text-success border border-success'
+                'class': 'form-check-input '
             }
         )
     )

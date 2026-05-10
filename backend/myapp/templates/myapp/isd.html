@@ -1,0 +1,322 @@
+{% extends "myapp/sqlInjection.html" %}
+
+{% block path %}
+{% endblock path %}
+
+{% block index %}
+<ul style="padding-left: 15px;">
+    <li><a href="#intro" class="text-dark text-decoration-none">Introduction</a></li>
+    <li><a href="#what" class="text-dark text-decoration-none">What is Insecure Design?</a></li>
+    <li><a href="#why" class="text-dark text-decoration-none">Why It’s Dangerous</a></li>
+    <li><a href="#causes" class="text-dark text-decoration-none">Common Causes</a></li>
+    <li><a href="#examples" class="text-dark text-decoration-none">Examples</a></li>
+    <li><a href="#attacks" class="text-dark text-decoration-none">Possible Attacks</a></li>
+    <li><a href="#defense" class="text-dark text-decoration-none">Prevention</a></li>
+    <li><a href="#best" class="text-dark text-decoration-none">Best Practices</a></li>
+    <li><a href="#exam" class="text-dark text-decoration-none">For Exam Writing</a></li>
+    <li><a href="#summary" class="text-dark text-decoration-none">Summary</a></li>
+</ul>
+{% endblock index %}
+
+{% block notes %}
+<div>
+
+<h2 id="intro">⚠️ Insecure Design</h2>
+<p>
+Insecure design refers to flaws in the application’s architecture or logic that make it vulnerable
+to attacks. These are not simple coding mistakes but deeper issues in how the system is planned.
+</p>
+
+<hr>
+
+<h3 id="what">What is Insecure Design?</h3>
+<p>
+It occurs when security is not considered during the design phase. Even if code is correct,
+poor design decisions can still make the system insecure.
+</p>
+
+<p><strong>Memory Trick:</strong> Bad design = built-in vulnerability.</p>
+
+<hr>
+
+<h3 id="why">Why It’s Dangerous</h3>
+<ul>
+    <li>Cannot be fixed easily with patches</li>
+    <li>Leads to multiple vulnerabilities</li>
+    <li>May allow full system compromise</li>
+    <li>Exposes sensitive data</li>
+</ul>
+
+<hr>
+
+<h3 id="causes">Common Causes</h3>
+<ul>
+    <li>No threat modeling</li>
+    <li>Lack of security requirements</li>
+    <li>Trusting user input blindly</li>
+    <li>No rate limiting</li>
+    <li>Missing access control design</li>
+</ul>
+
+<hr>
+
+<h3 id="examples">Examples</h3>
+
+<p><strong>Example 1: No rate limit</strong></p>
+<pre>
+User can try unlimited passwords → brute-force possible
+</pre>
+
+<p><strong>Example 2: Business logic flaw</strong></p>
+<pre>
+User changes price in request → buys product for $1
+</pre>
+
+<p><strong>Example 3: No validation</strong></p>
+<pre>
+User inputs anything → system accepts it
+</pre>
+
+<hr>
+
+<h3 id="attacks">Possible Attacks</h3>
+<ul>
+    <li>Business logic abuse</li>
+    <li>Privilege escalation</li>
+    <li>Brute-force attacks</li>
+    <li>Data manipulation</li>
+</ul>
+
+<hr>
+
+<h3 id="defense">Prevention</h3>
+<ul>
+    <li>Use threat modeling</li>
+    <li>Design with security in mind</li>
+    <li>Validate all inputs</li>
+    <li>Implement rate limiting</li>
+    <li>Use proper access control</li>
+</ul>
+
+<hr>
+
+<h3 id="best">Best Practices</h3>
+<ul>
+    <li>Follow secure design principles</li>
+    <li>Use least privilege</li>
+    <li>Apply defense in depth</li>
+    <li>Regular security reviews</li>
+    <li>Test business logic thoroughly</li>
+</ul>
+
+<hr>
+
+<h3 id="exam">For Exam Writing</h3>
+<p>
+Insecure design is a vulnerability caused by poor system architecture or logic,
+leading to security weaknesses even if the code is correct.
+</p>
+
+<hr>
+
+<h3 id="summary">Summary</h3>
+<p>
+Security must be built from the design stage. Fixing insecure design later is difficult,
+so planning secure architecture is essential.
+</p>
+
+</div>
+{% endblock notes %}
+
+{% block ethical %}
+{% endblock ethical %}
+
+{% block mcq %}
+<div id="mcq-container" class="p-3">
+    <h1 class="h3 mb-3">Insecure Design — 15 MCQs</h1>
+
+    <!-- Q1 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>1. What is insecure design?</h5>
+            <input type="radio" name="q1" value="a"> Coding error<br>
+            <input type="radio" name="q1" value="b"> Flaws in system design<br>
+            <input type="radio" name="q1" value="c"> UI issue<br>
+            <input type="radio" name="q1" value="d"> Network delay
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>2. When does insecure design occur?</h5>
+            <input type="radio" name="q2" value="a"> During design phase<br>
+            <input type="radio" name="q2" value="b"> During runtime<br>
+            <input type="radio" name="q2" value="c"> During UI rendering<br>
+            <input type="radio" name="q2" value="d"> During database query
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5>3. Which is a cause of insecure design?</h5>
+            <input type="radio" name="q3" value="a"> Strong encryption<br>
+            <input type="radio" name="q3" value="b"> Input validation<br>
+            <input type="radio" name="q3" value="c"> No threat modeling<br>
+            <input type="radio" name="q3" value="d"> Secure coding
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="card mcq-card" data-correct="d">
+        <div class="card-body">
+            <h5>4. What type of issue is insecure design?</h5>
+            <input type="radio" name="q4" value="a"> Syntax error<br>
+            <input type="radio" name="q4" value="b"> Runtime error<br>
+            <input type="radio" name="q4" value="c"> UI bug<br>
+            <input type="radio" name="q4" value="d"> Logical flaw
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>5. What is a business logic flaw?</h5>
+            <input type="radio" name="q5" value="a"> CSS issue<br>
+            <input type="radio" name="q5" value="b"> Exploiting system logic<br>
+            <input type="radio" name="q5" value="c"> Database crash<br>
+            <input type="radio" name="q5" value="d"> Network lag
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>6. What helps prevent insecure design?</h5>
+            <input type="radio" name="q6" value="a"> Threat modeling<br>
+            <input type="radio" name="q6" value="b"> Ignoring risks<br>
+            <input type="radio" name="q6" value="c"> Weak passwords<br>
+            <input type="radio" name="q6" value="d"> Open access
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5>7. What is rate limiting?</h5>
+            <input type="radio" name="q7" value="a"> UI design<br>
+            <input type="radio" name="q7" value="b"> Encryption<br>
+            <input type="radio" name="q7" value="c"> Limiting requests<br>
+            <input type="radio" name="q7" value="d"> Logging
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>8. Insecure design leads to:</h5>
+            <input type="radio" name="q8" value="a"> Faster system<br>
+            <input type="radio" name="q8" value="b"> Security vulnerabilities<br>
+            <input type="radio" name="q8" value="c"> Better UI<br>
+            <input type="radio" name="q8" value="d"> Lower CPU usage
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="card mcq-card" data-correct="d">
+        <div class="card-body">
+            <h5>9. Which is NOT a secure design principle?</h5>
+            <input type="radio" name="q9" value="a"> Least privilege<br>
+            <input type="radio" name="q9" value="b"> Defense in depth<br>
+            <input type="radio" name="q9" value="c"> Input validation<br>
+            <input type="radio" name="q9" value="d"> Blind trust
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>10. What is the main goal of secure design?</h5>
+            <input type="radio" name="q10" value="a"> Prevent vulnerabilities<br>
+            <input type="radio" name="q10" value="b"> Improve UI<br>
+            <input type="radio" name="q10" value="c"> Speed up app<br>
+            <input type="radio" name="q10" value="d"> Reduce code size
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q11 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>11. What is missing in insecure design?</h5>
+            <input type="radio" name="q11" value="a"> UI<br>
+            <input type="radio" name="q11" value="b"> Security planning<br>
+            <input type="radio" name="q11" value="c"> Code<br>
+            <input type="radio" name="q11" value="d"> Database
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5>12. Which attack uses logic flaws?</h5>
+            <input type="radio" name="q12" value="a"> XSS<br>
+            <input type="radio" name="q12" value="b"> CSRF<br>
+            <input type="radio" name="q12" value="c"> Business logic attack<br>
+            <input type="radio" name="q12" value="d"> MITM
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>13. What should be validated?</h5>
+            <input type="radio" name="q13" value="a"> All inputs<br>
+            <input type="radio" name="q13" value="b"> Only admin input<br>
+            <input type="radio" name="q13" value="c"> Only forms<br>
+            <input type="radio" name="q13" value="d"> None
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q14 -->
+    <div class="card mcq-card" data-correct="d">
+        <div class="card-body">
+            <h5>14. Insecure design is hard to fix because:</h5>
+            <input type="radio" name="q14" value="a"> It's small<br>
+            <input type="radio" name="q14" value="b"> It's UI related<br>
+            <input type="radio" name="q14" value="c"> It's CSS based<br>
+            <input type="radio" name="q14" value="d"> It's built into architecture
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q15 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>15. Insecure design mainly affects:</h5>
+            <input type="radio" name="q15" value="a"> Design look<br>
+            <input type="radio" name="q15" value="b"> System security<br>
+            <input type="radio" name="q15" value="c"> Colors<br>
+            <input type="radio" name="q15" value="d"> Fonts
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+</div>
+{% endblock mcq %}
+
+{% block lessonNo %}
+{% endblock lessonNo %}

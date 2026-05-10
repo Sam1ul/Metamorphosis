@@ -5,33 +5,33 @@
 
 {% block index %}
 <ul style="padding-left: 15px;">
-    <li><a href="#intro" class="text-light text-decoration-none">Introduction</a></li>
-    <li><a href="#what" class="text-light text-decoration-none">What is CSRF?</a></li>
-    <li><a href="#why" class="text-light text-decoration-none">Why It’s Dangerous</a></li>
-    <li><a href="#how" class="text-light text-decoration-none">How CSRF Works</a></li>
-    <li><a href="#defense" class="text-light text-decoration-none">Defense Mechanisms</a></li>
-    <li><a href="#example" class="text-light text-decoration-none">Examples</a></li>
-    <li><a href="#summary" class="text-light text-decoration-none">Summary</a></li>
+    <li><a href="#intro" class="text-dark text-decoration-none">Introduction</a></li>
+    <li><a href="#what" class="text-dark text-decoration-none">What is CSRF?</a></li>
+    <li><a href="#why" class="text-dark text-decoration-none">Why It’s Dangerous</a></li>
+    <li><a href="#how" class="text-dark text-decoration-none">How CSRF Works</a></li>
+    <li><a href="#defense" class="text-dark text-decoration-none">Defense Mechanisms</a></li>
+    <li><a href="#example" class="text-dark text-decoration-none">Examples</a></li>
+    <li><a href="#summary" class="text-dark text-decoration-none">Summary</a></li>
 </ul>
 
 {% endblock index %}
 
 {% block notes %}
-<h1 id="intro" class="text-light">Cross-Site Request Forgery (CSRF)</h1>
+<h1 id="intro" class="text-dark">Cross-Site Request Forgery (CSRF)</h1>
 <p>
 Cross-Site Request Forgery (CSRF) is a web security vulnerability where an attacker tricks a user into performing unintended actions on a trusted website where they are already authenticated. It targets state-changing requests such as password updates, fund transfers, or account modifications by exploiting the user’s active session.
 </p>
 
 <hr>
 
-<h2 id="what" class="text-light">What is CSRF?</h2>
+<h2 id="what" class="text-dark">What is CSRF?</h2>
 <p>
 CSRF occurs when a malicious website, email, or script forces a logged-in user to send a request to another site where they are authenticated. Since the browser automatically sends cookies for every request, the vulnerable site processes it as if it were a legitimate action by the user.
 </p>
 
 <hr>
 
-<h2 id="why" class="text-light">Why CSRF is Dangerous</h2>
+<h2 id="why" class="text-dark">Why CSRF is Dangerous</h2>
 <ul>
     <li>Allows attackers to perform actions on behalf of users.</li>
     <li>Can change account information, email, password, or security settings.</li>
@@ -41,7 +41,7 @@ CSRF occurs when a malicious website, email, or script forces a logged-in user t
 
 <hr>
 
-<h2 id="how" class="text-light">How CSRF Works</h2>
+<h2 id="how" class="text-dark">How CSRF Works</h2>
 <p>
 The attacker creates a malicious request and lures the victim into submitting it while they are logged in. Browsers automatically attach session cookies—making the target website think the request came from the user.
 </p>
@@ -69,7 +69,7 @@ If the user is logged in, visiting the attacker’s page triggers the transfer u
 
 <hr>
 
-<h2 id="defense" class="text-light">Defending Against CSRF</h2>
+<h2 id="defense" class="text-dark">Defending Against CSRF</h2>
 
 <h3>1. CSRF Tokens (Most Effective)</h3>
 <p>
@@ -93,7 +93,7 @@ Setting cookies with <code>SameSite=Lax</code> or <code>SameSite=Strict</code> p
 
 <hr>
 
-<h2 id="example" class="text-light">Example</h2>
+<h2 id="example" class="text-dark">Example</h2>
 <h3>Vulnerable Code</h3>
 <p>A form without CSRF protection:</p>
 
@@ -116,7 +116,7 @@ Setting cookies with <code>SameSite=Lax</code> or <code>SameSite=Strict</code> p
 
 <hr>
 
-<h2 id="summary" class="text-light">Summary</h2>
+<h2 id="summary" class="text-darkt">Summary</h2>
 <ul>
     <li>CSRF forces authenticated users to perform unintended actions.</li>
     <li>Browsers automatically send cookies → attack becomes possible.</li>
@@ -162,7 +162,7 @@ Setting cookies with <code>SameSite=Lax</code> or <code>SameSite=Strict</code> p
 
 <div id="mcq-container" class="p-3">
     <h1 class="h3 mb-3">CSRF — 20 MCQs</h1>
-    <p class="text-light mb-4">Select the best answer for each question and click <strong>Check Answers</strong>.</p>
+    <p class="text-darkt mb-4">Select the best answer for each question and click <strong>Check Answers</strong>.</p>
 
     <!-- ============================ QUESTION 1 ============================ -->
     <div class="card mcq-card" data-correct="b">

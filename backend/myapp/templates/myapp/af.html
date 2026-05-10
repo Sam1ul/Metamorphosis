@@ -1,0 +1,322 @@
+{% extends "myapp/sqlInjection.html" %}
+
+{% block path %}
+{% endblock path %}
+
+{% block index %}
+<ul style="padding-left: 15px;">
+    <li><a href="#intro" class="text-dark text-decoration-none">Introduction</a></li>
+    <li><a href="#what" class="text-dark text-decoration-none">What are Authentication Failures?</a></li>
+    <li><a href="#why" class="text-dark text-decoration-none">Why It’s Dangerous</a></li>
+    <li><a href="#causes" class="text-dark text-decoration-none">Common Causes</a></li>
+    <li><a href="#examples" class="text-dark text-decoration-none">Examples</a></li>
+    <li><a href="#attacks" class="text-dark text-decoration-none">Possible Attacks</a></li>
+    <li><a href="#defense" class="text-dark text-decoration-none">Prevention</a></li>
+    <li><a href="#best" class="text-dark text-decoration-none">Best Practices</a></li>
+    <li><a href="#exam" class="text-dark text-decoration-none">For Exam Writing</a></li>
+    <li><a href="#summary" class="text-dark text-decoration-none">Summary</a></li>
+</ul>
+{% endblock index %}
+
+{% block notes %}
+<div>
+
+<h2 id="intro">🔑 Authentication Failures (Broken Authentication)</h2>
+<p>
+Authentication failures occur when systems improperly implement authentication mechanisms,
+allowing attackers to compromise passwords, session tokens, or user identities.
+This can lead to unauthorized access to user accounts.
+</p>
+
+<hr>
+
+<h3 id="what">What are Authentication Failures?</h3>
+<p>
+Authentication failures happen when applications fail to correctly verify user identity.
+Weak login systems, poor session management, and insecure password handling are common causes.
+</p>
+
+<p><strong>Memory Trick:</strong> Weak login = easy account takeover.</p>
+
+<hr>
+
+<h3 id="why">Why It’s Dangerous</h3>
+<ul>
+    <li>Account takeover</li>
+    <li>Unauthorized access to sensitive data</li>
+    <li>Privilege escalation</li>
+    <li>Identity theft</li>
+    <li>Loss of user trust</li>
+</ul>
+
+<hr>
+
+<h3 id="causes">Common Causes</h3>
+<ul>
+    <li>Weak or predictable passwords</li>
+    <li>No account lockout after failed attempts</li>
+    <li>Session IDs exposed in URLs</li>
+    <li>No multi-factor authentication (MFA)</li>
+    <li>Poor session management</li>
+</ul>
+
+<hr>
+
+<h3 id="examples">Examples</h3>
+
+<p><strong>Example 1: Weak Password</strong></p>
+<pre>password = "123456"</pre>
+
+<p><strong>Example 2: No login attempt limit</strong></p>
+<pre>
+User can try unlimited passwords → brute force attack
+</pre>
+
+<p><strong>Example 3: Session in URL</strong></p>
+<pre>http://example.com/dashboard?sessionid=abc123</pre>
+
+<hr>
+
+<h3 id="attacks">Possible Attacks</h3>
+<ul>
+    <li>Brute-force attack</li>
+    <li>Credential stuffing</li>
+    <li>Session hijacking</li>
+    <li>Password guessing</li>
+</ul>
+
+<hr>
+
+<h3 id="defense">Prevention</h3>
+<ul>
+    <li>Use strong password policies</li>
+    <li>Implement account lockout after failed attempts</li>
+    <li>Use Multi-Factor Authentication (MFA)</li>
+    <li>Secure session management</li>
+    <li>Use HTTPS for all authentication processes</li>
+</ul>
+
+<hr>
+
+<h3 id="best">Best Practices</h3>
+<ul>
+    <li>Hash passwords using bcrypt or Argon2</li>
+    <li>Expire sessions after inactivity</li>
+    <li>Use secure cookies (HttpOnly, Secure)</li>
+    <li>Monitor login attempts</li>
+    <li>Avoid exposing session IDs in URLs</li>
+</ul>
+
+<hr>
+
+<h3 id="exam">For Exam Writing</h3>
+<p>
+Authentication failure is a vulnerability where improper authentication mechanisms
+allow attackers to gain unauthorized access to user accounts.
+</p>
+
+<hr>
+
+<h3 id="summary">Summary</h3>
+<p>
+Authentication is the first line of defense. Weak authentication mechanisms can lead
+to complete system compromise. Strong password policies, MFA, and secure session handling
+are essential for protection.
+</p>
+
+</div>
+{% endblock notes %}
+
+{% block ethical %}
+{% endblock ethical %}
+
+{% block mcq %}
+<div id="mcq-container" class="p-3">
+    <h1 class="h3 mb-3">Authentication Failures — 15 MCQs</h1>
+    <p class="text-dark mb-4">Select the best answer and click <strong>Check Answers</strong>.</p>
+
+    <!-- QUESTION 1 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>1. What is an authentication failure?</h5>
+            <div class="form-check"><input type="radio" name="q1" value="a"> UI error</div>
+            <div class="form-check"><input type="radio" name="q1" value="b"> Improper user identity verification</div>
+            <div class="form-check"><input type="radio" name="q1" value="c"> Database crash</div>
+            <div class="form-check"><input type="radio" name="q1" value="d"> Network delay</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 2 -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5>2. What is the main risk of broken authentication?</h5>
+            <div class="form-check"><input type="radio" name="q2" value="a"> Slow loading</div>
+            <div class="form-check"><input type="radio" name="q2" value="b"> UI glitch</div>
+            <div class="form-check"><input type="radio" name="q2" value="c"> Account takeover</div>
+            <div class="form-check"><input type="radio" name="q2" value="d"> CSS issue</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 3 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>3. Which is a weak password?</h5>
+            <div class="form-check"><input type="radio" name="q3" value="a"> 123456</div>
+            <div class="form-check"><input type="radio" name="q3" value="b"> S@feP@ss123</div>
+            <div class="form-check"><input type="radio" name="q3" value="c"> XyZ!9Lm#2</div>
+            <div class="form-check"><input type="radio" name="q3" value="d"> AbC#45$9</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 4 -->
+    <div class="card mcq-card" data-correct="d">
+        <div class="card-body">
+            <h5>4. What attack tries many passwords automatically?</h5>
+            <div class="form-check"><input type="radio" name="q4" value="a"> XSS</div>
+            <div class="form-check"><input type="radio" name="q4" value="b"> CSRF</div>
+            <div class="form-check"><input type="radio" name="q4" value="c"> SQL Injection</div>
+            <div class="form-check"><input type="radio" name="q4" value="d"> Brute-force attack</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 5 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>5. What is credential stuffing?</h5>
+            <div class="form-check"><input type="radio" name="q5" value="a"> Creating new accounts</div>
+            <div class="form-check"><input type="radio" name="q5" value="b"> Using leaked credentials on other sites</div>
+            <div class="form-check"><input type="radio" name="q5" value="c"> Encrypting passwords</div>
+            <div class="form-check"><input type="radio" name="q5" value="d"> Deleting users</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 6 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>6. What is MFA?</h5>
+            <div class="form-check"><input type="radio" name="q6" value="a"> Multi-Factor Authentication</div>
+            <div class="form-check"><input type="radio" name="q6" value="b"> Main File Access</div>
+            <div class="form-check"><input type="radio" name="q6" value="c"> Multiple File Attack</div>
+            <div class="form-check"><input type="radio" name="q6" value="d"> Manual Function Access</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 7 -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5>7. What happens if session IDs are exposed?</h5>
+            <div class="form-check"><input type="radio" name="q7" value="a"> Faster login</div>
+            <div class="form-check"><input type="radio" name="q7" value="b"> Better UI</div>
+            <div class="form-check"><input type="radio" name="q7" value="c"> Session hijacking</div>
+            <div class="form-check"><input type="radio" name="q7" value="d"> CSS error</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 8 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>8. What is session hijacking?</h5>
+            <div class="form-check"><input type="radio" name="q8" value="a"> Deleting sessions</div>
+            <div class="form-check"><input type="radio" name="q8" value="b"> Stealing session tokens</div>
+            <div class="form-check"><input type="radio" name="q8" value="c"> Creating sessions</div>
+            <div class="form-check"><input type="radio" name="q8" value="d"> Encrypting sessions</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 9 -->
+    <div class="card mcq-card" data-correct="d">
+        <div class="card-body">
+            <h5>9. What is a good defense?</h5>
+            <div class="form-check"><input type="radio" name="q9" value="a"> Weak passwords</div>
+            <div class="form-check"><input type="radio" name="q9" value="b"> No login limit</div>
+            <div class="form-check"><input type="radio" name="q9" value="c"> Expose session IDs</div>
+            <div class="form-check"><input type="radio" name="q9" value="d"> Account lockout</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 10 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>10. Where should session IDs NOT be stored?</h5>
+            <div class="form-check"><input type="radio" name="q10" value="a"> URL</div>
+            <div class="form-check"><input type="radio" name="q10" value="b"> Cookie</div>
+            <div class="form-check"><input type="radio" name="q10" value="c"> Server</div>
+            <div class="form-check"><input type="radio" name="q10" value="d"> Database</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 11 -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5>11. What does HTTPS protect?</h5>
+            <div class="form-check"><input type="radio" name="q11" value="a"> UI</div>
+            <div class="form-check"><input type="radio" name="q11" value="b"> CSS</div>
+            <div class="form-check"><input type="radio" name="q11" value="c"> Data in transit</div>
+            <div class="form-check"><input type="radio" name="q11" value="d"> Fonts</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 12 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>12. Which is a strong password practice?</h5>
+            <div class="form-check"><input type="radio" name="q12" value="a"> Using "password"</div>
+            <div class="form-check"><input type="radio" name="q12" value="b"> Using complex passwords</div>
+            <div class="form-check"><input type="radio" name="q12" value="c"> Reusing passwords</div>
+            <div class="form-check"><input type="radio" name="q12" value="d"> Sharing passwords</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 13 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>13. What helps prevent brute-force attacks?</h5>
+            <div class="form-check"><input type="radio" name="q13" value="a"> Login attempt limits</div>
+            <div class="form-check"><input type="radio" name="q13" value="b"> Weak passwords</div>
+            <div class="form-check"><input type="radio" name="q13" value="c"> No logging</div>
+            <div class="form-check"><input type="radio" name="q13" value="d"> Open sessions</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 14 -->
+    <div class="card mcq-card" data-correct="d">
+        <div class="card-body">
+            <h5>14. What is the main goal of authentication?</h5>
+            <div class="form-check"><input type="radio" name="q14" value="a"> Design UI</div>
+            <div class="form-check"><input type="radio" name="q14" value="b"> Store data</div>
+            <div class="form-check"><input type="radio" name="q14" value="c"> Improve speed</div>
+            <div class="form-check"><input type="radio" name="q14" value="d"> Verify user identity</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- QUESTION 15 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>15. Authentication failures mainly affect:</h5>
+            <div class="form-check"><input type="radio" name="q15" value="a"> Design</div>
+            <div class="form-check"><input type="radio" name="q15" value="b"> Account security</div>
+            <div class="form-check"><input type="radio" name="q15" value="c"> Layout</div>
+            <div class="form-check"><input type="radio" name="q15" value="d"> Animation</div>
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+</div>
+{% endblock mcq %}
+
+{% block lessonNo %}
+{% endblock lessonNo %}

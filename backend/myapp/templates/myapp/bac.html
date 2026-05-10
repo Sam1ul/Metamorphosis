@@ -1,0 +1,322 @@
+{% extends "myapp/sqlInjection.html" %}
+
+{% block path %}
+{% endblock path %}
+
+{% block index %}
+<ul style="padding-left: 15px;">
+    <li><a href="#intro" class="text-dark text-decoration-none">Introduction</a></li>
+    <li><a href="#what" class="text-dark text-decoration-none">What is Broken Access Control?</a></li>
+    <li><a href="#why" class="text-dark text-decoration-none">Why It’s Dangerous</a></li>
+    <li><a href="#types" class="text-dark text-decoration-none">Types of Access Control Issues</a></li>
+    <li><a href="#examples" class="text-dark text-decoration-none">Examples</a></li>
+    <li><a href="#attacks" class="text-dark text-decoration-none">Common Attacks</a></li>
+    <li><a href="#defense" class="text-dark text-decoration-none">Prevention</a></li>
+    <li><a href="#best" class="text-dark text-decoration-none">Best Practices</a></li>
+    <li><a href="#exam" class="text-dark text-decoration-none">For Exam Writing</a></li>
+    <li><a href="#summary" class="text-dark text-decoration-none">Summary</a></li>
+</ul>
+{% endblock index %}
+{% block notes %}
+<div>
+
+<h2 id="intro">🔓 Broken Access Control</h2>
+<p>
+Broken Access Control occurs when users can access resources or perform actions they are not authorized to do.
+It is one of the most critical web security vulnerabilities.
+</p>
+
+<hr>
+
+<h3 id="what">What is Broken Access Control?</h3>
+<p>
+It happens when an application fails to properly enforce permissions.
+Attackers can access admin pages, user data, or restricted functions without proper authorization.
+</p>
+
+<p><strong>Memory Trick:</strong> No permission check = full access risk.</p>
+
+<hr>
+
+<h3 id="why">Why It’s Dangerous</h3>
+<ul>
+    <li>Unauthorized data access</li>
+    <li>Admin panel exposure</li>
+    <li>Data theft or modification</li>
+    <li>Privilege escalation</li>
+    <li>System compromise</li>
+</ul>
+
+<hr>
+
+<h3 id="types">Types of Access Control Issues</h3>
+<ul>
+    <li>Horizontal privilege escalation (access other users' data)</li>
+    <li>Vertical privilege escalation (becoming admin)</li>
+    <li>Insecure Direct Object Reference (IDOR)</li>
+    <li>Missing function-level access control</li>
+</ul>
+
+<hr>
+
+<h3 id="examples">Examples</h3>
+
+<p><strong>Example 1: IDOR</strong></p>
+<pre>
+/user/profile?id=2
+→ attacker changes id=3 and sees another user data
+</pre>
+
+<p><strong>Example 2: Admin panel access</strong></p>
+<pre>
+/admin/dashboard accessible without login check
+</pre>
+
+<p><strong>Example 3: Role bypass</strong></p>
+<pre>
+User manually changes role=admin in request
+</pre>
+
+<hr>
+
+<h3 id="attacks">Common Attacks</h3>
+<ul>
+    <li>URL manipulation</li>
+    <li>IDOR exploitation</li>
+    <li>Privilege escalation</li>
+    <li>Forced browsing</li>
+</ul>
+
+<hr>
+
+<h3 id="defense">Prevention</h3>
+<ul>
+    <li>Enforce strict access control checks</li>
+    <li>Use role-based access control (RBAC)</li>
+    <li>Validate every request on server side</li>
+    <li>Do not trust client-side checks</li>
+    <li>Protect all admin endpoints</li>
+</ul>
+
+<hr>
+
+<h3 id="best">Best Practices</h3>
+<ul>
+    <li>Apply least privilege principle</li>
+    <li>Centralize access control logic</li>
+    <li>Log unauthorized attempts</li>
+    <li>Use secure session management</li>
+    <li>Regular security testing</li>
+</ul>
+
+<hr>
+
+<h3 id="exam">For Exam Writing</h3>
+<p>
+Broken Access Control is a vulnerability where unauthorized users can access restricted data
+or functions due to missing or improper permission checks.
+</p>
+
+<hr>
+
+<h3 id="summary">Summary</h3>
+<p>
+Access control ensures users only access what they are allowed to. If broken, it leads to
+serious security breaches including data leaks and privilege escalation.
+</p>
+
+</div>
+{% endblock notes %}
+
+{% block ethical %}
+{% endblock ethical %}
+
+{% block mcq %}
+<div id="mcq-container" class="p-3">
+    <h1 class="h3 mb-3">Broken Access Control — 15 MCQs</h1>
+
+    <!-- Q1 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>1. What is broken access control?</h5>
+            <input type="radio" name="q1" value="a"> UI design issue<br>
+            <input type="radio" name="q1" value="b"> Unauthorized access to resources<br>
+            <input type="radio" name="q1" value="c"> Slow database<br>
+            <input type="radio" name="q1" value="d"> Encryption failure
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5>2. What does IDOR mean?</h5>
+            <input type="radio" name="q2" value="a"> Internal Data Operation Request<br>
+            <input type="radio" name="q2" value="b"> Invalid Data Object Rule<br>
+            <input type="radio" name="q2" value="c"> Insecure Direct Object Reference<br>
+            <input type="radio" name="q2" value="d"> Integrated Data Output Response
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>3. Horizontal privilege escalation means:</h5>
+            <input type="radio" name="q3" value="a"> Accessing another user’s data</input><br>
+            <input type="radio" name="q3" value="b"> Becoming admin</input><br>
+            <input type="radio" name="q3" value="c"> Encrypting data</input><br>
+            <input type="radio" name="q3" value="d"> Deleting database
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>4. Vertical privilege escalation means:</h5>
+            <input type="radio" name="q4" value="a"> Accessing files<br>
+            <input type="radio" name="q4" value="b"> Becoming admin/root<br>
+            <input type="radio" name="q4" value="c"> UI changes<br>
+            <input type="radio" name="q4" value="d"> Password reset
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="card mcq-card" data-correct="d">
+        <div class="card-body">
+            <h5>5. What is a common cause of broken access control?</h5>
+            <input type="radio" name="q5" value="a"> Strong encryption<br>
+            <input type="radio" name="q5" value="b"> MFA enabled<br>
+            <input type="radio" name="q5" value="c"> Input validation<br>
+            <input type="radio" name="q5" value="d"> Missing permission checks
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>6. What is the safest access control model?</h5>
+            <input type="radio" name="q6" value="a"> RBAC<br>
+            <input type="radio" name="q6" value="b"> No control<br>
+            <input type="radio" name="q6" value="c"> Client-side control<br>
+            <input type="radio" name="q6" value="d"> Open access
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5>7. What is forced browsing?</h5>
+            <input type="radio" name="q7" value="a"> Using browser settings<br>
+            <input type="radio" name="q7" value="b"> Using VPN<br>
+            <input type="radio" name="q7" value="c"> Accessing hidden URLs directly<br>
+            <input type="radio" name="q7" value="d"> Encrypting traffic
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>8. Which is NOT access control issue?</h5>
+            <input type="radio" name="q8" value="a"> IDOR<br>
+            <input type="radio" name="q8" value="b"> Strong authentication<br>
+            <input type="radio" name="q8" value="c"> Privilege escalation<br>
+            <input type="radio" name="q8" value="d"> Missing authorization
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="card mcq-card" data-correct="d">
+        <div class="card-body">
+            <h5>9. What happens in IDOR?</h5>
+            <input type="radio" name="q9" value="a"> Encryption failure<br>
+            <input type="radio" name="q9" value="b"> UI crash<br>
+            <input type="radio" name="q9" value="c"> Network error<br>
+            <input type="radio" name="q9" value="d"> Accessing other users’ objects
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>10. What should always be checked?</h5>
+            <input type="radio" name="q10" value="a"> Server-side authorization<br>
+            <input type="radio" name="q10" value="b"> CSS rules<br>
+            <input type="radio" name="q10" value="c"> HTML design<br>
+            <input type="radio" name="q10" value="d"> Image size
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q11 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>11. What is least privilege?</h5>
+            <input type="radio" name="q11" value="a"> Full access<br>
+            <input type="radio" name="q11" value="b"> Minimum required access<br>
+            <input type="radio" name="q11" value="c"> No authentication<br>
+            <input type="radio" name="q11" value="d"> Open database
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="card mcq-card" data-correct="c">
+        <div class="card-body">
+            <h5>12. Broken access control can lead to:</h5>
+            <input type="radio" name="q12" value="a"> Better UI<br>
+            <input type="radio" name="q12" value="b"> Faster app<br>
+            <input type="radio" name="q12" value="c"> Data theft<br>
+            <input type="radio" name="q12" value="d"> Font changes
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="card mcq-card" data-correct="a">
+        <div class="card-body">
+            <h5>13. Access control should be enforced where?</h5>
+            <input type="radio" name="q13" value="a"> Server-side<br>
+            <input type="radio" name="q13" value="b"> Client-side only<br>
+            <input type="radio" name="q13" value="c"> Browser only<br>
+            <input type="radio" name="q13" value="d"> CSS
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q14 -->
+    <div class="card mcq-card" data-correct="d">
+        <div class="card-body">
+            <h5>14. What is a result of broken access control?</h5>
+            <input type="radio" name="q14" value="a"> Better performance<br>
+            <input type="radio" name="q14" value="b"> UI improvements<br>
+            <input type="radio" name="q14" value="c"> Faster loading<br>
+            <input type="radio" name="q14" value="d"> Unauthorized access
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+    <!-- Q15 -->
+    <div class="card mcq-card" data-correct="b">
+        <div class="card-body">
+            <h5>15. Broken access control affects mainly:</h5>
+            <input type="radio" name="q15" value="a"> Design<br>
+            <input type="radio" name="q15" value="b"> Security<br>
+            <input type="radio" name="q15" value="c"> Colors<br>
+            <input type="radio" name="q15" value="d"> Fonts
+            <div class="feedback small"></div>
+        </div>
+    </div>
+
+</div>
+{% endblock mcq %}
+
+{% block lessonNo %}
+{% endblock lessonNo %}

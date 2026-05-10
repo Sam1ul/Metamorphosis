@@ -4,39 +4,14 @@
 {% block body %}
 <div class="container mt-5" style="min-height: 100vh;">
 
-  <!-- Tab Navigation -->
-  <ul class="nav nav-tabs justify-content-center" id="campaignTabs" role="tablist">
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="learn-tab" data-bs-toggle="tab" data-bs-target="#learn" type="button"
-        role="tab" aria-controls="learn" aria-selected="true">
-        <span style="font-family: aq;">Courses</span>
-      </button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="red-tab" data-bs-toggle="tab" data-bs-target="#red" type="button" role="tab"
-        aria-controls="red" aria-selected="false">
-        <span style="color: red; font-family: aq; font-weight: bold;">Red Campaign</span>
-      </button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="blue-tab" data-bs-toggle="tab" data-bs-target="#blue" type="button" role="tab"
-        aria-controls="blue" aria-selected="false">
-        <span style="color: rgb(0, 60, 255); font-family: aq;">Blue Campaign</span>
-      </button>
-    </li>
-  </ul>
 
-  <!-- Tab Content -->
-  <div class="tab-content" id="campaignTabsContent">
-
-    <!-- LEARN TAB -->
-    <div class="tab-pane fade show active p-5 text-center bg-black" id="learn" role="tabpanel"
+    
+    <div class="tab-pane fade show active p-5 text-center bg-light text-dark" id="learn" role="tabpanel"
       aria-labelledby="learn-tab">
       <div class="mb-5">
-        <p class="small">
-Web security is the practice of protecting websites and web applications from cyber threats such as SQL injection, XSS, CSRF, and password attacks. Learning web security helps you understand how attackers exploit vulnerabilities, enabling you to write secure code, protect sensitive data, and ensure user trust. It improves your problem-solving and critical thinking skills, prepares you for careers in cybersecurity and software development, and equips you with knowledge to implement best practices such as input validation, secure authentication, encryption, and regular patching. Understanding web security also fosters awareness of online risks and responsible digital behavior.
-</p>
-
+      
+      <h1>Web Application Security Issues</h1>
+      <p style="text-align: justify;">Hiring strong developers and using modern frameworks definitely helps, but it does not automatically eliminate OWASP Top 10 security issues. Frameworks reduce risk but do not eliminate it, as developers can still misuse features, disable security protections, or introduce vulnerabilities through custom code and misconfiguration. Even advanced developers make human errors such as missing edge cases, incorrect input validation assumptions, or logic flaws that frameworks cannot prevent. Security is also broader than application code, involving system-level issues like misconfigured servers, weak authentication, and poor access control design. Additionally, rapid development pressure often leads to skipped security reviews, while third-party dependencies may introduce vulnerabilities from external libraries. A lack of continuous security testing and evolving attack techniques further increases risk. Many OWASP issues are architectural in nature, requiring proper system design rather than only coding skill. Overall, strong developers and frameworks provide a solid foundation, but effective security requires secure coding practices, regular reviews, automated testing, and a DevSecOps approach.</p>
 
       </div>
 
@@ -49,7 +24,7 @@ Web security is the practice of protecting websites and web applications from cy
             <div class="content">
               <div class="front">
                 <div class="icon">💉</div>
-                <h3>Lesson 1 : SQL Injection</h3>
+                <h3>Problem 1 : SQL Injection</h3>
                 <p>Untrusted input executes unwanted SQL queries.</p>
               </div>
               <div class="back">
@@ -65,7 +40,7 @@ Web security is the practice of protecting websites and web applications from cy
             <div class="content">
               <div class="front">
                 <div class="icon">💉</div>
-                <h3>Lesson 2 : XXS</h3>
+                <h3>Problem 2 : XXS</h3>
                 <p>Untrusted input executes unwanted JS script.</p>
                 
               </div>
@@ -82,7 +57,7 @@ Web security is the practice of protecting websites and web applications from cy
             <div class="content">
               <div class="front">
                 <div class="icon">🔑</div>
-                <h3>Lesson 3 : Password</h3>
+                <h3>Problem 3 : Password</h3>
                 <p>String that access users.</p>
               </div>
               <div class="back">
@@ -103,7 +78,7 @@ Web security is the practice of protecting websites and web applications from cy
             <div class="content">
               <div class="front">
                 <div class="icon">🔗</div>
-                <h3>Lesson 4 : CSRF</h3>
+                <h3>Problem 4 : CSRF</h3>
                 <p>Cross Site Request Forgery</p>
               </div>
               <div class="back">
@@ -118,12 +93,12 @@ Web security is the practice of protecting websites and web applications from cy
 
 
 
-        <a href="{% url 'home' %}">
+        <a href="{% url 'bac' %}">
           <div class="cards a05">
             <div class="content">
               <div class="front">
                 <div class="icon">🔗</div>
-                <h3>Lesson 5 : Broken Access Control</h3>
+                <h3>Problem 5 : Broken Access Control</h3>
                 <p>Acessing Non-authorized Data</p>
               </div>
               <div class="back">
@@ -136,12 +111,12 @@ Web security is the practice of protecting websites and web applications from cy
           </div>
         </a>
 
-        <a href="{% url 'home' %}">
+        <a href="{% url 'isd' %}">
           <div class="cards a05">
             <div class="content">
               <div class="front">
                 <div class="icon">🔗</div>
-                <h3>Lesson 6 : Insecure Design</h3>
+                <h3>Problem 6 : Insecure Design</h3>
                 <p>Security not considered during system design</p>
               </div>
               <div class="back">
@@ -155,12 +130,12 @@ Web security is the practice of protecting websites and web applications from cy
         </a>
 
 
-        <a href="{% url 'home' %}">
+        <a href="{% url 'af' %}">
           <div class="cards a05">
             <div class="content">
               <div class="front">
                 <div class="icon">🔗</div>
-                <h3>Lesson 7 : Auth Failures</h3>
+                <h3>Problem 7 : Auth Failures</h3>
                 <p>Attackers can log in as other users or take over accounts.</p>
               </div>
               <div class="back">
@@ -173,12 +148,12 @@ Web security is the practice of protecting websites and web applications from cy
           </div>
         </a>
 
-        <a href="{% url 'home' %}">
+        <a href="{% url 'cf' %}">
           <div class="cards a05">
             <div class="content">
               <div class="front">
                 <div class="icon">🔗</div>
-                <h3>Lesson 8 : Cryptographic Failures</h3>
+                <h3>Problem 8 : Cryptographic Failures</h3>
                 <p>Poor protection of sensitive data.</p>
               </div>
               <div class="back">
@@ -193,12 +168,12 @@ Web security is the practice of protecting websites and web applications from cy
           </div>
         </a>
 
-        <a href="{% url 'home' %}">
+        <a href="{% url 'slmf' %}">
           <div class="cards a05">
             <div class="content">
               <div class="front">
                 <div class="icon">🔗</div>
-                <h3>Lesson 9 : Security Logging & Monitoring Failures</h3>
+                <h3>Problem 9 : Security Logging & Monitoring Failures</h3>
                 <p>
                   <small>Improper monitoring security events.</small>
                 </p>
@@ -213,12 +188,12 @@ Web security is the practice of protecting websites and web applications from cy
           </div>
         </a>
 
-        <a href="{% url 'home' %}">
+        <a href="{% url 'ssrf' %}">
           <div class="cards a05">
             <div class="content">
               <div class="front">
                 <div class="icon">🔗</div>
-                <h3>Lesson 9 : SSRF</h3>
+                <h3>Problem 10 : SSRF</h3>
                 <p>Server Side Request Forgery</p>
               </div>
               <div class="back">
@@ -250,32 +225,10 @@ Web security is the practice of protecting websites and web applications from cy
         </a>
 
       </div>
+      
     </div>
 
-    <!-- RED CAMPAIGN TAB -->
-    <div class="tab-pane fade bg-black" id="red" role="tabpanel" aria-labelledby="red-tab">
-      <div class="text-center mb-4">
-        <p class="lead mt-3">
-          Some times to fight crimes we have to adapt the art of hacking. <br> -Anonymous
-        </p>
-      </div>
-      <!-- Add Red Campaign-specific content here -->
-<a href="{% url 'update_game1' %}"><img src="/static/myapp/images/blackhydra.png" alt="" width="300rem" class="border border-danger"></a>
-      <br>
-      <br><br> More games coming soon...
-    </div>
-
-    <!-- BLUE CAMPAIGN TAB -->
-    <div class="tab-pane fade" id="blue" role="tabpanel" aria-labelledby="blue-tab">
-      <div class="text-center mb-4">
-        <p class="lead">
-          Coming Soon...
-        </p>
-      </div>
-      <!-- Add Blue Campaign-specific content here -->
-    </div>
-
-  </div>
+   
 </div>
 
 {% endblock body %}
