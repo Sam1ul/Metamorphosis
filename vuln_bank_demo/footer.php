@@ -1,11 +1,13 @@
-  </div> <!-- col -->
-</div> <!-- row -->
-</div> <!-- container -->
-<footer class="mt-5 py-4 bg-white shadow-sm">
-  <div class="container text-center small text-muted">
-    VulnBank — educational demo. Remove after use. &middot; Do not expose to the internet.
+  </main>
+</div>
+</div>
+
+
+<footer class="relative z-10 mt-6 py-4 bg-white/60 backdrop-blur shadow-sm">
+  <div class="max-w-6xl mx-auto px-4 text-center text-sm text-gray-600">
+    &copy;2026 VulnBank Limited. All rights reserved.
   </div>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

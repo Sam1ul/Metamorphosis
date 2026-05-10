@@ -9,9 +9,13 @@ $stmt->execute([$view_user]);
 $view = $stmt->fetch();
 require_once 'header.php';
 ?>
-<div class="card p-4 mb-4">
-  <h4>Transactions for <?php echo htmlspecialchars($view['username'] ?? 'Unknown'); ?></h4>
-  <p class="text-warning">IDOR demo: change <code>?user_id=</code> to view other users' transactions.</p>
+<div class="bg-white/80 rounded-2xl shadow-sm border border-gray-100 p-5 mb-4">
+  <h4 class="text-xl font-semibold text-gray-900">
+    Transactions for <?php echo htmlspecialchars($view['username'] ?? 'Unknown'); ?>
+  </h4>
+
+
+
   <?php
   $stmt = $pdo->prepare("SELECT t.*, u1.username AS from_name, u2.username AS to_name
       FROM transactions t
@@ -22,24 +26,45 @@ require_once 'header.php';
   $stmt->execute([$view_user, $view_user]);
   $rows = $stmt->fetchAll();
   ?>
+
   <?php if ($rows): ?>
-    <div class="table-responsive mt-2">
-      <table class="table table-hover">
-        <thead class="table-light"><tr><th>When</th><th>From</th><th>To</th><th>Amount</th></tr></thead>
-        <tbody>
+    <div class="overflow-x-auto mt-4">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="text-left text-gray-500 border-b">
+            <th class="py-2 font-medium">When</th>
+            <th class="py-2 font-medium">From</th>
+            <th class="py-2 font-medium">To</th>
+            <th class="py-2 font-medium">Amount</th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y">
         <?php foreach($rows as $r): ?>
-          <tr>
-            <td><?php echo $r['created_at']; ?></td>
-            <td><?php echo htmlspecialchars($r['from_name']); ?></td>
-            <td><?php echo htmlspecialchars($r['to_name']); ?></td>
-            <td>$<?php echo number_format($r['amount'],2); ?></td>
+          <tr class="hover:bg-gray-50">
+            <td class="py-2 whitespace-nowrap">
+              <?php echo $r['created_at']; ?>
+            </td>
+
+            <td class="py-2">
+              <?php echo htmlspecialchars($r['from_name']); ?>
+            </td>
+
+            <td class="py-2">
+              <?php echo htmlspecialchars($r['to_name']); ?>
+            </td>
+
+            <td class="py-2 font-semibold">
+              $<?php echo number_format($r['amount'],2); ?>
+            </td>
           </tr>
         <?php endforeach; ?>
         </tbody>
       </table>
     </div>
   <?php else: ?>
-    <p class="text-muted mt-2">No transactions found.</p>
+    <p class="text-gray-500 text-sm mt-4">No transactions found.</p>
   <?php endif; ?>
 </div>
+
 <?php require_once 'footer.php'; ?>

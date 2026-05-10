@@ -9,37 +9,63 @@ $user = $stmt->fetch();
 $_SESSION['user'] = $user;
 require_once 'header.php';
 ?>
-<div class="row mb-3">
-  <div class="col-md-6">
-    <div class="card card-hero p-4 mb-3">
-      <div class="d-flex align-items-center">
-        <div class="me-3">
-          <i class="bi bi-wallet2" style="font-size:2.6rem;color:#2b6cb0;"></i>
+<div class="grid md:grid-cols-2 gap-4 mb-3">
+  <!-- LEFT -->
+  <div>
+    <!-- Balance hero -->
+    <div class="bg-white/90 rounded-2xl shadow-sm border border-gray-100 p-5 mb-3">
+      <div class="flex items-center">
+        <div class="mr-4 text-blue-700 text-5xl">
+          🪙
         </div>
+
         <div>
-          <div class="small-muted">Available Balance</div>
-          <div class="balance-amount">$<?php echo number_format($user['balance'],2); ?></div>
-          <div class="mt-2">
-            <a href="transfer.php" class="btn btn-primary btn-sm rounded-pill"><i class="bi bi-arrow-right-square me-1"></i> Transfer</a>
-            <a href="transactions.php" class="btn btn-outline-secondary btn-sm rounded-pill ms-2"><i class="bi bi-clock-history me-1"></i> History</a>
+          <div class="text-sm text-gray-500">Available Balance</div>
+
+          <div class="text-5xl font-bold tracking-tight text-gray-900">
+            $<?php echo number_format($user['balance'],2); ?>
+          </div>
+
+          <div class="mt-3 flex items-center gap-2">
+            <a href="transfer.php"
+               class="inline-flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-1.5 rounded-full shadow-sm transition">
+              ➜ Transfer
+            </a>
+
+            <a href="transactions.php"
+               class="inline-flex items-center gap-1 border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm px-4 py-1.5 rounded-full transition">
+              🕒 History
+            </a>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="card p-3">
-      <h6 class="mb-2">Quick Actions</h6>
-      <div class="d-flex gap-2">
-        <button class="btn btn-light btn-sm"><i class="bi bi-file-earmark-text me-1"></i> Pay Bills</button>
-        <button class="btn btn-light btn-sm"><i class="bi bi-credit-card-2-front me-1"></i> Cards</button>
-        <button class="btn btn-light btn-sm"><i class="bi bi-piggy-bank me-1"></i> Save</button>
+    <!-- Quick actions -->
+    <div class="bg-white/80 rounded-2xl shadow-sm border border-gray-100 p-4">
+      <h6 class="font-semibold text-gray-800 mb-3">Quick Actions</h6>
+
+      <div class="flex flex-wrap gap-2">
+        <button class="px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-sm text-gray-700 transition">
+          📄 Pay Bills
+        </button>
+
+        <button class="px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-sm text-gray-700 transition">
+          💳 Cards
+        </button>
+
+        <button class="px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-sm text-gray-700 transition">
+          🐖 Save
+        </button>
       </div>
     </div>
   </div>
 
-  <div class="col-md-6">
-    <div class="card p-3">
-      <h6>Recent Transactions</h6>
+  <!-- RIGHT -->
+  <div>
+    <div class="bg-white/80 rounded-2xl shadow-sm border border-gray-100 p-4">
+      <h6 class="font-semibold text-gray-800">Recent Transactions</h6>
+
       <?php
       $stmt = $pdo->prepare("SELECT t.*, u1.username AS from_name, u2.username AS to_name
         FROM transactions t
@@ -50,26 +76,36 @@ require_once 'header.php';
       $stmt->execute([$user['id'], $user['id']]);
       $rows = $stmt->fetchAll();
       ?>
+
       <?php if ($rows): ?>
-      <div class="table-responsive mt-2">
-        <table class="table table-hover">
-          <thead class="table-light"><tr><th>When</th><th>From</th><th>To</th><th>Amount</th></tr></thead>
-          <tbody>
+      <div class="overflow-x-auto mt-3">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-left text-gray-500 border-b">
+              <th class="py-2 font-medium">When</th>
+              <th class="py-2 font-medium">From</th>
+              <th class="py-2 font-medium">To</th>
+              <th class="py-2 font-medium">Amount</th>
+            </tr>
+          </thead>
+
+          <tbody class="divide-y">
           <?php foreach($rows as $r): ?>
-            <tr>
-              <td><?php echo $r['created_at']; ?></td>
-              <td><?php echo htmlspecialchars($r['from_name']); ?></td>
-              <td><?php echo htmlspecialchars($r['to_name']); ?></td>
-              <td>$<?php echo number_format($r['amount'],2); ?></td>
+            <tr class="hover:bg-gray-50">
+              <td class="py-2"><?php echo $r['created_at']; ?></td>
+              <td class="py-2"><?php echo htmlspecialchars($r['from_name']); ?></td>
+              <td class="py-2"><?php echo htmlspecialchars($r['to_name']); ?></td>
+              <td class="py-2 font-semibold">$<?php echo number_format($r['amount'],2); ?></td>
             </tr>
           <?php endforeach; ?>
           </tbody>
         </table>
       </div>
       <?php else: ?>
-        <p class="text-muted mt-2">No recent transactions.</p>
+        <p class="text-gray-500 text-sm mt-3">No recent transactions.</p>
       <?php endif; ?>
     </div>
   </div>
 </div>
+
 <?php require_once 'footer.php'; ?>

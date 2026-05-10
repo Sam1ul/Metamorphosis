@@ -36,27 +36,95 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $others = $pdo->query("SELECT id, username FROM users WHERE id != " . (int)$user['id'])->fetchAll();
 require_once 'header.php';
 ?>
-<div class="card p-4 mb-4">
-  <h4>Transfer Funds</h4>
-  <p class="text-danger"><strong>Vulnerable demo:</strong> this endpoint intentionally does not validate CSRF tokens server-side.</p>
-  <form method="post" class="mt-3" style="max-width:540px;">
-    <!-- No csrf_field() here to demonstrate CSRF -->
-    <div class="mb-3">
-      <label class="form-label">Recipient</label>
-      <select name="to_user" class="form-select">
-        <?php foreach($others as $o): ?>
-          <option value="<?php echo $o['id']; ?>"><?php echo htmlspecialchars($o['username']); ?></option>
-        <?php endforeach; ?>
-      </select>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+<div class="lg:col-span-2 bg-white/80 rounded-2xl shadow-sm border border-gray-100 p-5">
+  <h4 class="text-xl font-semibold text-gray-900">Transfer Funds</h4>
+
+  <form method="post" class="mt-5 max-w-lg">
+
+    <div class="mb-4">
+      <label class="block text-sm font-semibold text-gray-700 mb-1">
+        Recipient ID
+      </label>
+
+      <input type="number" name="to_user" id="to_user"
+        class="w-full rounded-lg border border-gray-300 bg-gray-50/80 px-3 py-2.5
+               focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200
+               outline-none transition"
+        placeholder="Enter user ID">
     </div>
-    <div class="mb-3">
-      <label class="form-label">Amount</label>
-      <input type="number" step="0.01" name="amount" class="form-control">
+
+    <!-- auto filled name -->
+    <div class="mb-4">
+      <label class="block text-sm font-semibold text-gray-700 mb-1">
+        Recipient Name
+      </label>
+
+      <div id="recipientName"
+           class="w-full rounded-lg border border-gray-200 bg-gray-100 px-3 py-2.5 text-gray-600">
+        —
+      </div>
     </div>
-    <button class="btn btn-primary">Transfer</button>
+
+    <div class="mb-4">
+      <label class="block text-sm font-semibold text-gray-700 mb-1">
+        Amount
+      </label>
+
+      <input type="number" step="0.01" name="amount"
+        class="w-full rounded-lg border border-gray-300 bg-gray-50/80 px-3 py-2.5
+               focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200
+               outline-none transition">
+    </div>
+
+    <button
+      class="bg-blue-600 hover:bg-blue-700 active:scale-[0.99]
+             text-white font-semibold px-5 py-2.5 rounded-lg
+             shadow-sm transition">
+      Transfer
+    </button>
   </form>
 </div>
+<script>
+const users = {
+<?php foreach($others as $o): ?>
+  <?php echo $o['id']; ?>: "<?php echo htmlspecialchars($o['username']); ?>",
+<?php endforeach; ?>
+};
 
-sponsored by <a href="./asolhero.html"><img src="./Generated Image November 20, 2025 - 9_26PM.png" alt="" width="200rem"></a>
-<br><b style="color:red;">click on the malicious advertisement for visualize CSRF attack</b>
+const input = document.getElementById('to_user');
+const nameBox = document.getElementById('recipientName');
+
+input.addEventListener('input', () => {
+  const id = input.value;
+  if (users[id]) {
+    nameBox.textContent = users[id];
+  } else {
+    nameBox.textContent = 'User not found';
+  }
+});
+</script>
+
+
+  <!-- Sponsored -->
+  <div>
+    <div class="bg-white/70 rounded-2xl shadow-sm border border-gray-100 p-5">
+      <div class="text-sm text-gray-500 mb-3">Sponsored</div>
+
+      <a href="./asolhero.html" class="inline-block">
+        <img src="./Generated Image November 20, 2025 - 9_26PM.png"
+             alt="Advertisement"
+             class="w-full rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition">
+      </a>
+
+      <div class="mt-3 text-gray-600 font-semibold text-sm">
+        Drink milk, from our excellent cow. <br><br> -Asolhero Dairy CO.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
 <?php require_once 'footer.php'; ?>

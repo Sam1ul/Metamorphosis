@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Neo - Browser By Metamorphosis</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: #f4f6fb; /* LIGHT BACKGROUND */
+  overflow: hidden;
+  color: #111;
+}
+
+/* soft background glow */
+body::before {
+  content: "";
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0,120,255,0.10), transparent 60%);
+  top: -200px;
+  left: -200px;
+  filter: blur(80px);
+}
+
+/* TOP BAR */
+#bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+/* NAV BUTTON GROUP */
+#nav {
+  display: flex;
+  gap: 4px;
+}
+
+button {
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: none;
+  font-size: 12px;
+  cursor: pointer;
+  background: rgba(0,0,0,0.05);
+  color: #111;
+  transition: 0.15s;
+}
+
+button:hover {
+  background: rgba(0,0,0,0.10);
+}
+
+/* URL BAR */
+#url {
+  flex: 1;
+  padding: 6px 10px;
+  font-size: 13px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.08);
+  outline: none;
+  background: white;
+  color: #111;
+  font-family: monospace;
+}
+
+/* WEBVIEW AREA */
+#content {
+  position: absolute;
+  top: 40px;
+  bottom: 36px;
+  left: 0;
+  right: 0;
+  background: white;
+}
+
+webview {
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+webview.active {
+  display: flex;
+}
+
+/* TAB BAR */
+#tabs {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 1px;
+  background: rgb(255, 255, 255);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(0,0,0,0.06);
+  overflow-x: auto;
+}
+
+/* TAB */
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.05);
+  cursor: pointer;
+  font-size: 12px;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: 0.15s;
+  color: #111;
+}
+
+.tab.active {
+  background: rgba(0,120,255,0.15);
+  box-shadow: 0 0 8px rgba(0,120,255,0.15);
+}
+
+/* CLOSE BUTTON */
+.close {
+  color: #d00;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+/* NEW TAB */
+#newTab {
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.05);
+  cursor: pointer;
+  font-size: 12px;
+  color: #111;
+}
+
+#newTab:hover {
+  background: rgba(0,0,0,0.10);
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div id="bar">
+
+  <!-- NAV -->
+  <div id="nav">
+    <button onclick="back()">←</button>
+    <button onclick="forward()">→</button>
+    <button onclick="reloadPage()">⟳</button>
+  </div>
+
+  <!-- URL -->
+  <input id="url" placeholder="Search or URL..." />
+
+  <!-- GO -->
+  <button onclick="go()">Go</button>
+
+</div>
+
+<!-- WEB CONTENT -->
+<div id="content"></div>
+
+<!-- TABS -->
+<div id="tabs">
+  <div id="newTab" onclick="createTab()">＋</div>
+</div>
+
+<script>
+let tabs = [];
+let activeTab = 0;
+
+const content = document.getElementById("content");
+const url = document.getElementById("url");
+
+function createTab(startURL = "https://www.google.com") {
+  const index = tabs.length;
+
+  const webview = document.createElement("webview");
+  webview.src = startURL;
+  content.appendChild(webview);
+
+  const tab = document.createElement("div");
+  tab.className = "tab";
+  tab.innerText = "Loading...";
+
+  const close = document.createElement("span");
+  close.className = "close";
+  close.innerText = "✕";
+
+  tab.appendChild(close);
+  document.getElementById("tabs").insertBefore(tab, document.getElementById("newTab"));
+
+  const obj = { webview, tab, title: "Loading..." };
+  tabs.push(obj);
+
+  tab.onclick = () => switchTab(index);
+  close.onclick = (e) => { e.stopPropagation(); closeTab(index); };
+
+  webview.addEventListener("page-title-updated", (e) => {
+    obj.title = e.title;
+    tab.childNodes[0].nodeValue = e.title;
+  });
+
+  webview.addEventListener("did-navigate", (e) => {
+    if (index === activeTab) url.value = e.url;
+  });
+
+  switchTab(index);
+}
+
+function switchTab(i) {
+  activeTab = i;
+
+  tabs.forEach((t, idx) => {
+    t.webview.classList.remove("active");
+    t.tab.classList.remove("active");
+
+    if (idx === i) {
+      t.webview.classList.add("active");
+      t.tab.classList.add("active");
+      url.value = t.webview.src;
+    }
+  });
+}
+
+function closeTab(i) {
+  if (tabs.length === 1) return;
+
+  tabs[i].webview.remove();
+  tabs[i].tab.remove();
+  tabs.splice(i, 1);
+
+  tabs.forEach((t, idx) => {
+    t.tab.onclick = () => switchTab(idx);
+  });
+
+  activeTab = Math.max(0, i - 1);
+  switchTab(activeTab);
+}
+
+function go() {
+  let input = url.value.trim();
+  if (!input.startsWith("http")) input = "https://" + input;
+  tabs[activeTab].webview.src = input;
+}
+
+function back() {
+  const wv = tabs[activeTab].webview;
+  if (wv.canGoBack()) wv.goBack();
+}
+
+function forward() {
+  const wv = tabs[activeTab].webview;
+  if (wv.canGoForward()) wv.goForward();
+}
+
+function reloadPage() {
+  tabs[activeTab].webview.reload();
+}
+
+url.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") go();
+});
+
+createTab();
+</script>
+
+</body>
+</html>
