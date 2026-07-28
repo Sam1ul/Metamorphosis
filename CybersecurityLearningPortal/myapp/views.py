@@ -3,19 +3,73 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import JsonResponse
+from django.http import JsonResponse, response
 from django.views.decorators.csrf import csrf_exempt
 from .forms import RegistrationForm, LoginForm
-from .models import Profile, ChatMessage
+
 import json
+
+from .models import (
+    Order,
+    Payment,
+    Product,
+    Profile,
+    ChatMessage,
+)
  
 # ---------------- Public Pages ----------------
 def index(request):
     return render(request, 'myapp/index.html')
 
-def pricing(request):
-    return render(request, 'myapp/pricing.html')
+from django.shortcuts import get_object_or_404
 
+@login_required(login_url="login")
+def pricing(request):
+
+    pro = Product.objects.get(slug="pro")
+    enterprise = Product.objects.get(slug="enterprise")
+
+    context = {
+        "pro": pro,
+        "enterprise": enterprise,
+    }
+
+    if request.user.is_authenticated:
+
+        pro_paid = Order.objects.filter(
+            user=request.user,
+            product=pro,
+            status="paid"
+        ).exists()
+
+        pro_pending = Order.objects.filter(
+            user=request.user,
+            product=pro,
+            status="pending"
+        ).first()
+
+        enterprise_paid = Order.objects.filter(
+            user=request.user,
+            product=enterprise,
+            status="paid"
+        ).exists()
+
+        enterprise_pending = Order.objects.filter(
+            user=request.user,
+            product=enterprise,
+            status="pending"
+        ).first()
+
+        context.update({
+            "pro_paid": pro_paid,
+            "pro_pending": pro_pending,
+            "enterprise_paid": enterprise_paid,
+            "enterprise_pending": enterprise_pending,
+        })
+
+    return render(request, "myapp/pricing.html", context)
+
+    
 def features(request):
     return render(request, 'myapp/features.html')
 
@@ -235,36 +289,46 @@ def update_lesson_points(request):
 # ---------------- Community Chat ----------------
 @login_required(login_url='login')
 def community_chat(request):
+
     if request.method == 'POST':
         message = request.POST.get('message')
         image = request.FILES.get('image')
+
         if message or image:
-            ChatMessage.objects.create(user=request.user, message=message, image=image)
-        return redirect('community_chat')
+            ChatMessage.objects.create(
+                user=request.user,
+                message=message,
+                image=image
+            )
 
-    chat_messages = ChatMessage.objects.select_related('user').all()[:100]
-    return render(request, 'myapp/community_chat.html', {'messages': chat_messages})
+        return JsonResponse({"success": True})
 
+    messages = ChatMessage.objects.select_related('user').order_by('timestamp')
 
+    return render(
+        request,
+        'myapp/community_chat.html',
+        {'messages': messages}
+    )
 @login_required(login_url='login')
 def get_messages(request):
-    """Return the latest chat messages as JSON"""
-    messages = ChatMessage.objects.select_related('user').order_by('-timestamp')[:100]
 
-    message_list = []
+    messages = ChatMessage.objects.select_related("user").order_by("timestamp")
+
+    data = []
+
     for msg in messages:
-        message_list.append({
-            'id': msg.id,
-            'username': msg.user.username,
-            'user_id': msg.user.id,
-            'profile_pic': msg.user.profile.profile_pic.url if msg.user.profile.profile_pic else None,
-            'message': msg.message,
-            'image': msg.image.url if msg.image else None,
-            'timestamp': msg.timestamp.strftime('%b %d, %Y %H:%M')
+        data.append({
+            "id": msg.id,
+            "username": msg.user.username,
+            "user_id": msg.user.id,
+            "profile_pic": msg.user.profile.profile_pic.url if msg.user.profile.profile_pic else None,
+            "message": msg.message,
+            "image": msg.image.url if msg.image else None,
+            "timestamp": msg.timestamp.strftime("%b %d, %Y %H:%M")
         })
-    return JsonResponse({'messages': message_list})
 
-
+    return JsonResponse({"messages": data})
 
 # ---------------- Downloads ----------------
 import os
@@ -347,3 +411,178 @@ def update_game1(request):
             message = "We have not found any connection with the name you provided. Please try again, son."
 
     return render(request, "myapp/update_game1.html", {"message": message})
+
+
+from uuid import uuid4
+from django.shortcuts import get_object_or_404
+from django.http import FileResponse
+from django.contrib.auth.decorators import login_required
+
+
+@login_required
+def checkout(request, slug):
+
+    product = get_object_or_404(
+        Product,
+        slug=slug,
+        active=True
+    )
+
+    already_bought = Order.objects.filter(
+        user=request.user,
+        product=product,
+        status="paid"
+    ).exists()
+
+    pending_order = Order.objects.filter(
+        user=request.user,
+        product=product,
+        status="pending"
+    ).first()
+
+    return render(
+        request,
+        "myapp/checkout.html",
+        {
+            "product": product,
+            "already_bought": already_bought,
+            "pending_order": pending_order,
+        },
+    )
+
+@login_required
+def buy_product(request, slug):
+
+    product = get_object_or_404(
+        Product,
+        slug=slug,
+        active=True
+    )
+
+    # User already owns the product
+    already_paid = Order.objects.filter(
+        user=request.user,
+        product=product,
+        status="paid"
+    ).first()
+
+    if already_paid:
+        return redirect(
+            "download_product",
+            slug=slug
+        )
+
+    # Existing pending order
+    existing_order = Order.objects.filter(
+        user=request.user,
+        product=product,
+        status="pending"
+    ).first()
+
+    if existing_order:
+        return redirect(
+            "submit_payment",
+            order_id=existing_order.id
+        )
+
+    # Create new order
+    order = Order.objects.create(
+        user=request.user,
+        product=product,
+        amount=product.price,
+        status="pending",
+    )
+
+    Payment.objects.create(
+        order=order,
+        gateway="bKash Manual",
+        payment_id=str(uuid4()),
+        amount=product.price,
+        status="pending",
+    )
+
+    return redirect(
+        "submit_payment",
+        order_id=order.id
+    )
+
+@login_required
+def submit_payment(request, order_id):
+
+    order = get_object_or_404(
+        Order,
+        id=order_id,
+        user=request.user,
+    )
+
+    payment = order.payment
+
+    # Already verified? Allow download.
+    if payment.status == "verified":
+        return redirect("download_product", slug=order.product.slug)
+
+    if request.method == "POST":
+
+        # Prevent duplicate submissions after verification/rejection
+        if payment.status != "pending":
+            messages.warning(
+                request,
+                "This payment has already been processed."
+            )
+            return redirect("submit_payment", order_id=order.id)
+
+        payment.sender_number = request.POST.get(
+            "sender_number", ""
+        ).strip()
+
+        payment.trx_id = request.POST.get(
+            "trx_id", ""
+        ).strip()
+
+        if request.FILES.get("screenshot"):
+            payment.screenshot = request.FILES["screenshot"]
+
+        payment.save()
+
+        messages.success(
+            request,
+            "Payment details submitted successfully. Please wait for admin verification."
+        )
+
+        return redirect("submit_payment", order_id=order.id)
+
+    return render(
+        request,
+        "myapp/submit_payment.html",
+        {
+            "order": order,
+            "payment": payment,
+            "bkash_number": "01797159485",  # Demo number
+        }
+    )
+
+@login_required
+def download_product(request, slug):
+
+    product = get_object_or_404(
+        Product,
+        slug=slug,
+        active=True,
+    )
+
+    purchased = Order.objects.filter(
+        user=request.user,
+        product=product,
+        status="paid",
+    ).exists()
+
+    if not purchased:
+        return HttpResponseForbidden(
+            "Please purchase this product first."
+        )
+
+    return FileResponse(
+        product.file.open("rb"),
+        as_attachment=True,
+        filename=os.path.basename(product.file.name),
+    )

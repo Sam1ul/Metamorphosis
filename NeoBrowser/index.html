@@ -279,8 +279,9 @@ function reloadPage() {
 url.addEventListener("keydown", (e) => {
   if (e.key === "Enter") go();
 });
-
-createTab();
+createTab("http://127.0.0.1/vuln_bank_demo");
+createTab("http://127.0.0.1/secured_bank_demo");
+switchTab(0);
 </script>
 
 </body>

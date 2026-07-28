@@ -1,0 +1,109 @@
+{% extends "myapp/base.html" %}
+{% block title %}Metamorphosis{% endblock title %}
+{% block body %}
+<section class="py-5" style="min-height:100vh;">
+    <div class="container">
+
+        <!-- Hero -->
+        <div class="text-center my-5">
+
+            <p class="text-uppercase text-muted fw-semibold">
+                Welcome to Cyber Analyst's Favourite
+            </p>
+
+            <h1 class="display-1 fw-bold"
+                style="font-family:ares;text-shadow:2px 2px 10px rgba(0,0,0,.3);">
+                Metamorphosis
+            </h1>
+
+            <p class="lead mt-4 mb-4">
+                Developing security awareness among web developers and users
+                in this digital age.
+            </p>
+
+            <a href="{% url 'login' %}" class="btn btn-primary btn-lg me-3">
+                Sign In
+            </a>
+
+            <a href="{% url 'register' %}" class="btn btn-outline-danger btn-lg">
+                Sign Up
+            </a>
+
+        </div>
+
+        <!-- Features -->
+        <div class="text-center mt-5">
+
+            <h2 class="fw-bold mb-5">
+                Why Choose Metamorphosis?
+            </h2>
+
+            <div class="row g-4">
+
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-body">
+                            <h1>📚</h1>
+                            <h5>OWASP Top 10</h5>
+                            <p>Learn modern web application vulnerabilities through structured lessons.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-body">
+                            <h1>💻</h1>
+                            <h5>Hands-on Labs</h5>
+                            <p>Practice exploiting and securing real banking applications.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-body">
+                            <h1>🤖</h1>
+                            <h5>AI Assistant</h5>
+                            <p>Receive intelligent guidance while studying cybersecurity topics.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-body">
+                            <h1>📝</h1>
+                            <h5>Interactive Quizzes</h5>
+                            <p>Assess your knowledge after each learning module.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-body">
+                            <h1>🏆</h1>
+                            <h5>Leaderboard</h5>
+                            <p>Track your achievements and compete with other learners.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-body">
+                            <h1>💬</h1>
+                            <h5>Community</h5>
+                            <p>Discuss cybersecurity topics and collaborate with fellow learners.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+{% endblock body %}

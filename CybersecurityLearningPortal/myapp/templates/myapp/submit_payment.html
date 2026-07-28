@@ -1,0 +1,259 @@
+{% extends "myapp/base.html" %}
+{% load static %}
+
+{% block title %}Submit Payment{% endblock %}
+
+{% block body %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-lg border-0">
+
+                <!-- Header -->
+                <div class="card-header bg-success text-white">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <h3 class="mb-0">
+                                <i class="bi bi-phone" style="color:white !important"></i>
+                                Make Payment (BKASH Only)
+                            </h3>
+
+                            <small>Manual Verification</small>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <div class="card-body">
+
+                    
+                    <!-- Order -->
+
+                    <h4 class="mb-4">
+
+                        {{ order.product.name }} Edition
+
+                    </h4>
+
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th width="35%">Order ID</th>
+                            <td>#{{ order.id }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Product</th>
+                            <td>{{ order.product.name }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Amount</th>
+                            <td class="fw-bold text-success">
+                                $ {{ order.amount }}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Status</th>
+                            <td>{{ payment.get_status_display }}</td>
+                        </tr>
+
+                    </table>
+
+                    <hr>
+
+                    <!-- Payment Instructions -->
+
+                    <h4 class="mb-3">
+
+                        Payment Instructions
+
+                    </h4>
+
+                    <div class="alert alert-info">
+
+                        <h5>Demo Payment Number</h5>
+
+                        <h2 class="text-danger">
+
+                            {{ bkash_number }}
+
+                        </h2>
+
+                        <hr>
+
+                        <p class="mb-2">
+
+                            <strong>Amount:</strong>
+                            ৳ {{ order.amount }}
+
+                        </p>
+
+                        <p class="mb-2">
+
+                            <strong>Reference:</strong>
+                            Order #{{ order.id }}
+
+                        </p>
+
+                        <p class="mb-0">
+
+                            <strong>Method:</strong>
+                            bKash Send Money (Demo)
+
+                        </p>
+
+                    </div>
+
+                    
+
+                    <!-- Steps -->
+
+                    <div class="alert alert-light">
+
+                        <h5>
+
+                            Payment Steps
+
+                        </h5>
+
+                        <ol class="mb-0">
+
+                            <li>Open the payment application.</li>
+
+                            <li>Send the exact amount shown above.</li>
+
+                            <li>Save the Transaction ID.</li>
+
+                            <li>Complete the form below.</li>
+
+                            <li>Wait for administrator verification.</li>
+
+                        </ol>
+
+                    </div>
+
+                    <hr>
+
+                    <!-- Form -->
+
+                    {% if payment.status == "verified" %}
+
+<div class="alert alert-success">
+    <h5>Payment Verified</h5>
+
+    <p>Your payment has been verified.</p>
+
+    <a href="{% url 'download_product' order.product.slug %}"
+       class="btn btn-success">
+        Download Product
+    </a>
+</div>
+
+{% elif payment.trx_id %}
+
+<div class="alert alert-warning">
+    <strong>Payment Submitted</strong><br>
+    Waiting for administrator verification.
+</div>
+
+<table class="table">
+    <tr>
+        <th>Sender Number</th>
+        <td>{{ payment.sender_number }}</td>
+    </tr>
+
+    <tr>
+        <th>Transaction ID</th>
+        <td>{{ payment.trx_id }}</td>
+    </tr>
+
+    {% if payment.screenshot %}
+    <tr>
+        <th>Screenshot</th>
+        <td>
+            <img src="{{ payment.screenshot.url }}"
+                 class="img-fluid"
+                 style="max-width:300px;">
+        </td>
+    </tr>
+    {% endif %}
+</table>
+
+{% else %}
+
+<form method="post" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label class="form-label">
+            Sender Number
+        </label>
+
+        <input
+            type="text"
+            name="sender_number"
+            class="form-control"
+            placeholder="01XXXXXXXXX"
+            required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            Transaction ID
+        </label>
+
+        <input
+            type="text"
+            name="trx_id"
+            class="form-control"
+            placeholder="Enter Transaction ID"
+            required>
+    </div>
+
+    <div class="mb-4">
+        <label class="form-label">
+            Payment Screenshot
+        </label>
+
+        <input
+            type="file"
+            name="screenshot"
+            class="form-control"
+            accept="image/*">
+    </div>
+
+    <button
+        type="submit"
+        class="btn btn-success w-100">
+
+        Submit Payment
+
+    </button>
+
+</form>
+
+{% endif %}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

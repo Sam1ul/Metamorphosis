@@ -1,4 +1,5 @@
 from django.db import models
+from decimal import Decimal
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -26,56 +27,7 @@ class Profile(models.Model):
     lesson9_points = models.IntegerField(default=0)
     lesson10_points = models.IntegerField(default=0)
 
-    # Games: points, ID, name, number
-    game1_points = models.IntegerField(default=0)
-    game1_id = models.IntegerField(default=0)
-    game1_name = models.CharField(max_length=100, default="BlackHydra")
-    game1_number = models.IntegerField(default=0)
-
-    game2_points = models.IntegerField(default=0)
-    game2_id = models.IntegerField(default=0)
-    game2_name = models.CharField(max_length=100, default="Coming Soon")
-    game2_number = models.IntegerField(default=0)
-
-    game3_points = models.IntegerField(default=0)
-    game3_id = models.IntegerField(default=0)
-    game3_name = models.CharField(max_length=100, default="Coming Soon")
-    game3_number = models.IntegerField(default=0)
-
-    game4_points = models.IntegerField(default=0)
-    game4_id = models.IntegerField(default=0)
-    game4_name = models.CharField(max_length=100, default="Coming Soon")
-    game4_number = models.IntegerField(default=0)
-
-    game5_points = models.IntegerField(default=0)
-    game5_id = models.IntegerField(default=0)
-    game5_name = models.CharField(max_length=100, default="Coming Soon")
-    game5_number = models.IntegerField(default=0)
-
-    game6_points = models.IntegerField(default=0)
-    game6_id = models.IntegerField(default=0)
-    game6_name = models.CharField(max_length=100, default="Coming Soon")
-    game6_number = models.IntegerField(default=0)
-
-    game7_points = models.IntegerField(default=0)
-    game7_id = models.IntegerField(default=0)
-    game7_name = models.CharField(max_length=100, default="Coming Soon")
-    game7_number = models.IntegerField(default=0)
-
-    game8_points = models.IntegerField(default=0)
-    game8_id = models.IntegerField(default=0)
-    game8_name = models.CharField(max_length=100, default="Coming Soon")
-    game8_number = models.IntegerField(default=0)
-
-    game9_points = models.IntegerField(default=0)
-    game9_id = models.IntegerField(default=0)
-    game9_name = models.CharField(max_length=100, default="Coming Soon")
-    game9_number = models.IntegerField(default=0)
-
-    game10_points = models.IntegerField(default=0)
-    game10_id = models.IntegerField(default=0)
-    game10_name = models.CharField(max_length=100, default="Coming Soon")
-    game10_number = models.IntegerField(default=0)
+    
 
     # Grand total points (auto-calculated)
     points = models.IntegerField(default=0)
@@ -87,20 +39,21 @@ class Profile(models.Model):
 
     def save(self, *args, **kwargs):
         """Save Profile, calculate total points, rank, and rename profile picture."""
-        # Calculate total points: lessons + games
         self.points = sum([
-            self.lesson1_points, self.lesson2_points, self.lesson3_points,
-            self.lesson4_points, self.lesson5_points, self.lesson6_points,
-            self.lesson7_points, self.lesson8_points, self.lesson9_points,
+            self.lesson1_points,
+            self.lesson2_points,
+            self.lesson3_points,
+            self.lesson4_points,
+            self.lesson5_points,
+            self.lesson6_points,
+            self.lesson7_points,
+            self.lesson8_points,
+            self.lesson9_points,
             self.lesson10_points,
-            self.game1_points, self.game2_points, self.game3_points,
-            self.game4_points, self.game5_points, self.game6_points,
-            self.game7_points, self.game8_points, self.game9_points,
-            self.game10_points
         ])
 
         # --- Ranking System ---
-        percentage = (self.points / 2000) * 100  # Assuming max 100 per lesson/game
+        percentage = (self.points / 310) * 100  # Assuming max 100 per lesson/game
 
         if percentage >= 90:
             self.rank = 'S'
@@ -159,3 +112,145 @@ class ChatMessage(models.Model):
 
     def __str__(self):
         return f"{self.user.username}: {self.message[:30]}"
+
+
+
+
+
+
+class Product(models.Model):
+    name = models.CharField(max_length=100)
+
+    slug = models.SlugField(unique=True)
+
+    description = models.TextField(blank=True)
+
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+
+    file = models.FileField(upload_to="products/")
+
+    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Order(models.Model):
+
+    STATUS = (
+        ("pending", "Pending"),
+        ("paid", "Paid"),
+        ("failed", "Failed"),
+        ("cancelled", "Cancelled"),
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="orders"
+    )
+
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE
+    )
+
+    amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS,
+        default="pending"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.user.username} - {self.product.name}"
+
+class Payment(models.Model):
+
+    PAYMENT_STATUS = (
+        ("pending", "Pending Verification"),
+        ("verified", "Verified"),
+        ("rejected", "Rejected"),
+    )
+
+    order = models.OneToOneField(
+        Order,
+        on_delete=models.CASCADE,
+        related_name="payment"
+    )
+
+    gateway = models.CharField(
+        max_length=30,
+        default="bKash Manual"
+    )
+
+    payment_id = models.CharField(
+        max_length=100,
+        unique=True
+    )
+
+    # User submitted information
+    sender_number = models.CharField(
+        max_length=15,
+        blank=True,
+        null=True
+    )
+
+    trx_id = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True
+    )
+
+    screenshot = models.ImageField(
+        upload_to="payment_screenshots/",
+        blank=True,
+        null=True
+    )
+
+    amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=PAYMENT_STATUS,
+        default="pending"
+    )
+
+    admin_note = models.TextField(
+        blank=True,
+        null=True
+    )
+
+    currency = models.CharField(
+        max_length=10,
+        default="BDT"
+    )
+
+    paid_at = models.DateTimeField(
+        blank=True,
+        null=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.order.user.username} - {self.order.product.name}"

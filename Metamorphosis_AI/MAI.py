@@ -25,7 +25,7 @@ GREETINGS = {
     # =========================
     # Basic Greetings
     # =========================
-    "hi": "Hello! I am your Metamorphosis assistant.",
+    #"hi": "Hello! I am your Metamorphosis assistant.",
     "hello": "Hi there! Ready to learn cybersecurity?",
     "hey": "Hey! Ask me about web vulnerabilities.",
     "hiya": "Hiya! Let's explore cybersecurity together.",
@@ -102,28 +102,28 @@ GREETINGS = {
     # # =========================
     # # Cybersecurity Themed
     # # =========================
-    # "hack": "Ethical hacking only! How can I assist you?",
-    # "hacker": "Hackers can protect systems when acting ethically.",
-    # "security": "Cybersecurity is the key to a safer digital world.",
-    # "cyber": "Cyber defense starts with knowledge!",
-    # "pentest": "Penetration testing is an exciting skill to learn!",
-    # "ctf": "Capture The Flag challenges are great for practice!",
-    # "exploit": "Understanding exploits helps build stronger defenses.",
-    # "malware": "Always analyze malware safely in sandboxed environments.",
-    # "phishing": "Be cautious of suspicious emails and fake websites.",
-    # "ransomware": "Regular backups are essential against ransomware.",
-    # "sql injection": "Input validation prevents SQL injection attacks.",
-    # "xss": "Cross-site scripting can be prevented with output encoding.",
-    # "csrf": "CSRF tokens help secure web applications.",
-    # "bug bounty": "Bug bounty hunting is a great way to learn.",
-    # "firewall": "Firewalls help monitor and filter network traffic.",
-    # "encryption": "Encryption protects sensitive information.",
-    # "osint": "OSINT is powerful for ethical investigations.",
-    # "linux": "Linux is widely used in cybersecurity environments.",
-    # "kali linux": "Kali Linux is packed with security testing tools.",
-    # "wireshark": "Wireshark is excellent for packet analysis.",
-    # "metasploit": "Metasploit is useful for penetration testing practice.",
-    # "nmap": "Nmap is a powerful network scanning tool.",
+    "hack": "Ethical hacking only! How can I assist you?",
+    "hacker": "Hackers can protect systems when acting ethically.",
+    "security": "Cybersecurity is the key to a safer digital world.",
+    "cyber": "Cyber defense starts with knowledge!",
+    "pentest": "Penetration testing is an exciting skill to learn!",
+    "ctf": "Capture The Flag challenges are great for practice!",
+    "exploit": "Understanding exploits helps build stronger defenses.",
+    "malware": "Always analyze malware safely in sandboxed environments.",
+    "phishing": "Be cautious of suspicious emails and fake websites.",
+    "ransomware": "Regular backups are essential against ransomware.",
+    #"sql injection": "Input validation prevents SQL injection attacks.",
+    #"xss": "Cross-site scripting can be prevented with output encoding.",
+    #"csrf": "CSRF tokens help secure web applications.",
+    "bug bounty": "Bug bounty hunting is a great way to learn.",
+    "firewall": "Firewalls help monitor and filter network traffic.",
+    "encryption": "Encryption protects sensitive information.",
+    "osint": "OSINT is powerful for ethical investigations.",
+    "linux": "Linux is widely used in cybersecurity environments.",
+    "kali linux": "Kali Linux is packed with security testing tools.",
+    "wireshark": "Wireshark is excellent for packet analysis.",
+    "metasploit": "Metasploit is useful for penetration testing practice.",
+    "nmap": "Nmap is a powerful network scanning tool.",
 
     # =========================
     # Motivational
@@ -498,6 +498,11 @@ OWASP = {
                 "action": ("press", "tab"),
                 "delay": 0.5
             },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
 
             {
                 "text": "",
@@ -557,117 +562,6 @@ OWASP = {
                 "action": ("press", "tab"),
                 "delay": 0.5
             },
-
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-
-            {
-                "text": "",
-                "action": (
-                    "write",
-                    "http://127.0.0.1/vuln_bank_demo/login.php"
-                ),
-                "delay": 0.5
-            },
-            {
-                "text": "",
-                "action": ("press", "enter"),
-                "delay": 5
-            },
-
-            #login page opened now..
-
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-            
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-
-            {
-                "text": "",
-                "action": ("write", "admin' OR '1'='1"),
-                "delay": 1
-            },
-
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 1
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 1
-            },
-
-            {
-                "text": "",
-                "action": ("press", "enter"),
-                "delay": 7
-            },
-
-            #=========================== logged in now
             
             {
                 "text": "",
@@ -726,102 +620,196 @@ OWASP = {
             },
             {
                 "text": "",
-                "action": ("write", "<script>alert('This is a bad bank')</script>"),
-                "delay": 1
-            },
-            {
-                "text": "This is an example of xss. Now every time this page reloads this javascript will run each time.",
-                "action": ("press", "enter"),
-                "delay": 5
-            },
-            {
-                "text": "",
-                "action": ("press", "enter"),
+                "action": ("press", "tab"),
                 "delay": 0.5
-            },
-            {
-                "text": "Lets see a diagram to see what is actually happening",
-                "action": ("hotkey", ['ctrl','alt','t']),
-                "delay": 10
-            },
-
-            {
-                "text": "",
-                "action": ("write", "open /home/kathersis/Documents/MAI/pic/problem/xss.png"),
-                "delay": 5
-            },
-            {
-                "text": "This diagram demonstrates a cyberattack called cross site scripting or xss. An attacker enters a malicious string into the input field to run javascript.",
-                "action": ("press", "enter"),
-                "delay": 7
-            },
-
-            {
-                "text": "",
-                "action": ("hotkey", ['ctrl','q']),
-                "delay": 5
-            },
-
-            {
-                "text": "",
-                "action": ("write", "open /home/kathersis/Documents/MAI/pic/anti-problem/a-xss.png"),
-                "delay": 5
-            },
-
-            {
-                "text": "Now this diagram demonstrates how xss can be prevented simply storing messages as specifying as string or display as string, rather as hypertext or markup language. Try in the secured bank website to see the difference by yourself.",
-                "action": ("press", "enter"),
-                "delay": 7
-            },
-
-            {
-                "text": "",
-                "action": ("hotkey", ['ctrl','q']),
-                "delay": 5
-            },
-
-            {
-                "text": "",
-                "action": ("hotkey", ['ctrl','d']),
-                "delay": 5
             },
             {
                 "text": "",
                 "action": ("press", "tab"),
                 "delay": 0.5
             },
-
             {
                 "text": "",
-                "action": ("hotkey", ["shift","tab"]),
-                "delay": 0.5
+                "action": ("press", "enter"),
+                "delay": 1
             },
-
             {
                 "text": "",
-                "action": ("hotkey", ["shift","tab"]),
+                "action": ("press", "tab"),
                 "delay": 0.5
             },
-
+             {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+             {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+             {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+             {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+             {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+             {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+             {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+             {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+ 
+            
             {
-                "text": "We are resetting the database for further use at the end",
+                "text": "",
                 "action": (
                     "write",
-                    "http://127.0.0.1/vuln_bank_demo/run_init.php"
+                    "admin' OR '1'='1"
                 ),
                 "delay": 0.5
             },
             {
-                "text": "database rested",
-                "action": ("press", "enter"),
-                "delay": 3
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
             },
-
+             {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+             
             {
                 "text": "",
-                "action": ("hotkey", ['ctrl','q']),
-                "delay": 5
+                "action": ("press", "enter"),
+                "delay": 1
             },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("hotkey", ["shift","tab"]),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("hotkey", ["shift","tab"]),
+                "delay": 0.5
+            },
+            
+            {
+                "text": "",
+                "action": (
+                    "write",
+                    "http://127.0.0.1/vuln_bank_demo/feedback.php"
+                ),
+                "delay": 0.5
+            },              {
+                "text": "",
+                "action": ("press", "enter"),
+                "delay": 1
+            },     
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": (
+                    "write",
+                    ' <script> alert("XSS Vulnerability") </script>'
+                ),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },             {
+                "text": "",
+                "action": ("press", "enter"),
+                "delay": 1
+            },             {
+                "text": "Now every time the page loads injected javasript will run",
+                "action": ("press", "enter"),
+                "delay": 7
+            },            {
+                "text": "",
+                "action": ("hotkey", ["ctrl","q"]),
+                "delay": 0.5
+            },
+                  
+
+           
+
+
+ 
+            
+
+ 
             
         ]
     },
@@ -952,7 +940,7 @@ OWASP = {
             {
                 "text": "",
                 "action": ("press", "enter"),
-                "delay": 7
+                "delay": 3
             },
             
             # ==============logged in now 
@@ -960,17 +948,17 @@ OWASP = {
             {
                 "text": "",
                 "action": ("press", "tab"),
-                "delay": 7
+                "delay": 1
             },
             {
                 "text": "",
                 "action": ("hotkey", ["shift","tab"]),
-                "delay": 7
+                "delay": 1
             },
             {
                 "text": "",
                 "action": ("hotkey", ["shift","tab"]),
-                "delay": 7
+                "delay": 1
             },
             {
                 "text": "",
@@ -1065,87 +1053,46 @@ OWASP = {
             {
                 "text": "",
                 "action": ("press", "tab"),
-                "delay": 1
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 1
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 1
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 1
-            },
-            {
-                "text": "",
-                "action": (
-                    "write",
-                    "http://127.0.0.1/vuln_bank_demo/feedback.php"
-                ),
                 "delay": 0.5
             },
             {
                 "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            
+            
+            {
+                "text": "",
+                "action": (
+                    "write",
+                    "http://127.0.0.1/vuln_bank_demo/dashboard.php"
+                ),
+                "delay": 0.5
+            },              {
+                "text": "",
                 "action": ("press", "enter"),
-                "delay": 5
-            },
-            #=========== displaying working diagram
+                "delay": 1
+            },  
             {
-                "text": "Lets see a diagram to see what is actually happening",
-                "action": ("hotkey", ['ctrl','alt','t']),
-                "delay": 10
-            },
-
-            {
-                "text": "",
-                "action": ("write", "open /home/kathersis/Documents/MAI/pic/problem/csrf.png"),
-                "delay": 5
-            },
-            {
-                "text": "This diagram demonstrates a cyberattack called Cross Site Request Forgery.",
-                "action": ("press", "enter"),
-                "delay": 7
-            },
-
-            {
-                "text": "",
-                "action": ("hotkey", ['ctrl','q']),
-                "delay": 5
-            },
-
-            {
-                "text": "",
-                "action": ("write", "open /home/kathersis/Documents/MAI/pic/anti-problem/a-csrf.png"),
-                "delay": 5
-            },
-
-            {
-                "text": "Now this diagram demonstrates how csrf can be prevented .",
-                "action": ("press", "enter"),
-                "delay": 7
-            },
-
-            {
-                "text": "",
-                "action": ("hotkey", ['ctrl','q']),
-                "delay": 5
-            },
-
-            {
-                "text": "",
-                "action": ("hotkey", ['ctrl','d']),
-                "delay": 5
+                "text": "As you can see that the amount of money has been transferred without users consent",
+                "action": None,
+                "delay": 3
             },
             {
                 "text": "",
-                "action": ("hotkey", ['ctrl','q']),
-                "delay": 5
+                "action": ("hotkey", ["ctrl","q"]),
+                "delay": 0.5
             },
             
 
@@ -1154,7 +1101,7 @@ OWASP = {
     "cryptographic failure": {
 
         "definition":
-            "Cryptographic failure refers to user input is executed as SQL commands on a database.",
+            "A cryptographic failure is a security weakness that occurs when cryptography is missing, implemented incorrectly, or used improperl",
 
         # app startup wait
         "startup_delay": 10,
@@ -1206,70 +1153,20 @@ OWASP = {
 
             
             {
-                "text": "Here we can see that we can access other user's account using sql injection.",
+                "text": "Here we can see that we can see that no cryptography is used to store the password in the database.",
                 "action": None,
                 "delay": 1
             },
 
             
-
-
-
-
-            #==================================================
-            #secured 
-            {
-                "text": "Then let's see how the secured website look like",
-                "action": None,
-                "delay": 1
-            },
-
             {
                 "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-
-            {
-                "text": "",
-                "action": ("hotkey", ["shift","tab"]),
-                "delay": 0.5
-            },
-
-            {
-                "text": "",
-                "action": ("hotkey", ["shift","tab"]),
-                "delay": 0.5
-            },
-
-            {
-                "text": "",
-                "action": (
-                    "write",
-                    "http://127.0.0.1/phpmyadmin/index.php?route=/sql&db=secured_bank_demo&table=users&pos=0"
-                ),
-                "delay": 0.5
-            },
-            {
-                "text": "",
-                "action": ("press", "enter"),
-                "delay": 5
-            },
-
-            
-            {
-                "text": "Here we can see that we can not ....",
-                "action": None,
-                "delay": 1
-            },
-
-            {
-                "text": "Thus we have seen how stated vulnerability works and how counter measure sets the website strong.",
                 "action": ("hotkey", ["ctrl", "q"]),
                 "delay": 1
             }
         ]
     },
+
     "ssrf": {
 
         "definition":
@@ -1464,7 +1361,7 @@ OWASP = {
                 "text": "",
                 "action": (
                     "write",
-                    "http://127.0.0.1/top_secret.php"
+                    "http://127.0.0.1/system_status.php"
                 ),
                 "delay": 0.5
             },
@@ -1478,47 +1375,12 @@ OWASP = {
                 "action": ("press", "enter"),
                 "delay": 5
             },
-            #==========================
             {
-                "text": "Lets see a diagram to see what is actually happening",
-                "action": ("hotkey", ['ctrl','alt','t']),
-                "delay": 10
-            },
-
-            {
-                "text": "",
-                "action": ("write", "open /home/kathersis/Documents/MAI/pic/problem/sqli.png"),
+                "text": "As you can see that server side request forgery can happen",
+                "action": None,
                 "delay": 5
             },
-            {
-                "text": "This diagram demonstrates a cyberattack called SQL Injection. An attacker enters a malicious string (admin' or '1'='1) into the username field of a login form to manipulate the database query. By adding '1'='1', they create a tautology,which is a statement that is always true. This trick forces the database to evaluate the login request as successful, regardless of whether the password is correct. Consequently, the attacker can bypass authentication and gain unauthorized access to the admin account.",
-                "action": ("press", "enter"),
-                "delay": 7
-            },
-
-            {
-                "text": "",
-                "action": ("hotkey", ['ctrl','q']),
-                "delay": 5
-            },
-
-            {
-                "text": "",
-                "action": ("write", "open /home/kathersis/Documents/MAI/pic/anti-problem/a-sqli.png"),
-                "delay": 5
-            },
-
-            {
-                "text": "Now this diagram demonstrates how sql injection can be prevented simply using parameterized query.Parameterized queries separate the SQL command logic from the user-provided data.They use placeholders instead of inserting input directly into the query string.The database compiles the SQL template first, then binds the user input as a literal value later.Because of this separation, the database treats malicious input as simple text rather than executable code.This completely prevents SQL injection because strings like ' OR '1'='1 are searched for as text, not run as commands.",
-                "action": ("press", "enter"),
-                "delay": 7
-            },
-
-            {
-                "text": "",
-                "action": ("hotkey", ['ctrl','q']),
-                "delay": 5
-            },
+            
 
             {
                 "text": "",
@@ -1527,6 +1389,67 @@ OWASP = {
             },
 
 
+        ]
+    },
+    "ssrf": {
+    
+        "definition":
+            "Identificaton and authentication failures occur when an application does not properly verify the identity of users or systems, leading to unauthorized access and potential security breaches.",
+    
+        # app startup wait
+        "startup_delay": 10,
+    
+        "steps": [
+            {
+                "text": "Lets see how the identification and authentication failures makes a website vulnerable",
+                "action": None,
+                "delay": 1
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": (
+                    "write",
+                    "http://127.0.0.1/vuln_bank_demo/admin.php"
+                ),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "enter"),
+                "delay": 1
+            }, 
+            {
+                "text": "As we can see that we can access the admin page without any authentication.",
+                "action": None,
+                "delay": 1
+            },   
+            {
+                "text": "",
+                "action": ("hotkey", ["ctrl","q"]),
+                "delay": 0.5
+            },                      
+    
+    
         ]
     },
 
@@ -1546,8 +1469,20 @@ training_data = [
     ("sql injection", "sql injection"),
     ("what is sql injection", "sql injection"),
 
+    ("broken access control", "sql injection"),
+    ("what is broken access control", "sql injection"),
+
     ("csrf", "csrf"),
     ("what is csrf", "csrf"),
+
+    ("cryptographic failure", "cryptographic failure"),
+    ("what is cryptographic failure", "cryptographic failure"),
+
+    ("ssrf", "ssrf"),
+    ("what is ssrf", "ssrf"),
+    
+    ("identification and authentication failures", "identification and authentication failures"),
+    ("what is identification and authentication failures", "identification and authentication failures"),
 ]
 
 texts = [t for t, _ in training_data]
@@ -1626,20 +1561,27 @@ def show_vulnerability(topic):
 # =========================
 
 print(r'''
-···········································································
-:                                                                         :
-:  __  __      _                                   _               _      :
-: |  \/  | ___| |_ __ _ _ __ ___   ___  _ __ _ __ | |__   ___  ___(_)___  :
-: | |\/| |/ _ \ __/ _` | '_ ` _ \ / _ \| '__| '_ \| '_ \ / _ \/ __| / __| :
-: | |  | |  __/ || (_| | | | | | | (_) | |  | |_) | | | | (_) \__ \ \__ \ :
-: |_| _|_|\___|\__\__,_|_| |_| |_|\___/|_|  | .__/|_| |_|\___/|___/_|___/ :
-:    / \  |_ _|    / \   __ _  ___ _ __ | |_|_|                           :
-:   / _ \  | |    / _ \ / _` |/ _ \ '_ \| __|                             :
-:  / ___ \ | |   / ___ \ (_| |  __/ | | | |_                              :
-: /_/   \_\___| /_/   \_\__, |\___|_| |_|\__|                             :
-:                       |___/                                             :
-:                                                                         :
-···········································································
+        ````````````````````````````````````````
+        ``````````````````````````┌─┐``M````````
+        ``````````````````````````└┼┘``e````````
+        ```````````````````````````│```t````````
+        ```````````````````````````│```a````````
+        ``````┌───────────────────┐│```m````````
+        ``````│                   ││```o````````
+        ``````│   ┌───────────┐   ││```r````````
+        ``````│   │ ──    ──  │   ┼┘```p````````
+        ``````│   └───────────┘   │````h````````
+        ``````│                   │````o````````
+        ``````│                   │````s````````
+        ``````│                   │````i````````
+        ``````│    ───────────    │````s````````
+        ``````│      ───────      │`````````````
+        ``````│                   │````A````````
+        ``````└───────────────────┘````I````````
+        ````````````````````````````````````````
+        `````````Metamorphosis`AI```````````````
+        ````````````````````````````````````````
+
 ''')
 
 
@@ -1691,4 +1633,5 @@ while True:
         print(
             "❌ I only understand OWASP topics or greetings."
         )
+
 

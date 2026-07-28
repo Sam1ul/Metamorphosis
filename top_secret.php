@@ -11,7 +11,19 @@ if ($mysqli->connect_error) {
 }
 
 
-echo "Welcome Server Admin!\n";
-echo "Top Secret Info: Apple is good for health.\n\n";
-echo "Top Secret Function Executing in 3...2.......1...Done."
+echo "<pre>";
+echo "Internal Operations Dashboard\n";
+echo "====================================\n";
+echo "Environment        : Production\n";
+echo "Application        : Banking Portal\n";
+echo "Version            : v2.3.4\n";
+echo "Server Hostname    : APP-SRV-01\n";
+echo "Internal IP        : 10.0.1.15\n";
+echo "Database           : MySQL (Connected)\n";
+echo "Cache Service      : Running\n";
+echo "Backup Status      : Successful\n";
+echo "Build Date         : 2026-07-10\n";
+echo "\n";
+echo "Restricted: Internal network access only.\n";
+echo "</pre>";
 ?>

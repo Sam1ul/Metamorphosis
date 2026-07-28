@@ -15,7 +15,7 @@
                     <div class="card-body text-center p-4 ">
                         <h4 class="fw-bold card-subtitle">Community</h4>
                         <h4 class="display-5 fw-bold card-title">$0</h4>
-                        <p>Ultra Light<p><a class="btn btn-outline-dark d-block w-100" role="button" href="{% url 'downloads_page' %}" >Buy</a>
+                        <p>Ultra Light<p><a class="btn btn-outline-dark d-block w-100" role="button" href="{% url 'downloads_page' %}" >Download</a>
                     </div>
                 </div>
                 <div class=" border rounded border-0 p-4">
@@ -34,7 +34,33 @@
                     <div class="card-body text-center p-4"><span class="badge rounded-pill bg-primary position-absolute top-0 start-50 translate-middle text-uppercase">Most Popular</span>
                         <h4 class="fw-bold card-subtitle">Pro</h4>
                         <h4 class="display-5 fw-bold card-title">$1</h4>
-                        <p>Complete</p><a class="btn btn-primary d-block w-100" role="button" href="#">Buy</a>
+                        <p>Complete</p>
+{% if pro_paid %}
+
+<a href="{% url 'download_product' pro.slug %}"
+   class="btn btn-success d-block w-100">
+    Download
+</a>
+
+{% elif pro_pending %}
+
+<button class="btn btn-warning d-block w-100" disabled>
+    ⏳ Payment Pending
+</button>
+
+<a href="{% url 'submit_payment' pro_pending.id %}"
+   class="btn btn-outline-primary mt-2 d-block">
+    View Payment
+</a>
+
+{% else %}
+
+<a href="{% url 'buy_product' pro.slug %}"
+   class="btn btn-primary d-block w-100">
+    Buy with bKash
+</a>
+
+{% endif %}                        
                     </div>
                 </div>
                 <div class=" rounded border-0 p-4">
@@ -60,7 +86,34 @@
                     <div class="card-body text-center p-4 ">
                         <h4 class="fw-bold card-subtitle">Enterprise</h4>
                         <h4 class="display-5 fw-bold card-title">$10</h4>
-                        <p>Metamorphosis AI</p><a class="btn btn-dark d-block w-100" role="button" href="#">Buy</a>
+                        <p>Metamorphosis AI</p>
+                        
+{% if enterprise_paid %}
+
+<a href="{% url 'download_product' enterprise.slug %}"
+   class="btn btn-success d-block w-100">
+    Download
+</a>
+
+{% elif enterprise_pending %}
+
+<button class="btn btn-warning d-block w-100" disabled>
+    ⏳ Payment Pending
+</button>
+
+<a href="{% url 'submit_payment' enterprise_pending.id %}"
+   class="btn btn-outline-primary mt-2 d-block">
+    View Payment
+</a>
+
+{% else %}
+
+<a href="{% url 'buy_product' enterprise.slug %}"
+   class="btn btn-dark d-block w-100">
+    Buy with bKash
+</a>
+
+{% endif %}
                     </div>
                 </div>
                 <div class=" border rounded border-0 p-4">
