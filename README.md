@@ -213,7 +213,7 @@ For safe use:
 
 ### Supervisor
 
-**Md. Nour Noby**
+**Md. Nour Noby**\
 Lecturer \
 Varendra University \
 Rajshahi, Bangladesh 
