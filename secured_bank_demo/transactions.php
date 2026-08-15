@@ -2,6 +2,10 @@
 require_once 'functions.php';
 require_login();
 
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+error_reporting(E_ALL);
+
 $pdo = get_pdo();
 $me = current_user();
 
@@ -14,7 +18,7 @@ if ($me['role'] === 'admin' && isset($_GET['user_id'])) {
 }
 
 // Fetch user (validate existence)
-$stmt = $pdo->prepare("SELECT id, username FROM users WHERE id = ?");
+$stmt = $pdo->prepare("SELECT id, username FROM user WHERE id = ?");
 $stmt->execute([$view_user]);
 $view = $stmt->fetch();
 

@@ -7,33 +7,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // intentionally demonstrating CSRF vulnerability by not calling validate_csrf()
     $to_user = intval($_POST['to_user'] ?? 0);
     $amount = floatval($_POST['amount'] ?? 0);
-    if ($amount <= 0) {
-        flash("Invalid amount.");
-    } elseif ($to_user === $user['id']) {
-        flash("Cannot transfer to yourself.");
-    } else {
-        try {
-            $pdo->beginTransaction();
-            $stmt = $pdo->prepare("SELECT balance FROM users WHERE id = ? FOR UPDATE");
-            $stmt->execute([$user['id']]);
-            $balance = $stmt->fetchColumn();
-            if ($balance < $amount) throw new Exception("Insufficient funds.");
-            $stmt = $pdo->prepare("UPDATE users SET balance = balance - ? WHERE id = ?");
-            $stmt->execute([$amount, $user['id']]);
-            $stmt = $pdo->prepare("UPDATE users SET balance = balance + ? WHERE id = ?");
-            $stmt->execute([$amount, $to_user]);
-            $stmt = $pdo->prepare("INSERT INTO transactions (from_user, to_user, amount) VALUES (?, ?, ?)");
-            $stmt->execute([$user['id'], $to_user, $amount]);
-            $pdo->commit();
-            flash("Transferred $" . number_format($amount,2) . " successfully.");
-            header('Location: dashboard.php'); exit;
-        } catch (Exception $e) {
-            $pdo->rollBack();
-            flash("Transfer failed: " . $e->getMessage());
-        }
+
+
+    try {
+        $pdo->beginTransaction();
+        $stmt = $pdo->prepare("SELECT balance FROM users WHERE id = ? FOR UPDATE");
+        $stmt->execute([$user['id']]);
+        $balance = $stmt->fetchColumn();
+
+        $stmt = $pdo->prepare("UPDATE users SET balance = balance - ? WHERE id = ?");
+        $stmt->execute([$amount, $user['id']]);
+        $stmt = $pdo->prepare("UPDATE users SET balance = balance + ? WHERE id = ?");
+        $stmt->execute([$amount, $to_user]);
+        $stmt = $pdo->prepare("INSERT INTO transactions (from_user, to_user, amount) VALUES (?, ?, ?)");
+        $stmt->execute([$user['id'], $to_user, $amount]);
+        $pdo->commit();
+        flash("Transferred $" . number_format($amount,2) . " successfully.");
+        header('Location: dashboard.php'); exit;
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        flash("Transfer failed: " . $e->getMessage());
     }
+
 }
-$others = $pdo->query("SELECT id, username FROM users WHERE id != " . (int)$user['id'])->fetchAll();
+$others = $pdo->query("SELECT id, username FROM users")->fetchAll();
 require_once 'header.php';
 ?>
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">

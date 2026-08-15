@@ -82,7 +82,6 @@ GREETINGS = {
     "later": "Catch you later, cybersecurity learner!",
     "farewell": "Farewell! Keep defending the digital world.",
     "see ya": "See ya! Don't forget to update your passwords.",
-    "gn": "Good night! Stay cyber safe.",
     "good night bye": "Sleep well and keep your data protected.",
     "talk to you later": "Looking forward to our next cybersecurity session.",
 
@@ -92,7 +91,6 @@ GREETINGS = {
     "thanks": "You're welcome! Happy hacking ethically.",
     "thank you": "Glad to help! Keep learning cybersecurity.",
     "thx": "No problem! Stay secure.",
-    "ty": "You're very welcome!",
     "thanks a lot": "Always happy to help with cyber knowledge.",
     "many thanks": "My pleasure! Stay safe online.",
     "appreciate it": "Glad I could help!",
@@ -104,7 +102,6 @@ GREETINGS = {
     # # =========================
     "hack": "Ethical hacking only! How can I assist you?",
     "hacker": "Hackers can protect systems when acting ethically.",
-    "security": "Cybersecurity is the key to a safer digital world.",
     "cyber": "Cyber defense starts with knowledge!",
     "pentest": "Penetration testing is an exciting skill to learn!",
     "ctf": "Capture The Flag challenges are great for practice!",
@@ -228,7 +225,7 @@ OWASP = {
 
         "steps": [
             {
-                "text": "Lets see how the sql injection makes a website vulnerable",
+                "text": "Lets see how the sql injection makes a website vulnerable. The follwing demo was also an example of broken access control",
                 "action": None,
                 "delay": 1
             },
@@ -354,187 +351,11 @@ OWASP = {
                 "delay": 1
             },
 
-            {
-                "text": "Lets see a diagram to see what is actually happening",
-                "action": ("hotkey", ['ctrl','alt','t']),
-                "delay": 10
-            },
+            
 
-            {
-                "text": "",
-                "action": ("write", "open /home/kathersis/Documents/MAI/pic/problem/sqli.png"),
-                "delay": 5
-            },
-            {
-                "text": "This diagram demonstrates a cyberattack called SQL Injection. An attacker enters a malicious string (admin' or '1'='1) into the username field of a login form to manipulate the database query. By adding '1'='1', they create a tautology,which is a statement that is always true. This trick forces the database to evaluate the login request as successful, regardless of whether the password is correct. Consequently, the attacker can bypass authentication and gain unauthorized access to the admin account.",
-                "action": ("press", "enter"),
-                "delay": 7
-            },
-
-            {
-                "text": "",
-                "action": ("hotkey", ['ctrl','q']),
-                "delay": 5
-            },
-
-            {
-                "text": "",
-                "action": ("write", "open /home/kathersis/Documents/MAI/pic/anti-problem/a-sqli.png"),
-                "delay": 5
-            },
-
-            {
-                "text": "Now this diagram demonstrates how sql injection can be prevented simply using parameterized query.Parameterized queries separate the SQL command logic from the user-provided data.They use placeholders instead of inserting input directly into the query string.The database compiles the SQL template first, then binds the user input as a literal value later.Because of this separation, the database treats malicious input as simple text rather than executable code.This completely prevents SQL injection because strings like ' OR '1'='1 are searched for as text, not run as commands.",
-                "action": ("press", "enter"),
-                "delay": 7
-            },
-
-            {
-                "text": "",
-                "action": ("hotkey", ['ctrl','q']),
-                "delay": 5
-            },
-
-            {
-                "text": "",
-                "action": ("hotkey", ['ctrl','d']),
-                "delay": 5
-            },
-
-
-
-
-
-            #==================================================
-            #secured sqli
-            {
-                "text": "Then let's see how the secured website from sql injection look like",
-                "action": None,
-                "delay": 1
-            },
-
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-
-            {
-                "text": "",
-                "action": ("hotkey", ["shift","tab"]),
-                "delay": 0.5
-            },
-
-            {
-                "text": "",
-                "action": ("hotkey", ["shift","tab"]),
-                "delay": 0.5
-            },
-
-            {
-                "text": "",
-                "action": (
-                    "write",
-                    "http://127.0.0.1/secured_bank_demo/login.php"
-                ),
-                "delay": 0.5
-            },
-            {
-                "text": "",
-                "action": ("press", "enter"),
-                "delay": 5
-            },
-
-            #browser opened now..
-
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
             
             {
                 "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 0.5
-            },
-
-            {
-                "text": "",
-                "action": ("write", "admin' OR '1'='1"),
-                "delay": 1
-            },
-
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 1
-            },
-            {
-                "text": "",
-                "action": ("press", "tab"),
-                "delay": 1
-            },
-
-            {
-                "text": "",
-                "action": ("press", "enter"),
-                "delay": 7
-            },
-
-            {
-                "text": "Here we can see that we can not access other user's account using sql injection.",
-                "action": None,
-                "delay": 1
-            },
-
-            {
-                "text": "Thus we have seen how sql injection works and how counter measure sets the website strong.There is more example in the website, Try yourself",
                 "action": ("hotkey", ["ctrl", "q"]),
                 "delay": 1
             }
@@ -1170,7 +991,7 @@ OWASP = {
     "ssrf": {
 
         "definition":
-            "Sql Injection refers to user input is executed as SQL commands on a database.",
+            "ssrf is a vulnerability that allows an attacker to send requests from the server to internal resources or external systems.",
 
         # app startup wait
         "startup_delay": 10,
@@ -1384,14 +1205,14 @@ OWASP = {
 
             {
                 "text": "",
-                "action": ("hotkey", ['ctrl','d']),
+                "action": ("hotkey", ['ctrl','q']),
                 "delay": 5
             },
 
 
         ]
     },
-    "ssrf": {
+    "identification and authentication failure": {
     
         "definition":
             "Identificaton and authentication failures occur when an application does not properly verify the identity of users or systems, leading to unauthorized access and potential security breaches.",
@@ -1443,17 +1264,605 @@ OWASP = {
                 "action": None,
                 "delay": 1
             },   
+    
+        ]
+    },
+
+    "insecured design": {
+    
+        "definition":
+            "insecure design refers to the presence of security weaknesses in the architecture or implementation of a system, which can be exploited by attackers to compromise its integrity, confidentiality, or availability.",
+    
+        # app startup wait
+        "startup_delay": 10,
+    
+        "steps": [
             {
                 "text": "",
-                "action": ("hotkey", ["ctrl","q"]),
+                "action": ("press", "tab"),
                 "delay": 0.5
-            },                      
+            },
+            
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            
+            {
+                "text": "",
+                "action": (
+                    "write",
+                    "http://127.0.0.1/vuln_bank_demo/login.php"
+                ),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "enter"),
+                "delay": 5
+            },
+            
+            #browser opened now..
+            
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            
+            {
+                "text": "",
+                "action": ("write", "admin' OR '1'='1"),
+                "delay": 1
+            },
+            
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 1
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 1
+            },
+            
+            {
+                "text": "",
+                "action": ("press", "enter"),
+                "delay": 7
+            },
+            #==============================
+             
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 1
+            },
+            {
+                "text": "",
+                "action": ("hotkey", ["shift","tab"]),
+                "delay": 1
+            },
+            {
+                "text": "",
+                "action": ("hotkey", ["shift","tab"]),
+                "delay": 1
+            },
+            {
+                "text": "",
+                "action": (
+                    "write",
+                    "http://127.0.0.1/vuln_bank_demo/transfer.php"
+                ),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "enter"),
+                "delay": 5
+            },      
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "look at how much money the user has.",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": (
+                    "write",
+                    "7"
+                ),
+                "delay": 0.5
+            },          {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": (
+                    "write",
+                    "999999"
+                ),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },            {
+                "text": "",
+                "action": ("press", "enter"),
+                "delay": 1
+            }, 
+            {
+                "text": "As you can see it is an example of insecured design",
+                "action": None,
+                "delay": 5
+            },
+            
+            
+            {
+                "text": "",
+                "action": ("hotkey", ['ctrl','q']),
+                "delay": 5
+            },
+            
+                        
+    
+    
+        ]
+    },
+    "security logging and monitoring failure": {
+
+    "definition":
+        "security logging and monitoring failures occur when an application does not properly log and monitor security events, making it difficult to detect and respond to security incidents.",
+
+    # app startup wait
+    "startup_delay": 10,
+
+    "steps": [
+        {
+            "text": "",
+            "action": ("press", "tab"),
+            "delay": 0.5
+        },
+        
+        {
+            "text": "",
+            "action": ("press", "tab"),
+            "delay": 0.5
+        },
+        
+        {
+            "text": "",
+            "action": ("press", "tab"),
+            "delay": 0.5
+        },
+        
+        {
+            "text": "",
+            "action": ("press", "tab"),
+            "delay": 0.5
+        },
+        
+        {
+            "text": "",
+            "action": (
+                "write",
+                "http://127.0.0.1/vuln_bank_demo/login.php"
+            ),
+            "delay": 0.5
+        },
+        {
+            "text": "",
+            "action": ("press", "enter"),
+            "delay": 5
+        },
+        
+        #browser opened now..
+        
+        {
+            "text": "",
+            "action": ("press", "tab"),
+            "delay": 0.5
+        },
+        
+        {
+            "text": "",
+            "action": ("press", "tab"),
+            "delay": 0.5
+        },
+        {
+            "text": "",
+            "action": ("press", "tab"),
+            "delay": 0.5
+        },
+        {
+            "text": "",
+            "action": ("press", "tab"),
+            "delay": 0.5
+        },
+        {
+            "text": "",
+            "action": ("press", "tab"),
+            "delay": 0.5
+        },
+        {
+            "text": "",
+            "action": ("press", "tab"),
+            "delay": 0.5
+        },
+        {
+            "text": "",
+            "action": ("press", "tab"),
+            "delay": 0.5
+        },
+        {
+            "text": "",
+            "action": ("press", "tab"),
+            "delay": 0.5
+        },
+        {
+            "text": "",
+            "action": ("press", "tab"),
+            "delay": 0.5
+        },
+        {
+            "text": "",
+            "action": ("press", "tab"),
+            "delay": 0.5
+        },
+        
+        {
+            "text": "",
+            "action": ("write", "alice"),
+            "delay": 1
+        },
+        
+        {
+            "text": "",
+            "action": ("press", "tab"),
+            "delay": 1
+        },
+        {
+            "text": "",
+            "action": ("write", "1234"),
+            "delay": 1
+        },
+        {
+            "text": "",
+            "action": ("press", "tab"),
+            "delay": 1
+        },
+        
+        {
+            "text": "",
+            "action": ("press", "enter"),
+            "delay": 7
+        },
+        #==============================
+        {
+            "text": "",
+            "action": ("press", "tab"),
+            "delay": 1
+        },
+        {
+            "text": "",
+            "action": ("hotkey", ["shift","tab"]),
+            "delay": 0.5
+        },
+        {
+            "text": "",
+            "action": ("hotkey", ["shift","tab"]),
+            "delay": 0.5
+        },
+
+        {
+            "text": "",
+            "action": (
+                "write",
+                "http://127.0.0.1/phpmyadmin/index.php?route=/database/designer&db=bank_demo"
+            ),
+            "delay": 0.5
+        },
+        {
+            "text": "",
+            "action": ("press", "enter"),
+            "delay": 5
+        },
+        
+        
+        {
+            "text": "Here we can see that no logging for failed attempts in the database",
+            "action": None,
+            "delay": 1
+        },
+        
+        
+        {
+            "text": "",
+            "action": ("hotkey", ["ctrl", "q"]),
+            "delay": 1
+        }
+
+            
+        ]
+    },
+        "security misconfiguration": {
+    
+        "definition":
+            "security misconfiguration refers to the improper configuration of security settings in a system or application, which can lead to vulnerabilities and potential security breaches.",
+    
+        # app startup wait
+        "startup_delay": 10,
+    
+        "steps": [
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            
+            {
+                "text": "",
+                "action": (
+                    "write",
+                    "http://127.0.0.1/vuln_bank_demo/login.php"
+                ),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "enter"),
+                "delay": 5
+            },
+            
+            #browser opened now..
+            
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 0.5
+            },
+            
+            {
+                "text": "",
+                "action": ("write", "admin' OR '1'='1"),
+                "delay": 1
+            },
+            
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 1
+            },
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 1
+            },
+            
+            {
+                "text": "",
+                "action": ("press", "enter"),
+                "delay": 7
+            },
+            #==============================
+             
+            {
+                "text": "",
+                "action": ("press", "tab"),
+                "delay": 1
+            },
+            {
+                "text": "",
+                "action": ("hotkey", ["shift","tab"]),
+                "delay": 1
+            },
+            {
+                "text": "",
+                "action": ("hotkey", ["shift","tab"]),
+                "delay": 1
+            },
+            {
+                "text": "",
+                "action": (
+                    "write",
+                    "http://127.0.0.1/vuln_bank_demo/transactions.php"
+                ),
+                "delay": 0.5
+            },
+                        {
+                "text": "",
+                "action": ("press", "enter"),
+                "delay": 1
+            }, 
+            
+            {
+                "text": "As you can see it is an example of security misconfiguration where debugging information is exposed.",
+                "action": None,
+                "delay": 5
+            },
+            
+            
+            {
+                "text": "",
+                "action": ("hotkey", ['ctrl','q']),
+                "delay": 5
+            },
+            
+                        
     
     
         ]
     },
 
+
 }
+
+
 
 
 
@@ -1483,6 +1892,15 @@ training_data = [
     
     ("identification and authentication failures", "identification and authentication failures"),
     ("what is identification and authentication failures", "identification and authentication failures"),
+
+    ("security misconfiguration", "security misconfiguration"),
+    ("what is security misconfiguration", "security misconfiguration"),
+
+    ("insecure design", "insecure design"),
+    ("what is insecure design", "insecure design"),
+
+    ("security logging and monitoring failures", "security logging and monitoring failures"),
+    ("what is security logging and monitoring failures", "security logging and monitoring failures")
 ]
 
 texts = [t for t, _ in training_data]
@@ -1529,7 +1947,7 @@ def show_vulnerability(topic):
 
     speak(data["definition"])
 
-    print("\n🔧 Prevention Steps:")
+    print("\n🔧 Live Demo:")
 
     # launch appimage without blocking
     subprocess.Popen(
