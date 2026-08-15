@@ -49,7 +49,7 @@ Each vulnerability is demonstrated through a controlled vulnerable implementatio
 
 ### 1. Cybersecurity Learning Portal
 
-A web-based learning environment containing cybersecurity lessons, quizzes, learning resources, progress tracking, and community features.
+A web-based learning environment containing cybersecurity lessons, quizzes, learning resources, progress tracking, community features and also buying using Bkash payment and downloading the local Banking Security Laboratory.
 
 ![Learning Portal](screenshots/learning_portal.png)
 
@@ -57,7 +57,7 @@ A web-based learning environment containing cybersecurity lessons, quizzes, lear
 
 ### 2. Banking Security Laboratory
 
-The laboratory provides vulnerable and secured versions of a banking application with similar functionality. This allows learners to observe how security vulnerabilities occur and how appropriate security controls mitigate them.
+The laboratory provides vulnerable and secured versions of a simulated banking application with similar functionality. This allows learners to observe how security vulnerabilities occur and how appropriate security controls mitigate them.
 
 #### Insecure Design
 
