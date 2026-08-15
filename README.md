@@ -49,7 +49,7 @@ Each vulnerability is demonstrated through a controlled vulnerable implementatio
 
 ### 1. Cybersecurity Learning Portal
 
-A web-based learning environment containing cybersecurity lessons, quizzes, learning resources, progress tracking, community features and also buying using Bkash payment and downloading the local Banking Security Laboratory.
+A web-based learning environment containing cybersecurity lessons, quizzes, learning resources, progress tracking, community features and also buying and downloading the local Banking Security Laboratory.
 
 ![Learning Portal](screenshots/learning_portal.png)
 
