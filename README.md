@@ -7,7 +7,7 @@ Metamorphosis is a cybersecurity training platform designed to improve security 
 The platform combines intentionally vulnerable and secured simulated web applications, an **Intelligent Learning Assistant**, a dedicated browser environment, and a web-based cybersecurity learning portal.
 
 > ⚠️ **Educational Security Project:** This repository contains intentionally vulnerable applications designed exclusively for controlled, isolated, and authorized cybersecurity education and testing. **Do not deploy the vulnerable components publicly or use them against systems without explicit authorization.**
-
+ 
 ---
 
 ## 🔐 Security Topics
