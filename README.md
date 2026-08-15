@@ -77,6 +77,8 @@ Comparison between vulnerable and secured handling of user-controlled input.
 
 ![XSS](screenshots/xss.png)
 
+**and many more...**
+
 ---
 
 ### 3. Intelligent Learning Assistant
